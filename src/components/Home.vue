@@ -44,7 +44,7 @@
           :key="card.title"
           class="">
           <v-container class="px-1 pt-0 mt-0">
-            <v-card flat fill-height class="white lighten-4" hover tile>
+            <v-card flat fill-height class="white lighten-4" :to="{path: '/productdetail'}" tile>
               <v-card-media
                 :src="card.src"
                 height="300px"
