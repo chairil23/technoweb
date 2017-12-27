@@ -5,7 +5,7 @@
             <v-flex xs6 order-md2>
                 <v-card>
                     
-                        <v-layout row class="primary">
+                        <v-layout row class="black">
                             <v-flex xs3 order-md1></v-flex>
                             <v-flex xs6 order-md2 class="text-xs-center">
                                 <v-card-title>
@@ -72,7 +72,7 @@
                                         <v-btn
                                         @click="OnSignup"
                                         :disabled="!valid"
-                                        class="primary"
+                                        class="dark"
                                         tabindex="6"
                                         >
                                         submit

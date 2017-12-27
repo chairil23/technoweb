@@ -62,7 +62,7 @@ Vue.use(Vuetify, {
     VTabs
   },
   theme: {
-    primary: '#FFC107',
+    primary: '#white',
     secondary: '#424242',
     accent: '#82B1FF',
     error: '#FF5252',

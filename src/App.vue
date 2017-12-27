@@ -74,7 +74,7 @@
                       <v-btn
                       block
                       @click="signin"
-                      class="primary">
+                      class="light">
                         Sign in
                       </v-btn>
                     </v-container>
@@ -175,7 +175,6 @@
 <script>
 
 export default {
-  
   data () {
     return {
       menus: [
