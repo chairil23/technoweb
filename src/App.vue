@@ -211,7 +211,7 @@ export default {
       ]
       if (this.userIsAuthenticated) {
         menuItems = [
-          {icon: 'shopping_cart', title: 'Cart', link: '/chart'},
+          {icon: 'shopping_cart', title: 'Cart', link: '/cart'},
           {icon: 'person', title: 'Account', link: '/signup'}
         ]
       }
