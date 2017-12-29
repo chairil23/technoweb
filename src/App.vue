@@ -206,7 +206,7 @@ export default {
   computed: {
     menuItems () {
       let menuItems = [
-        {icon: 'shopping_cart', title: 'Cart', link: '/chart', action: ''},
+        {icon: 'shopping_cart', title: 'Cart', link: '/cart', action: ''},
         {icon: 'person_add', title: 'Sign up', link: '/signup', action: ''}
       ]
       if (this.userIsAuthenticated) {

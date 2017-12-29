@@ -32,7 +32,7 @@ export default new Router({
       component: ProductDetail
     },
     {
-      path: '/transaction',
+      path: '/cart',
       name: 'transaction',
       component: Transaction
     }
