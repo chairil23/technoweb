@@ -18,6 +18,7 @@
     "eslint-plugin-vue": "^2.1.0",
     "vue": "^2.5.3",
     "vue-awesome": "^2.3.4",
+    "vue-currency-filter": "^2.0.1",
     "vue-router": "^3.0.1",
     "vuetify": "^0.17.4",
     "vuex": "^3.0.1"

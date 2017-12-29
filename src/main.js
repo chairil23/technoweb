@@ -8,6 +8,8 @@ import {store} from './store'
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 
+import VueCurrencyFilter from 'vue-currency-filter'
+
 import {
   Vuetify,
   VApp,
@@ -31,7 +33,10 @@ import {
   VSelect,
   VSubheader,
   VAvatar,
-  VTabs
+  VTabs,
+  VDataTable,
+  VTooltip,
+  VStepper
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
 import colors from 'vuetify/es5/util/colors'
@@ -59,10 +64,13 @@ Vue.use(Vuetify, {
     VSelect,
     VSubheader,
     VAvatar,
-    VTabs
+    VTabs,
+    VDataTable,
+    VTooltip,
+    VStepper
   },
   theme: {
-    primary: '#white',
+    primary: '#424244',
     secondary: '#424242',
     accent: '#82B1FF',
     error: '#FF5252',
@@ -70,6 +78,15 @@ Vue.use(Vuetify, {
     success: '#4CAF50',
     warning: '#FFC107'
   }
+})
+
+Vue.use(VueCurrencyFilter, {
+  symbol: 'Rp',
+  thousandsSeparator: '.',
+  fractionCount: 2,
+  fractionSeparator: ',',
+  symbolPosition: 'front',
+  symbolSpacing: true
 })
 
 Vue.component('icon', Icon)

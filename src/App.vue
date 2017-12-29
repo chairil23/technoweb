@@ -147,7 +147,7 @@
               <v-list-tile>
                 <span class="body-1 grey--text">Masukkan alamat email kamu untuk berbagai update, promo,dan inspirasi dari kami.</span>
               </v-list-tile>
-              <list-tile class="tile email">
+              <v-list-tile class="tile email">
                 <v-container class="pt-1">
                   <v-layout>
                     <v-flex md8>
@@ -160,7 +160,7 @@
                     </v-flex> 
                   </v-layout>                                   
                 </v-container>
-              </list-tile>
+              </v-list-tile>
             </v-list>
           </v-flex>
       </v-layout>

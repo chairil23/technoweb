@@ -4,7 +4,8 @@ import Home from '@/components/Home'
 import Signup from '@/components/Signup'
 import Products from '@/components/Products'
 import ProductDetail from '@/components/ProductDetail'
-import Cart from '@/components/Cart'
+// import Cart from '@/components/Cart'
+import Transaction from '@/components/Transaction'
 
 Vue.use(Router)
 
@@ -31,9 +32,9 @@ export default new Router({
       component: ProductDetail
     },
     {
-      path: '/cart',
-      name: 'cart',
-      component: Cart
+      path: '/transaction',
+      name: 'transaction',
+      component: Transaction
     }
   ]
 })
