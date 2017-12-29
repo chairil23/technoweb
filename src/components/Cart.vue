@@ -1,17 +1,7 @@
 <template>
-  <v-container app grid-list-md class="white">
+  <v-container grid-list-md class="white">
     <v-layout>
-      <v-flex>
-        <v-layout>
-          <v-flex>
-            <h2>Keranjang Belanja Kamu</h2>
-          </v-flex>
-        </v-layout>        
-        <v-layout>
-          <v-flex>
-            <span class="subheading">1 Produk</span>
-          </v-flex>
-        </v-layout>
+      <v-flex>  
         <v-layout>
           <v-container>
             <v-data-table
@@ -23,7 +13,7 @@
               class="elevation-1"
               hide-actions
             >
-              <template slot="header" slot-scope="props">                
+              <template slot="headerCell" slot-scope="props">                
                 <span slot="activator">
                   {{ props.header.text }}
                 </span>                
@@ -60,19 +50,7 @@
                     </v-flex>
                   </v-layout>
                 </td>
-              </template>
-               <template slot="footer"> 
-                 <td></td>
-                 <td></td>        
-                 <td></td>                       
-                <td class="text-xs-right">
-                  <strong>Total</strong>
-                </td>
-                <td class="text-xs-right">
-                  <strong>{{500000 | currency}}</strong>
-                </td>
-                
-              </template>
+              </template>               
             </v-data-table>
             
 
@@ -84,53 +62,78 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        search: '',
-        btn: [],
-        selected: [],
-        headers: [
-          {
-            text: 'Produk',
-            align: 'left',
-            sortable: false,
-            value: 'name'
-          },
-          { text: 'Harga', sortable: false, value: 'harga' },
-          { text: 'Kuantitas', sortable: false, value: 'kuarntias' },
-          { text: 'Total Harga', sortable: false, value: 'total' }
-        ],
-        items: [
-          {
-            name: 'X-Banner',
-            harga: 50000,
-            kuantitas: 5,
-            total: 250000,
-            value: false
-          },
-          {
-            name: 'Spanduk',
-            harga: 50000,
-            kuantitas: 5,
-            total: 250000,
-            value: false
-          }
-        ]
-      }
-    },
-    methods: {
-      del (item) {
-        let index = this.items.findIndex((x) => x.name === item)
-        this.items.splice(index, 1)
-        // for (let i = 0; this.items.length; i++) {
-        //   if (this.items[i].name === item) {
-        //     this.items.splice(i, 1)
-        //   }
-        // }
-      }
+import Heading from './Heading'
+export default {
+  components: {
+    Heading
+  },
+  data () {
+    return {
+      search: '',
+      btn: [],
+      selected: [],
+      headers: [
+        {
+          text: 'Produk',
+          align: 'left',
+          sortable: false,
+          value: 'name'
+        },
+        { text: 'Harga', sortable: false, value: 'harga' },
+        { text: 'Kuantitas', sortable: false, value: 'kuarntias' },
+        { text: 'Total Harga', sortable: false, value: 'total' }
+      ],
+      items: [
+        {
+          name: 'X-Banner',
+          harga: 50000,
+          kuantitas: 5,
+          total: 250000,
+          value: false
+        },
+        {
+          name: 'Spanduk',
+          harga: 50000,
+          kuantitas: 5,
+          total: 250000,
+          value: false
+        },
+        {
+          name: 'Spanduk',
+          harga: 50000,
+          kuantitas: 5,
+          total: 250000,
+          value: false
+        },
+        {
+          name: 'Spanduk',
+          harga: 50000,
+          kuantitas: 5,
+          total: 250000,
+          value: false
+        },
+        {
+          name: 'Spanduk',
+          harga: 50000,
+          kuantitas: 5,
+          total: 250000,
+          value: false
+        }
+      ]
+    }
+  },
+  methods: {
+    del (item) {
+      let index = this.items.findIndex((x) => x.name === item)
+      this.items.splice(index, 1)
+      // for (let i = 0; this.items.length; i++) {
+      //   if (this.items[i].name === item) {
+      //     this.items.splice(i, 1)
+      //   }
+      // }
     }
   }
+}
 </script>
 <style scoped>
 .title-produk{
