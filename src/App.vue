@@ -148,7 +148,7 @@
                 <span class="body-1 grey--text">Masukkan alamat email kamu untuk berbagai update, promo,dan inspirasi dari kami.</span>
               </v-list-tile>
               <v-list-tile class="tile email">
-                <v-container class="pt-1">
+                <v-container class="pt-1 pl-0">
                   <v-layout>
                     <v-flex md8>
                       <v-text-field solo class="mt-1"></v-text-field>

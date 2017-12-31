@@ -6,6 +6,9 @@ import Products from '@/components/Products'
 import ProductDetail from '@/components/ProductDetail'
 // import Cart from '@/components/Cart'
 import Transaction from '@/components/Transaction'
+import Profile from '@/components/Profile'
+import Informasi from '@/components/InformasiProfile'
+import Alamat from '@/components/Alamat'
 
 Vue.use(Router)
 
@@ -33,8 +36,25 @@ export default new Router({
     },
     {
       path: '/cart',
-      name: 'transaction',
+      name: 'Transaction',
       component: Transaction
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile,
+      children: [
+        {
+          path: '/informasi',
+          name: 'Informasi',
+          component: Informasi
+        },
+        {
+          path: '/alamat',
+          name: 'Alamat',
+          component: Alamat
+        }
+      ]
     }
   ]
 })

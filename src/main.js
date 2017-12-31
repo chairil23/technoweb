@@ -36,7 +36,9 @@ import {
   VTabs,
   VDataTable,
   VTooltip,
-  VStepper
+  VStepper,
+  VDialog,
+  VRadioGroup
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
 import colors from 'vuetify/es5/util/colors'
@@ -67,7 +69,9 @@ Vue.use(Vuetify, {
     VTabs,
     VDataTable,
     VTooltip,
-    VStepper
+    VStepper,
+    VDialog,
+    VRadioGroup
   },
   theme: {
     primary: '#424244',

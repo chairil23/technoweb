@@ -55,7 +55,7 @@
               <v-divider light></v-divider>              
                 <!-- <v-card-actions  primary-title class="grey lighten-4" @click=""> -->
                   <v-layout row class="pt-2">
-                    <v-flex md12 xs12 class="text-xs-center">
+                    <v-flex class="text-xs-center text-title">
                       <span class="title harga">{{card.title}}</span>
                     </v-flex>
                   </v-layout>
@@ -96,7 +96,7 @@
         ],
         products: [
           {
-            src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
+            src: '/static/v.png', title: 'haidflmslfdmg;lsfmdglsmdf;gms;flgmsl;fdgmmdmfg', harga: '200.000', flex: '3'
           },
           {
             src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
@@ -126,5 +126,11 @@
 
 .harga{
   color:gray;
+}
+
+.text-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
