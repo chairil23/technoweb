@@ -22,7 +22,8 @@ export default new Router({
     {
       path: '/signup',
       name: 'Signup',
-      component: Signup
+      component: Signup,
+      props: true
     },
     {
       path: '/product',

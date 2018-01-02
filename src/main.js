@@ -4,11 +4,14 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import {store} from './store'
+import VueSession from 'vue-session'
 
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 
 import VueCurrencyFilter from 'vue-currency-filter'
+import Alert from './components/Alert.vue'
+import Loading from 'vue-loading-screen'
 
 import {
   Vuetify,
@@ -38,7 +41,9 @@ import {
   VTooltip,
   VStepper,
   VDialog,
-  VRadioGroup
+  VRadioGroup,
+  VSnackbar,
+  VAlert
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
 import colors from 'vuetify/es5/util/colors'
@@ -71,7 +76,9 @@ Vue.use(Vuetify, {
     VTooltip,
     VStepper,
     VDialog,
-    VRadioGroup
+    VRadioGroup,
+    VSnackbar,
+    VAlert
   },
   theme: {
     primary: '#424244',
@@ -93,7 +100,11 @@ Vue.use(VueCurrencyFilter, {
   symbolSpacing: true
 })
 
+Vue.use(VueSession)
+
 Vue.component('icon', Icon)
+Vue.component('alert', Alert)
+Vue.component('loading', Loading)
 
 Vue.config.productionTip = false
 

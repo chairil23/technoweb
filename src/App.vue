@@ -17,7 +17,7 @@
             <v-icon left dark>keyboard_arrow_down</v-icon>
           </v-btn>
           <v-list dark class="primary">
-              <v-list-tile v-for="item in menus" :key="item.title" @click="">
+              <v-list-tile v-for="item in categories" :key="item.title" @click="">
                 <v-list-tile-title>
                   {{item.title}}
                 </v-list-tile-title>
@@ -36,7 +36,7 @@
       <v-toolbar-items class="hidden-xs-only">
         <v-btn
           flat
-          v-for="item in menuItems"
+          v-for="item in menus"
           :key="item.title"
           :to="item.link" class="mx-0"
           @click="item.action">
@@ -44,6 +44,7 @@
           {{ item.title }}
         </v-btn>
         <v-menu offset-y
+        open-on-hover
         :close-on-content-click="false"
         :nudge-width="80"
         v-model="menu"> 
@@ -62,20 +63,23 @@
                   <v-container>
                       <v-text-field
                       label="email"
-                      v-model="email"
+                      v-model="login.email"
                       :rules="rules.emailRules">
                       </v-text-field>
 
                       <v-text-field 
                       label="password"
-                      v-model="pass"
+                      v-model="login.password"
+                      :append-icon="e1 ? 'visibility' : 'visibility_off'"
+                      :append-icon-cb="() => (e1 = !e1)"
+                      :type="e1 ? 'password' : 'text'"
                       :rules="rules.passwordRules">                    
                       </v-text-field>
                       <v-btn
                       block
-                      @click="signin"
+                      @click="signIn"
                       class="light">
-                        Sign in
+                        Sign In
                       </v-btn>
                     </v-container>
                   </v-form>
@@ -87,15 +91,15 @@
         <v-btn
           v-if="userIsAuthenticated"
           flat
-          @click="onLogout">
+          @click="signOut">
           <v-icon left dark>exit_to_app</v-icon>
-          Logout
+          Sign Out
 
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <main app>
-      <router-view></router-view>
+      <router-view :wew="wew"></router-view>
     </main>
     <v-footer app class="secondary mx-0">
       <v-container class="secondary">
@@ -168,16 +172,19 @@
         
       </v-layout>
       </v-container>  
-    </v-footer>
-  </v-app>
+    </v-footer>   
+  </v-app>  
 </template>
 
 <script>
-
 export default {
+  // props: ['snackbar', 'text', 'color'],
   data () {
     return {
-      menus: [
+      wew: 'wew1',
+      snackbar: false,
+      e1: true,
+      categories: [
         {title: 'Kartu Nama'},
         {title: 'Office Stationer'},
         {title: 'Marketing Material'},
@@ -185,7 +192,6 @@ export default {
         {title: 'Banner'},
         {title: 'Clothings'}
       ],
-      userIsAuthenticated: false,
       menu: false,
       valid: true,
       rules: {
@@ -199,12 +205,14 @@ export default {
           (v) => v && v.length >= 6 || 'at least 6 character'
         ]         
       },
-      email: '',
-      pass: ''
+      login: {
+        email: '',
+        password: '' 
+      }     
     }
   },
   computed: {
-    menuItems () {
+    menus () {
       let menuItems = [
         {icon: 'shopping_cart', title: 'Cart', link: '/cart', action: ''},
         {icon: 'person_add', title: 'Sign up', link: '/signup', action: ''}
@@ -228,19 +236,38 @@ export default {
         ]
         return navItems
       }
-    }
+    },
+    msg () {
+      return this.$store.getters.getMsg
+    },
+    user () {
+      return this.$store.state.user
+    },
+    userIsAuthenticated () {      
+      if (this.user.api_token === undefined) {
+        return this.$session.exists()
+      } else {
+        this.$session.start()
+        this.$session.set('token', this.user.api_token)
+        console.log(this.$session.get('token'), 'aw')
+        return this.$session.exists()
+      }
+      
+    }  
   },
+  
   methods: {
-    signin () {
-
+    signIn () {
       if(this.$refs.form.validate()){
-        this.userIsAuthenticated = true
-        console.log(this.userIsAuthenticated)
+        this.$store.dispatch('signIn', this.login)    
       }
     },
-    onLogout () {
-      this.userIsAuthenticated = false
-      console.log(this.userIsAuthenticated)
+    signOut () {
+      console.log(this.$session.get('token'))
+      this.$store.dispatch('userNull')
+      this.$session.destroy()
+      this.$router.push('/')
+      console.log(this.$session.exists())
     }
   }
 }

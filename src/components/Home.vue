@@ -32,7 +32,7 @@
     </v-layout> -->
     <v-divider light></v-divider>
     <v-layout row wrap class="grey lighten-4">
-      <v-flex dark class="display-1 text-md-center my-5 py-5">
+      <v-flex dark class="display-1 text-md-center my-5 py-5" @click="test">
         Our Products
       </v-flex>
     </v-layout>
@@ -40,13 +40,13 @@
       <v-layout row wrap align-center justify-start>
         <v-flex
           md3 fill-height
-          v-for="card in products"
-          :key="card.title"
+          v-for="product in allProducts.data"
+          :key="product.jdl_Pdk"
           class="px-3">
           <v-container class="px-1 pt-0 mt-0">
             <v-card flat fill-height class="grey lighten-4 mb-4" :to="{path: '/productdetail'}">
               <v-card-media
-                :src="card.src"
+                :src="base + product.images"
                 height="250px"
                 @click=""
                 class="white"
@@ -56,12 +56,12 @@
                 <!-- <v-card-actions  primary-title class="grey lighten-4" @click=""> -->
                   <v-layout row class="pt-2">
                     <v-flex class="text-xs-center text-title">
-                      <span class="title harga">{{card.title}}</span>
+                      <span class="title harga">{{product.jdl_Pdk}}</span>
                     </v-flex>
                   </v-layout>
                   <v-layout row>
                     <v-flex md12 xs12 class="text-xs-center">
-                      <span class="subheading harga">Rp {{card.harga}}</span>  
+                      <span class="subheading harga">{{50000 | currency}}</span>  
                     </v-flex>
                   </v-layout>     
                 <!-- </v-card-actions>    -->
@@ -70,57 +70,87 @@
         </v-flex>
       </v-layout>
       <div class="text-xs-center py-5">
-        <v-pagination color="black" :length.number="10" v-model="page" :total-visible="7" round></v-pagination>
+        <v-pagination color="black" :length.number="allProducts.last_page" v-model="page" :click="wew" :total-visible="7" round></v-pagination>
       </div>
     </v-container>
   </v-container>
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        items: [
-          {
-            src: '/static/v.png'
-          },
-          {
-            src: '/static/v.png'
-          },
-          {
-            src: '/static/v.png'
-          },
-          {
-            src: '/static/v.png'
-          }
-        ],
-        products: [
-          {
-            src: '/static/v.png', title: 'haidflmslfdmg;lsfmdglsmdf;gms;flgmsl;fdgmmdmfg', harga: '200.000', flex: '3'
-          },
-          {
-            src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
-          },
-          {
-            src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
-          },
-          {
-            src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
-          },
-          {
-            src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
-          },
-          {
-            src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
-          },
-          {
-            src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
-          }
-        ],
-        page: 1
-      }
+export default {
+  data () {
+    return {
+      base: 'http://localhost:8000/uploads/',
+      items: [
+        {
+          src: '/static/v.png'
+        },
+        {
+          src: '/static/v.png'
+        },
+        {
+          src: '/static/v.png'
+        },
+        {
+          src: '/static/v.png'
+        }
+      ],
+      products: [
+        {
+          src: '/static/v.png', title: 'haidflmslfdmg;lsfmdglsmdf;gms;flgmsl;fdgmmdmfg', harga: '200.000', flex: '3'
+        },
+        {
+          src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
+        },
+        {
+          src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
+        },
+        {
+          src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
+        },
+        {
+          src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
+        },
+        {
+          src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
+        },
+        {
+          src: '/static/v.png', title: 'hai', harga: '200.000', flex: '3'
+        }
+      ],
+      page: 1
     }
+  },
+  computed: {
+    allProducts () {
+      console.log(this.page)
+      return this.$store.getters.allProducts
+    },
+    image () {
+      return this.base + this.product.image
+    },
+    wew () {
+      this.$store.dispatch('getAllProducts', this.page)
+    }
+  },
+
+  methods: {
+    test () {
+      console.log(this.allProducts)
+    },
+    pages () {
+      this.$store.dispatch('getAllProducts', this.page)
+    }
+  },
+  // mounted: function () {
+  //   this.$nextTick(function () {
+  //     this.$store.dispatch('getAllProducts', this.page)
+  //   })
+  // },
+  created () {
+    this.$store.dispatch('getAllProducts', this.page)
   }
+}
 </script>
 <style scoped>
 
