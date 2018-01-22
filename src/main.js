@@ -45,7 +45,8 @@ import {
   VSnackbar,
   VAlert,
   VProgressCircular,
-  VBadge
+  VBadge,
+  VChip
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
 import colors from 'vuetify/es5/util/colors'
@@ -82,7 +83,8 @@ Vue.use(Vuetify, {
     VSnackbar,
     VAlert,
     VProgressCircular,
-    VBadge
+    VBadge,
+    VChip
   },
   theme: {
     primary: '#424244',

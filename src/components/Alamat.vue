@@ -31,7 +31,16 @@
                               <v-subheader>Provinsi</v-subheader>
                             </v-flex>
                             <v-flex md5>
-                              <v-select class="pt-0"></v-select>
+                              <v-select class="pt-0" :items="provinsi" v-model="prov" item-text="province" item-value="item" @input="getKota(prov.province_id)">
+                                <template slot="item" slot-scope="data">
+                                  <span 
+                                    close
+                                    @click="getKota(data.item.province_id)"
+                                  >
+                                    {{data.item.province}}
+                                  </span>
+                                </template>
+                              </v-select>
                             </v-flex>
                           </v-layout>
                           <v-layout>
@@ -39,7 +48,7 @@
                               <v-subheader>Kota/Kabupaten</v-subheader>
                             </v-flex>
                             <v-flex md5>
-                              <v-select class="pt-0"></v-select>
+                              <v-select class="pt-0" :items="kota" v-model="kot" item-value="item" item-text="city_name"></v-select>
                             </v-flex>
                           </v-layout>
                         </v-container>
@@ -84,13 +93,38 @@ export default {
     return {
       valid: true,
       dialog: false,
-      alamat: ''
+      alamat: '',
+      prov: '',
+      kot: ''
     }
   },
 
   methods: {
     simpan () {
+    },
+    getKota (id) {
+      this.$store.dispatch('getKota', id)
+    },
+    regional (type, kota) {
+      return type + ' ' + kota
     }
+  },
+  created () {
+    this.$store.dispatch('getProvinsi')
+  },
+  computed: {
+    kota () {
+      console.log(this.prov)
+      return this.$store.getters.kota
+    },
+    provinsi () {
+      return this.$store.getters.provinsi
+    }
+  },
+  watch: {
+    // prov () {
+    //   this.getKota(this.prov.id)
+    // }
   }
 }
 </script>

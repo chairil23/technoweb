@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import {post} from '../helper/api'
 import products from './module/products'
 import cart from './module/cart'
+import ongkir from './module/ongkir'
 import * as types from './mutation-types'
 
 Vue.use(Vuex)
@@ -113,7 +114,8 @@ export const store = new Vuex.Store({
   },
   modules: {
     products,
-    cart
+    cart,
+    ongkir
   },
   getters: {
     getMsg (state) {
