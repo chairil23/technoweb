@@ -1,38 +1,15 @@
 <template>
-  <v-container fluid grid-list-md class="ma-0 pa-0"> 
+  <v-container fluid grid-list-md class="pt-5"> 
     <v-layout row wrap>
       <v-flex class="ma-0 pa-0">        
-        <v-carousel hide-delimiters>
+        <v-carousel hide-delimiters >
           <v-carousel-item flat v-for="(item,i) in items" v-bind:src="item.src" :key="i">           
           </v-carousel-item>          
         </v-carousel>
       </v-flex>
     </v-layout>
-    <!-- <v-layout row wrap>
-      <v-flex xs12 sm6 md3 order-md4 order-sm2 class="pa-0">
-        <v-card light tile flat>
-          <v-card-text class="py-5">#1</v-card-text>
-        </v-card>
-      </v-flex>
-        <v-flex xs12 sm6 md3 order-md3 order-sm1 class="pa-0">
-          <v-card light tile flat>
-            <v-card-text class="py-5">#2</v-card-text>
-          </v-card>
-        </v-flex>
-        <v-flex xs12 sm6 md3 order-md2 order-sm4 class="pa-0">
-          <v-card light tile flat>
-            <v-card-text class="py-5">#3</v-card-text>
-          </v-card>
-        </v-flex>
-        <v-flex xs12 sm6 md3 order-md1 order-sm3 class="pa-0">
-          <v-card light tile flat>
-            <v-card-text class="py-5">#4</v-card-text>
-          </v-card>
-        </v-flex>
-    </v-layout> -->
-    <v-divider light></v-divider>
     <v-layout row wrap class="grey lighten-4">
-      <v-flex dark class="display-1 text-md-center my-5 py-5" @click="test">
+      <v-flex dark class="display-1 text-md-center my-3 py-5" @click="test">
         Our Products
       </v-flex>
     </v-layout>
@@ -44,15 +21,13 @@
           :key="product.jdl_Pdk"
           class="px-3">
           <v-container class="px-1 pt-0 mt-0">
-            <v-card flat fill-height class="grey lighten-4 mb-4" :to="{path: '/productdetail'}">
+            <v-card flat fill-height class="cards grey lighten-4 mb-4" :to="{path: '/product/'+product.id}">
               <v-card-media
                 :src="base + product.images"
                 height="250px"
-                @click=""
                 class="white"
               >                
-              </v-card-media>
-              <v-divider light></v-divider>              
+              </v-card-media>       
                 <!-- <v-card-actions  primary-title class="grey lighten-4" @click=""> -->
                   <v-layout row class="pt-2">
                     <v-flex class="text-xs-center text-title">
@@ -70,7 +45,7 @@
         </v-flex>
       </v-layout>
       <div class="text-xs-center py-5">
-        <v-pagination color="black" :length.number="allProducts.last_page" v-model="page" :click="wew" :total-visible="7" round></v-pagination>
+        <vue-paginate-al :totalPage="allProducts.last_page" customActiveBGColor="success" @btnClick="test"></vue-paginate-al>
       </div>
     </v-container>
   </v-container>
@@ -124,29 +99,24 @@ export default {
   computed: {
     allProducts () {
       console.log(this.page)
-      return this.$store.getters.allProducts
+      return this.$store.getters.allProducts(this.page)
     },
     image () {
       return this.base + this.product.image
     },
-    wew () {
+    pages () {
+      console.log(this.page, 'PAGES')
       this.$store.dispatch('getAllProducts', this.page)
     }
   },
 
   methods: {
-    test () {
-      console.log(this.allProducts)
-    },
-    pages () {
-      this.$store.dispatch('getAllProducts', this.page)
+    test (n) {
+      console.log(this.allProducts, 'test')
+      this.page = n
+      this.$store.dispatch('getAllProducts', n)
     }
   },
-  // mounted: function () {
-  //   this.$nextTick(function () {
-  //     this.$store.dispatch('getAllProducts', this.page)
-  //   })
-  // },
   created () {
     this.$store.dispatch('getAllProducts', this.page)
   }
@@ -163,4 +133,5 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
 </style>

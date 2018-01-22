@@ -20,6 +20,7 @@
     "vue-awesome": "^2.3.4",
     "vue-currency-filter": "^2.0.1",
     "vue-loading-screen": "0.0.3",
+    "vue-paginate-al": "^1.0.18",
     "vue-router": "^3.0.1",
     "vue-session": "^0.9.10",
     "vuetify": "^0.17.4",

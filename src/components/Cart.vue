@@ -8,7 +8,7 @@
               v-bind:headers="headers"
               v-bind:items="items"
               v-model="selected"
-              item-key="name"
+              item-key="id"
               select-all
               class="elevation-1"
               hide-actions
@@ -30,21 +30,21 @@
                   <v-container>
                     <v-layout>
                       <v-flex md4>
-                        <img class="image_produk" src="/static/v.png" alt="image">
+                        <img class="image_produk" :src="base + props.item.images" alt="image">
                       </v-flex>
                       <v-flex md8>
-                        <span class="body-2 title-produk pl-1">{{props.item.name}}</span>
+                        <span class="body-2 title-produk pl-1">{{props.item.jdl_Pdk}}</span>
                       </v-flex>
                     </v-layout>
                   </v-container>
                 </td>         
-                <td class="text-xs-right body-1">{{ props.item.harga | currency}} </td>
+                <td class="text-xs-right body-1">{{ props.item.harga_awal | currency}} </td>
                 <td class="text-xs-right body-1">{{ props.item.kuantitas }}</td>
-                <td class="text-xs-right body-1">{{ props.item.total | currency}}</td>
+                <td class="text-xs-right body-1">{{ total(props.item.kuantitas, props.item.harga_awal) | currency}}</td>
                 <td>
                   <v-layout>
                     <v-flex class="text-xs-right">
-                      <a :key="props.item.name" @click="del(props.item.name)">
+                      <a :key="props.item.id" @click="del(props.item.id)">
                         <v-icon>close</v-icon>
                       </a>
                     </v-flex>
@@ -63,12 +63,15 @@
 
 <script>
 import Heading from './Heading'
+
 export default {
   components: {
     Heading
   },
+  props: ['items', 'checkout'],
   data () {
     return {
+      base: 'http://localhost:8000/uploads/',
       search: '',
       btn: [],
       selected: [],
@@ -80,57 +83,69 @@ export default {
           value: 'name'
         },
         { text: 'Harga', sortable: false, value: 'harga' },
-        { text: 'Kuantitas', sortable: false, value: 'kuarntias' },
+        { text: 'Kuantitas', sortable: false, value: 'kuantitas' },
         { text: 'Total Harga', sortable: false, value: 'total' }
-      ],
-      items: [
-        {
-          name: 'X-Banner',
-          harga: 50000,
-          kuantitas: 5,
-          total: 250000,
-          value: false
-        },
-        {
-          name: 'Spanduk',
-          harga: 50000,
-          kuantitas: 5,
-          total: 250000,
-          value: false
-        },
-        {
-          name: 'Spanduk',
-          harga: 50000,
-          kuantitas: 5,
-          total: 250000,
-          value: false
-        },
-        {
-          name: 'Spanduk',
-          harga: 50000,
-          kuantitas: 5,
-          total: 250000,
-          value: false
-        },
-        {
-          name: 'Spanduk',
-          harga: 50000,
-          kuantitas: 5,
-          total: 250000,
-          value: false
-        }
       ]
+      // items: [
+      //   {
+      //     name: 'X-Banner',
+      //     harga: 50000,
+      //     kuantitas: 5,
+      //     total: 250000,
+      //     value: false
+      //   },
+      //   {
+      //     name: 'Spanduk',
+      //     harga: 50000,
+      //     kuantitas: 5,
+      //     total: 250000,
+      //     value: false
+      //   },
+      //   {
+      //     name: 'Spanduk',
+      //     harga: 50000,
+      //     kuantitas: 5,
+      //     total: 250000,
+      //     value: false
+      //   },
+      //   {
+      //     name: 'Spanduk',
+      //     harga: 50000,
+      //     kuantitas: 5,
+      //     total: 250000,
+      //     value: false
+      //   },
+      //   {
+      //     name: 'Spanduk',
+      //     harga: 50000,
+      //     kuantitas: 5,
+      //     total: 250000,
+      //     value: false
+      //   }
+      // ]
     }
   },
   methods: {
     del (item) {
-      let index = this.items.findIndex((x) => x.name === item)
-      this.items.splice(index, 1)
+      this.$store.dispatch('delItem', item)
       // for (let i = 0; this.items.length; i++) {
       //   if (this.items[i].name === item) {
       //     this.items.splice(i, 1)
       //   }
       // }
+    },
+    total (kuantitas, harga) {
+      return kuantitas * harga
+    }
+  },
+  computed: {
+    // items () {
+    //   return this.$store.getters.cart.items
+    // }
+  },
+  watch: {
+    selected () {
+      this.$store.dispatch('setTemp', this.selected)
     }
   }
 }
@@ -142,6 +157,13 @@ export default {
 
 .image_produk{
   height: 5em;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: middle;
+    border-top: 1px solid #ddd;
 }
 </style>
 

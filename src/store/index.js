@@ -3,14 +3,17 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {post} from '../helper/api'
 import products from './module/products'
+import cart from './module/cart'
+import * as types from './mutation-types'
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
     user: {},
-    msg: {color: '', icon: '', msg: '', alert: false},
-    counter: 1
+    msg: {},
+    loading: false,
+    err: {text: '', value: false}
   },
   mutations: {
     setMsg (state, payload) {
@@ -20,18 +23,31 @@ export const store = new Vuex.Store({
       state.counter += 1
     },
     setNull (state) {
-      state.msg = null
+      state.msg = {}
     },
     setUser (state, payload) {
       state.user = payload
     },
     setUserNull (state) {
       state.user = {}
+    },
+    setLoading (state, bool) {
+      state.loading = bool
+    },
+    [types.ERROR_MSG] (state, payload) {
+      state.err.text = payload
+      state.err.value = payload
+    },
+    [types.ERROR_MSG_NULL] (state) {
+      state.err.text = ''
+      state.err.value = false
     }
 
   },
   actions: {
     signUp ({commit}, payload) {
+      commit('setLoading', true)
+      commit('setNull')
       post('auth/register', payload)
         .then((res) => {
           if (res.status === 200) {
@@ -42,6 +58,8 @@ export const store = new Vuex.Store({
               alert: true
             }
             commit('setMsg', warn)
+            commit('setLoading', false)
+
             // console.log(this.state.msg)
           }
         })
@@ -53,26 +71,34 @@ export const store = new Vuex.Store({
             alert: true
           }
           commit('setMsg', warn)
+          commit('setLoading', false)
           // console.log(this.state.msg)
         })
     },
     signIn ({commit}, payload) {
+      commit('setLoading', true)
+      commit('setNull')
       post('auth/login', payload)
         .then((res) => {
           if (res.status === 200) {
             commit('setUser', res.data)
-            console.log(res.data)
+            commit('setLoading', false)
+            post('/cart').then((res) => {
+              if (res.status === 200) {
+                commit('cartId', res.data.id)
+              }
+            })
           }
         })
         .catch((err) => {
-          // let warn = {
-          //   color: 'error',
-          //   icon: 'warning',
-          //   msg: err.response.data
-          //   alert: true
-          // }
-          // commit('setMsg', warn)
-          console.log(err)
+          let warn = {
+            color: 'error',
+            icon: 'warning',
+            msg: err.response.data.error,
+            alert: true
+          }
+          commit('setMsg', warn)
+          commit('setLoading', false)
         })
     },
     counter ({commit}) {
@@ -86,7 +112,8 @@ export const store = new Vuex.Store({
     }
   },
   modules: {
-    products
+    products,
+    cart
   },
   getters: {
     getMsg (state) {
@@ -97,6 +124,9 @@ export const store = new Vuex.Store({
     },
     getUser (state) {
       return state.user
+    },
+    getLoading (state) {
+      return state.loading
     }
   }
 })

@@ -12,14 +12,14 @@
         <v-stepper-content step="1">
           <v-card color="white" class="mb-5">             
             <heading :header="header_cart"></heading>     
-            <cart></cart>
+            <cart :checkout="false" :items="carts"></cart>
           </v-card>          
             <v-layout class="pb-5 mb-3">
               <v-flex md9 class="text-xs-right">
                 <strong class="title pr-3">Total Harga: </strong>
               </v-flex>
               <v-flex md class="text-xs-left">
-                <strong class="title pl-4">{{500000 | currency}}</strong>
+                <strong class="title pl-4">{{totalHarga | currency}}</strong>
               </v-flex>
             </v-layout>
             <v-layout>
@@ -27,7 +27,7 @@
                 <v-btn flat>Cancel</v-btn>
               </v-flex>
               <v-flex md6 class="text-xs-right">
-                 <v-btn color="primary" @click.native="e1 = 2">Checkout</v-btn>
+                 <v-btn color="primary" @click.native="e1 = 2" :disabled="!valid">Checkout</v-btn>
               </v-flex>
             </v-layout>        
         </v-stepper-content>
@@ -36,7 +36,7 @@
             <pengiriman class="pb-4"></pengiriman>
             <v-divider class=""></v-divider>
             <heading :header="header_pengiriman" class="pt-5"></heading>
-            <cart class="pb-4"></cart>
+            <cart :checkout="true" :items="checkout" class="pb-4"></cart>
             <v-divider></v-divider>
             <v-layout>
               <v-flex class="white py-4 pl-3">
@@ -84,8 +84,46 @@ export default {
     return {
       e1: 0,
       header_cart: 'Keranjang Belanja',
-      header_pengiriman: 'Produk Pesanan'
+      header_pengiriman: 'Produk Pesanan',
+      selected: []
     }
+  },
+  computed: {
+    valid () {
+      if (this.temp.length !== 0) {
+        return true
+      } else {
+        return false
+      }
+    },
+    carts () {
+      this.$store.dispatch('delCheckout')
+      return this.$store.getters.cart.items
+    },
+    totalHarga () {
+      let selected = this.$store.getters.temp
+      console.log(selected)
+      let total = 0
+      selected.forEach(element => {
+        total = total + (element.kuantitas * element.harga_awal)
+      })
+      return total
+    },
+    temp () {
+      return this.$store.getters.temp
+    },
+    checkout () {
+      return this.$store.getters.checkout
+    }
+    // totalHarga () {
+    //   let items = this.$store.getters.cart.items
+    //   let total = 0
+    //   console.log(items, 'items')
+    //   items.forEach(element => {
+    //     total = total + (element.kuantitas * element.harga_awal)
+    //   })
+    //   return total
+    // },
   }
 }
 </script>

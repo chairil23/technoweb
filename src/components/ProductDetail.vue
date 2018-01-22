@@ -19,7 +19,7 @@
         <v-card>
           <v-card-media
           flat
-          :src= "image"
+          :src= "base + product.images"
           height= "300px"
           >
             <v-card-action
@@ -36,7 +36,7 @@
             <v-flex md10>
                <v-layout>
                 <v-flex>
-                  <div class="display-1 black--text">Kartu Nama 3 x 3 CM</div>
+                  <div class="display-1 black--text">{{product.jdl_Pdk}}</div>
                 </v-flex>            
               </v-layout> 
               <v-layout class="pb-2">
@@ -90,7 +90,7 @@
               <v-subheader>Jumlah: </v-subheader>
             </v-flex>
             <v-flex md3>
-              <v-select class="pt-1 pl-4" type="number" v-model="t" :items="jumlah" single-line bottom></v-select>
+              <v-select class="pt-1 pl-4" v-model="item.kuantitas" :items="quantity" single-line bottom></v-select>
             </v-flex>
           </v-layout>
           <v-layout>
@@ -98,7 +98,7 @@
               <v-subheader>Jenis Kertas: </v-subheader>
             </v-flex>
             <v-flex md3>
-              <v-select class="pt-1 pl-4" v-model="j" :items="jenis" single-line bottom></v-select>
+              <v-select class="pt-1 pl-4" v-model="item.jenis_kertas" :items="jenis" single-line bottom></v-select>
             </v-flex>
           </v-layout>
           <v-layout row>
@@ -106,7 +106,7 @@
               <v-icon color="primary">email</v-icon>
               <span class="text">Kirim Pesan</span>            
             </v-btn>
-            <v-btn outline color="primary">
+            <v-btn outline color="primary" @click="addItem()">
               <v-icon color="primary">add_shopping_cart</v-icon>
               <span class="text">Masukkan Keranjang</span>            
             </v-btn>
@@ -134,7 +134,7 @@
             <v-layout>
               <v-flex>
                 <span class="text title" >
-                  Reza Surya Kamajaya
+                  {{product.username}}
                 </span>
               </v-flex>                    
             </v-layout>
@@ -212,11 +212,7 @@
             <v-layout>
               <v-flex>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima sapiente quod hic doloribus officia fugiat provident, sint temporibus adipisci consectetur ab nulla ipsam ipsa? Adipisci, id. Vero architecto illum quidem!
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto animi sapiente expedita similique quia velit incidunt eaque suscipit quidem dolore? Distinctio, soluta consequatur sint dicta corporis a. Ducimus, unde harum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Error culpa laborum soluta enim eum, necessitatibus repudiandae minus pariatur quaerat eaque ab aut laboriosam recusandae, illo fugit ipsa modi, sed nam.
-                  
-
-                  fef
+                 {{product.description}}
                 </p>
               </v-flex>
             </v-layout>  
@@ -235,6 +231,7 @@ export default {
   },
   data () {
     return {
+      base: 'http://localhost:8000/uploads/',
       image: '/static/v.png',
       e1: null,
       t: null,
@@ -245,7 +242,7 @@ export default {
         {text: 'Kartu Nama 3 x 3', disabled: true}
       ],
       j1: null,
-      jumlah: [
+      quantity: [
           { text: 50 },
           { text: 100 }
       ],
@@ -257,7 +254,82 @@ export default {
           text: 'Extra Fancy'
         }
       ],
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      item: {
+        product_id: this.$route.params.id,
+        kuantitas: {text: ''},
+        jenis_kertas: {text: ''},
+        model: {text: ''},
+        kain: {text: ''},
+        ukuran: {text: ''},
+        warna: {text: ''},
+        jenis_cetak: {text: ''},
+        bahan: {text: ''},
+        sisi: {text: ''},
+        jilid: {text: ''},
+        lembar: {text: ''},
+        cetak_depan: {text: ''},
+        cetak_belakang: {text: ''},
+        cetak_lengan_kanan: {text: ''},
+        cetak_lengan_kiri: {text: ''},
+        kaos_metode: {text: ''}
+      },
+      form: {
+        product_id: '',
+        kuantitas: '',
+        jenis_kertas: '',
+        model: '',
+        kain: '',
+        ukuran: '',
+        warna: '',
+        jenis_cetak: '',
+        bahan: '',
+        sisi: '',
+        jilid: '',
+        lembar: '',
+        cetak_depan: '',
+        cetak_belakang: '',
+        cetak_lengan_kanan: '',
+        cetak_lengan_kiri: '',
+        kaos_metode: ''
+      }
+    }
+  },
+  computed: {
+    test () {
+      this.form.product_id = parseInt(this.$route.params.id)
+      this.form.kuantitas = this.item.kuantitas.text
+      this.form.jenis_kertas = this.item.jenis_kertas.text
+      this.form.model = this.item.model.text
+      this.form.kain = this.item.kain.text
+      this.form.ukuran = this.item.ukuran.text
+      this.form.warna = this.item.warna.text
+      this.form.jenis_cetak = this.item.jenis_cetak.text
+      this.form.bahan = this.item.bahan.text
+      this.form.sisi = this.item.model.sisi
+      this.form.jilid = this.item.jilid.text
+      this.form.lembar = this.item.lembar.text
+      this.form.cetak_depan = this.item.cetak_depan.text
+      this.form.cetak_belakang = this.item.cetak_belakang.text
+      this.form.cetak_lengan_kanan = this.item.cetak_lengan_kanan.text
+      this.form.cetak_lengan_kiri = this.item.cetak_lengan_kiri.text
+      this.form.kaos_metode = this.item.kaos_metode.text
+      return this.form
+    },
+    product () {
+      console.log(this.form.cart_id, 'CARTID')
+      return this.$store.getters.productDetail
+    }
+  },
+  created () {
+    this.$store.dispatch('getProduct', this.$route.params.id)
+  },
+  methods: {
+    addItem () {
+      console.log(this.$session.get('token'), 'wewe')
+      if (this.test.kuantitas !== 0) {
+        this.$store.dispatch('addToCart', this.test)
+      }
     }
   }
 }

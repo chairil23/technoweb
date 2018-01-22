@@ -1,5 +1,6 @@
 <template>
-  <v-app class="grey lighten-4">        
+  <v-app class="grey lighten-4">
+    <!-- <loading :loading="loading"></loading>                 -->
     <v-toolbar app dark class="primary" dense flat fixed>
       <v-toolbar-side-icon
         @click.stop="sideNav = !sideNav"
@@ -12,7 +13,7 @@
           <v-btn
             flat       
             slot="activator"  
-            :to="Category">         
+            >         
             Category
             <v-icon left dark>keyboard_arrow_down</v-icon>
           </v-btn>
@@ -25,12 +26,6 @@
               </v-list-tile>
           </v-list>
         </v-menu>
-        <v-btn
-          small         
-          :to="register_freelancer"
-          class="red">         
-          Become A Freelancer
-        </v-btn>
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
@@ -40,7 +35,10 @@
           :key="item.title"
           :to="item.link" class="mx-0"
           @click="item.action">
-          <v-icon left dark class="mx-1">{{ item.icon }}</v-icon>
+          <v-badge color="cyan" v-model="item.show" left>
+            <span slot="badge">{{counter}}</span>
+            <v-icon left dark class="mx-1">{{ item.icon }}</v-icon>
+          </v-badge>
           {{ item.title }}
         </v-btn>
         <v-menu offset-y
@@ -97,10 +95,12 @@
 
         </v-btn>
       </v-toolbar-items>
-    </v-toolbar>
-    <main app>
+    </v-toolbar>    
+    <main class="wew" app>
+      <alert :color="msg.color" :icon="msg.icon" :message="msg.msg" :alert="msg.alert"></alert>  
       <router-view :wew="wew"></router-view>
     </main>
+    
     <v-footer app class="secondary mx-0">
       <v-container class="secondary">
         <v-layout row wrap>        
@@ -177,6 +177,7 @@
 </template>
 
 <script>
+// import session from './helper/session'Z
 export default {
   // props: ['snackbar', 'text', 'color'],
   data () {
@@ -208,30 +209,30 @@ export default {
       login: {
         email: '',
         password: '' 
-      }     
+      }, 
     }
   },
   computed: {
     menus () {
       let menuItems = [
-        {icon: 'shopping_cart', title: 'Cart', link: '/cart', action: ''},
-        {icon: 'person_add', title: 'Sign up', link: '/signup', action: ''}
+        {icon: 'shopping_cart', title: 'Cart', link: '/cart', action: '', show: this.show},
+        {icon: 'person_add', title: 'Sign up', link: '/signup', action: '', show: false}
       ]
       if (this.userIsAuthenticated) {
         menuItems = [
-          {icon: 'shopping_cart', title: 'Cart', link: '/cart'},
-          {icon: 'person', title: 'Account', link: '/signup'}
+          {icon: 'shopping_cart', title: 'Cart', link: '/cart', show: this.show},
+          {icon: 'person', title: 'Account', link: '/profile', show: false}
         ]
       }
       return menuItems
     },
     navigation () {
       let navItems = [
-        {icon: 'arrow_drop_down', title: 'Category', link: ''}
+        {icon: 'arrow_drop_down', title: 'Category', link: '/'}
       ]
       if (this.userIsAuthenticated) {
         navItems = [
-          {icon: 'arrow_drop_down', title: 'Category', link: ''},
+          {icon: 'arrow_drop_down', title: 'Category', link: '/'},
           {icon: null, title: 'Become A Freelancer', link: ''}
         ]
         return navItems
@@ -246,20 +247,52 @@ export default {
     userIsAuthenticated () {      
       if (this.user.api_token === undefined) {
         return this.$session.exists()
-      } else {
-        this.$session.start()
+      } else {                  
         this.$session.set('token', this.user.api_token)
-        console.log(this.$session.get('token'), 'aw')
+        this.$store.dispatch('getCart')
         return this.$session.exists()
+      }      
+    },
+    loading () {
+      return true
+      // return this.$store.getters.getLoading
+    }, 
+    counter () {
+      if (!this.userIsAuthenticated) {
+        this.$store.dispatch('delCart')
       }
-      
-    }  
+      return this.$store.getters.cart.items.length  
+    },
+    show () {
+      if (this.counter === 0) {
+        return false
+      } else { 
+        return true
+      }
+      return false
+    }
   },
-  
+  watch: {
+
+  },
+  created() {
+    if (this.userIsAuthenticated) {
+      console.log('true')
+      this.$store.dispatch('getCart')
+    } else {
+      console.log('false')
+      this.$store.dispatch('delCart')
+    }
+  },
+  beforeCreate () {
+    // this.$session.start()
+    // console.log('wew')
+  },
   methods: {
     signIn () {
       if(this.$refs.form.validate()){
-        this.$store.dispatch('signIn', this.login)    
+        this.$store.dispatch('signIn', this.login)  
+        console.log('signin')
       }
     },
     signOut () {
@@ -287,6 +320,9 @@ export default {
 }
 .tile {
   height: 30px;
+}
+.wew {
+  position:unset;
 }
 
 </style>

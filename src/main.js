@@ -11,8 +11,8 @@ import Icon from 'vue-awesome/components/Icon'
 
 import VueCurrencyFilter from 'vue-currency-filter'
 import Alert from './components/Alert.vue'
-import Loading from 'vue-loading-screen'
-
+import Loading from './components/Loading.vue'
+import VuePaginateAl from 'vue-paginate-al'
 import {
   Vuetify,
   VApp,
@@ -43,7 +43,9 @@ import {
   VDialog,
   VRadioGroup,
   VSnackbar,
-  VAlert
+  VAlert,
+  VProgressCircular,
+  VBadge
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
 import colors from 'vuetify/es5/util/colors'
@@ -78,7 +80,9 @@ Vue.use(Vuetify, {
     VDialog,
     VRadioGroup,
     VSnackbar,
-    VAlert
+    VAlert,
+    VProgressCircular,
+    VBadge
   },
   theme: {
     primary: '#424244',
@@ -105,6 +109,7 @@ Vue.use(VueSession)
 Vue.component('icon', Icon)
 Vue.component('alert', Alert)
 Vue.component('loading', Loading)
+Vue.component('vue-paginate-al', VuePaginateAl)
 
 Vue.config.productionTip = false
 

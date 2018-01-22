@@ -72,7 +72,6 @@
                   :disabled="!valid"
                   class="dark"
                   tabindex="6"
-                  v-model="msgw"
                   >
                   submit
                   </v-btn>
@@ -83,13 +82,7 @@
         </v-card>
       </v-flex>
       <v-flex xs3 order-md3/>       
-    </v-layout>      
-    <v-layout>
-      <v-flex>
-        <alert :color="msg.color" :icon="msg.icon" :message="msg.msg" :alert="msg.alert"></alert>
-        
-      </v-flex>
-    </v-layout>
+    </v-layout>  
   </v-container>
 </template>
 
@@ -97,7 +90,6 @@
 /* eslint-disable */
 import {post} from '../helper/api'
 export default {
-  props: ['wew'],
   data () {
     return {
       valid: true,
@@ -143,10 +135,7 @@ export default {
       checkbox: false
     }
   },
-  computed: {
-    msg () {
-      return this.$store.getters.getMsg
-    }
+  computed: {  
   },  
   methods: {
     submit () {
@@ -157,12 +146,8 @@ export default {
     OnSignup: function () {     
       if(this.$refs.form.validate()){
           this.$store.dispatch('signUp', this.register)
-        }
-      
-    },
-    getAlert() {
-      this.msg = this.$store.getters.getMsg    
-      return this.msg  
+      }     
+    
     }
   }
 }
