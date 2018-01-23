@@ -10,7 +10,8 @@
               </v-flex>
               <v-flex md2 class="pa-0 text-xs-right">
                 <v-dialog v-model="dialog" persistent max-width="600px">
-                  <a color primary dark slot="activator">Ubah</a>
+                  <a v-if="alamat" color primary dark slot="activator">Ubah</a>
+                  <a v-else color primary dark slot="activator">Masukkan Alamat</a>
                   <v-card>
                     <v-form lazy-validation ref ="form" v-model="valid">
                       <v-card-title>
@@ -23,7 +24,7 @@
                               <v-subheader>Alamat Baru</v-subheader>
                             </v-flex>
                             <v-flex>
-                              <v-text-field class="pt-0" required v-model="alamat"></v-text-field>
+                              <v-text-field class="pt-0" required v-model="alamat.address"></v-text-field>
                             </v-flex>
                           </v-layout>
                           <v-layout>
@@ -31,11 +32,11 @@
                               <v-subheader>Provinsi</v-subheader>
                             </v-flex>
                             <v-flex md5>
-                              <v-select class="pt-0" :items="provinsi" v-model="prov" item-text="province" item-value="item" @input="getKota(prov.province_id)">
+                              <v-select class="pt-0" :items="provinsi" v-model="alamat.provinsi" item-text="province" item-value="item" @input="getKota(alamat.provinsi.province_id)">
                                 <template slot="item" slot-scope="data">
                                   <span 
                                     close
-                                    @click="getKota(data.item.province_id)"
+                                    @input="getKota(data.item.province_id)"
                                   >
                                     {{data.item.province}}
                                   </span>
@@ -48,7 +49,7 @@
                               <v-subheader>Kota/Kabupaten</v-subheader>
                             </v-flex>
                             <v-flex md5>
-                              <v-select class="pt-0" :items="kota" v-model="kot" item-value="item" item-text="city_name"></v-select>
+                              <v-select class="pt-0" :items="kota" v-model="alamat.kota" item-value="item" item-text="city_name"></v-select>
                             </v-flex>
                           </v-layout>
                         </v-container>
@@ -72,12 +73,12 @@
             </v-layout>
              <v-layout>
               <v-flex>
-                <span>Jl. Perwira 2 no. 90 G. Krakatau Ujung</span>
+                <span>{{address.address}}</span>
               </v-flex>
             </v-layout>
              <v-layout>
               <v-flex>
-                <span>Sumatera Utara -- Kota Medan</span>
+                <span>{{address.province}} -- {{address.type}} {{address.city_name}}</span>
               </v-flex>
             </v-layout>
           </v-card-text>
@@ -93,16 +94,21 @@ export default {
     return {
       valid: true,
       dialog: false,
-      alamat: '',
-      prov: '',
-      kot: ''
+      alamat: {
+        address: '',
+        provinsi: '',
+        kota: ''
+      }
     }
   },
 
   methods: {
     simpan () {
+      this.$store.dispatch('setAlamat', this.alamat)
+      this.dialog = false
     },
     getKota (id) {
+      console.log(id)
       this.$store.dispatch('getKota', id)
     },
     regional (type, kota) {
@@ -111,6 +117,7 @@ export default {
   },
   created () {
     this.$store.dispatch('getProvinsi')
+    this.$store.dispatch('getAlamat')
   },
   computed: {
     kota () {
@@ -119,6 +126,9 @@ export default {
     },
     provinsi () {
       return this.$store.getters.provinsi
+    },
+    address () {
+      return this.$store.getters.alamat
     }
   },
   watch: {

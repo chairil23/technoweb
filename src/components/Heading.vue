@@ -7,7 +7,7 @@
   </v-layout>        
   <v-layout>
     <v-flex>
-      <span class="subheading">1 Produk</span>
+      <span class="subheading">{{count}} Produk</span>
     </v-flex>
   </v-layout>
   </v-container>
@@ -15,7 +15,12 @@
 
 <script>
 export default {
-  props: ['header']
+  props: ['header'],
+  computed: {
+    count () {
+      return this.$store.getters.cart.items.length
+    }
+  }
 }
 </script>
  

@@ -1,7 +1,7 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {post} from '../helper/api'
+import {post, get} from '../helper/api'
 import products from './module/products'
 import cart from './module/cart'
 import ongkir from './module/ongkir'
@@ -14,7 +14,8 @@ export const store = new Vuex.Store({
     user: {},
     msg: {},
     loading: false,
-    err: {text: '', value: false}
+    err: {text: '', value: false},
+    alamat: {}
   },
   mutations: {
     setMsg (state, payload) {
@@ -42,6 +43,9 @@ export const store = new Vuex.Store({
     [types.ERROR_MSG_NULL] (state) {
       state.err.text = ''
       state.err.value = false
+    },
+    setAlamat (state, payload) {
+      state.alamat = payload
     }
 
   },
@@ -105,6 +109,36 @@ export const store = new Vuex.Store({
     },
     userNull ({commit}) {
       commit('setUserNull')
+    },
+    setAlamat ({commit}, alamat) {
+      let x = {}
+      x.address = alamat.address,
+      x.city_id = alamat.kota.city_id,
+      x.city_name = alamat.kota.city_name,
+      x.postal_code = alamat.kota.postal_code,
+      x.province = alamat.kota.province
+      x.type = alamat.kota.type
+      post('/user/alamat', x).then((res) => {
+        if (res.status === 200) {
+          commit('setAlamat', x)
+        }
+      }).catch((err) => {
+        if(err) {
+          console.log(err)
+        }
+      })
+    },
+    getAlamat ({commit}) {
+      get('/user/alamat').then((res) => {
+        if (res.status === 200) {
+          console.log(res.data)
+          commit('setAlamat', res.data) 
+        }
+      }).catch((err) => {
+        if (err) {
+          console.log(err)
+        }
+      })
     }
   },
   modules: {
@@ -124,6 +158,7 @@ export const store = new Vuex.Store({
     },
     getLoading (state) {
       return state.loading
-    }
+    },
+    alamat: state => state.alamat
   }
 })
