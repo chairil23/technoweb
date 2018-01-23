@@ -60,7 +60,8 @@ export const actions = {
     console.log(getToken())
     get('/item').then((res) => {
       if (res.status === 200) {
-        console.log('getcart')
+        console.log(getToken(), 'token')
+        console.log(res.data)
         commit(types.RECEIVE_CART, res.data)
       }
     })

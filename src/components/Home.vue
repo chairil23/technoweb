@@ -9,7 +9,7 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap class="grey lighten-4">
-      <v-flex dark class="display-1 text-md-center my-3 py-5" @click="test">
+      <v-flex dark class="display-1 text-md-center my-3 py-5">
         Our Products
       </v-flex>
     </v-layout>
@@ -45,7 +45,7 @@
         </v-flex>
       </v-layout>
       <div class="text-xs-center py-5">
-        <vue-paginate-al :totalPage="allProducts.last_page" customActiveBGColor="success" @btnClick="test"></vue-paginate-al>
+        <vue-paginate-al :totalPage="allProducts.last_page" customActiveBGColor="success" @btnClick="pages"></vue-paginate-al>
       </div>
     </v-container>
   </v-container>
@@ -98,20 +98,20 @@ export default {
   },
   computed: {
     allProducts () {
-      console.log(this.page)
+      console.log(this.$store.getters.allProducts(this.page))
       return this.$store.getters.allProducts(this.page)
     },
     image () {
       return this.base + this.product.image
-    },
-    pages () {
-      console.log(this.page, 'PAGES')
-      this.$store.dispatch('getAllProducts', this.page)
     }
+    // pages () {
+    //   console.log(this.page, 'PAGES')
+    //   this.$store.dispatch('getAllProducts', this.page)
+    // }
   },
 
   methods: {
-    test (n) {
+    pages (n) {
       console.log(this.allProducts, 'test')
       this.page = n
       this.$store.dispatch('getAllProducts', n)

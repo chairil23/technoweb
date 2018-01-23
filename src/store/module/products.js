@@ -21,7 +21,7 @@ const mutations = {
 
 const actions = {
   getAllProducts ({commit}, page) {
-    get('productlist?page=' + page).then((res) => {
+    get('/productlist?page=' + page).then((res) => {
       let payload = res.data
       commit(types.RECEIVE_PRODUCTS, payload)
     })
@@ -30,7 +30,7 @@ const actions = {
     })
   },
   getProduct ({commit}, id) {
-    get('productlist/' + id).then((res) => {
+    get('/productlist/' + id).then((res) => {
       let payload = res.data
       commit(types.RECEIVE_PRODUCT, payload)
       // console.log(state.product, payload)

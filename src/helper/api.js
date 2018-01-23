@@ -32,24 +32,51 @@ const HTTP = Axios.create({
 })
 
 export function post (url, payload ){
-    return HTTP({        
-        method: 'POST',
-        url: url,
-        data: payload
-    });
+  return Axios(
+    {
+      method: 'POST',
+      url: 'http://localhost:8000/api' + url,
+      data: payload,
+      headers: {
+        'Authorization' : 'Bearer ' + getToken()
+      }
+    }
+  )
 }
 
 export function get (url) {
   console.log(getToken(), 'get')
-    return HTTP({
-        method: 'GET',
-        url: url
-    })
+  return Axios(
+    {
+      method: 'GET',
+      url: 'http://localhost:8000/api' + url,
+      headers: {
+        'Authorization' : 'Bearer ' + getToken()
+      }
+    }
+  )
 }
 
 export function del (url) {
-  return HTTP({
-    method: 'DELETE',
-    url: url
-  })
+  return Axios(
+    {
+      method: 'DELETE',
+      url: 'http://localhost:8000/api' + url,
+      headers: {
+        'Authorization' : 'Bearer ' + getToken()
+      }
+    }
+  )
+}
+
+export function getCart (url) {
+  return Axios(
+    {
+      method: 'GET',
+      url: 'http://localhost:8000/api' + url,
+      headers: {
+        'Authorization' : 'Bearer ' + getToken()
+      }
+    }
+  )
 }

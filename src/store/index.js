@@ -49,7 +49,7 @@ export const store = new Vuex.Store({
     signUp ({commit}, payload) {
       commit('setLoading', true)
       commit('setNull')
-      post('auth/register', payload)
+      post('/auth/register', payload)
         .then((res) => {
           if (res.status === 200) {
             let warn = {
@@ -79,16 +79,11 @@ export const store = new Vuex.Store({
     signIn ({commit}, payload) {
       commit('setLoading', true)
       commit('setNull')
-      post('auth/login', payload)
+      post('/auth/login', payload)
         .then((res) => {
           if (res.status === 200) {
             commit('setUser', res.data)
             commit('setLoading', false)
-            post('/cart').then((res) => {
-              if (res.status === 200) {
-                commit('cartId', res.data.id)
-              }
-            })
           }
         })
         .catch((err) => {
