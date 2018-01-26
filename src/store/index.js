@@ -86,6 +86,7 @@ export const store = new Vuex.Store({
       post('/auth/login', payload)
         .then((res) => {
           if (res.status === 200) {
+            commit(types.ADD_CART)
             commit('setUser', res.data)
             commit('setLoading', false)
           }

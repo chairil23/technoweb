@@ -37,8 +37,14 @@ export const mutations = {
   [types.RECEIVE_CART] (state, payload) {
     state.cart.items = payload
   },
-  cartId (state, id) {
-    state.cart.id = id
+  [types.ADD_CART] (state, id) {
+    post('/cart').then((res) => {
+      if (res.status === 200) {
+        console.log(res.data)
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
   },
   [types.RECEIVE_ITEM] (state, payload) {
     let product = state.item.find(p => p.id === payload.id)
