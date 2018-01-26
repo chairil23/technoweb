@@ -147,6 +147,10 @@ export default {
     selected () {
       this.$store.dispatch('setTemp', this.selected)
     }
+  },
+  created () {
+    this.$store.dispatch('rollback')
+    this.$store.dispatch('delCheckout')
   }
 }
 </script>

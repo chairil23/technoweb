@@ -27,7 +27,7 @@
                 <v-btn flat>Cancel</v-btn>
               </v-flex>
               <v-flex md6 class="text-xs-right">
-                 <v-btn color="primary" @click.native="e1 = 2" :disabled="!valid">Checkout</v-btn>
+                 <v-btn color="primary" @click.native="btnCheckout" :disabled="!valid">Checkout</v-btn>
               </v-flex>
             </v-layout>        
         </v-stepper-content>
@@ -37,19 +37,72 @@
             <v-divider class=""></v-divider>
             <heading :header="header_pengiriman" class="pt-5"></heading>
             <cart :checkout="true" :items="checkout" class="pb-4"></cart>
+            <v-layout class=" ">
+              <v-flex md8 class="text-xs-right pb-2">
+                <strong class="title pr-3">Total Harga Produk: </strong>
+              </v-flex>
+              <v-flex md3 class="text-xs-right">
+                <strong class="title">{{totalHarga | currency}}</strong>
+              </v-flex>
+            </v-layout>
             <v-divider></v-divider>
             <v-layout>
-              <v-flex class="white py-4 pl-3">
-                <span class="green--text title">Pengiriman Melalui: POS Indonesia</span>
-              </v-flex>              
+              <v-flex md2 class="white py-0 pl-3">
+                <span class="green--text title">Pengiriman Melalui: </span>
+              </v-flex>    
+              <v-flex md3>
+                <v-select  
+                  :items="items" 
+                  v-model="kurir" 
+                  item-text="name" 
+                  item-value="code" 
+                  overflow
+                  required
+                  @input="getKurir(kurir)"
+                >
+                </v-select>
+              </v-flex>
+                 <v-flex md2>
+                <v-select  
+                  :items="jKurir" 
+                  v-model="service" 
+                  item-text="service" 
+                  item-value="item" 
+                  overflow
+                  required
+                >
+                  <template slot="item" slot-scope="data">
+                    <span 
+                      close
+                    >
+                      {{data.item.description}} ({{data.item.service}})
+                    </span>
+                  </template>
+                </v-select>
+              </v-flex> 
+              <v-flex md1 class="text-xs-right  py-3">
+                <strong class="body-1">{{hari}} hari</strong>
+              </v-flex> 
+              <v-flex md3 class="text-xs-right  py-3">
+                <strong class="title">{{service.cost[0].value | currency}}</strong>
+              </v-flex>            
+            </v-layout>
+            <v-divider class="mt-0"></v-divider>
+            <v-layout class="pb-4">
+              <v-flex md8 class="text-xs-right">
+                <strong class="title pr-3">Total Biaya: </strong>
+              </v-flex>
+              <v-flex md3 class="text-xs-right">
+                <strong class="title pl-4">{{tBiaya | currency}}</strong>
+              </v-flex>
             </v-layout>
           </v-card>
          <v-layout>
               <v-flex md6> 
-                <v-btn flat @click.native="e1 = 1">Kembali</v-btn>
+                <v-btn flat @click="btnBack">Kembali</v-btn>
               </v-flex>
               <v-flex md6 class="text-xs-right">
-                 <v-btn color="primary" @click.native="e1 = 3">Buat Pesanan</v-btn>
+                 <v-btn color="primary" @click="order">Buat Pesanan</v-btn>
               </v-flex>
             </v-layout>  
         </v-stepper-content>
@@ -85,19 +138,58 @@ export default {
       e1: 0,
       header_cart: 'Keranjang Belanja',
       header_pengiriman: 'Produk Pesanan',
-      selected: []
+      selected: [],
+      items: [
+        {
+          code: 'tiki',
+          name: 'Citra Van Titipan Kilat (TIKI)'
+        },
+        {
+          code: 'jne',
+          name: 'Jalur Nugraha Ekakurir (JNE)'
+        },
+        {
+          code: 'pos',
+          name: 'POS Indonesia (POS)'
+        }
+      ],
+      kurir: 'jne',
+      service: {
+        cost: [
+          {
+            value: '',
+            etd: '',
+            note: ''
+          }
+        ],
+        service: '',
+        descriptions: ''
+      }
     }
   },
   computed: {
+    tBiaya () {
+      return this.totalHarga + this.service.cost[0].value
+    },
+    hari () {
+      if (this.service.cost[0].etd === '1-1') {
+        return '1'
+      } else {
+        return this.service.cost[0].etd
+      }
+    },
+    jKurir () {
+      console.log(this.$store.getters.kurir)
+      return this.$store.getters.kurir
+    },
     valid () {
-      if (this.temp.length !== 0) {
+      if (this.checkout.length !== 0) {
         return true
       } else {
         return false
       }
     },
     carts () {
-      this.$store.dispatch('delCheckout')
       return this.$store.getters.cart.items
     },
     totalHarga () {
@@ -124,6 +216,36 @@ export default {
     //   })
     //   return total
     // },
+  },
+  created () {
+    this.$store.dispatch('getAlamat')
+    this.$store.dispatch('getKurir', this.kurir)
+    // this.$store.dispatch('setKurirNull')
+  },
+  methods: {
+    order () {
+      let kurir = {}
+      kurir.name = this.kurir
+      kurir.service = this.service
+      this.$store.dispatch('order', kurir)
+      this.e1 = 3
+    },
+    getKurir (kurir) {
+      console.log(kurir)
+      this.$store.dispatch('getKurir', kurir)
+    },
+    btnCheckout () {
+      this.$store.dispatch('checkout')
+      this.e1 = 2
+    },
+    btnBack () {
+      this.$store.dispatch('rollback')
+      this.e1 = 1
+    }
+  },
+  beforeRouteLeave (to, from, next) {
+    this.$store.dispatch('rollback')
+    next()
   }
 }
 </script>

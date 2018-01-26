@@ -13,7 +13,7 @@
                   <a v-if="alamat" color primary dark slot="activator">Ubah</a>
                   <a v-else color primary dark slot="activator">Masukkan Alamat</a>
                   <v-card>
-                    <v-form lazy-validation ref ="form" v-model="valid">
+                    <v-form v-model="valid" ref="form" lazy-validation>
                       <v-card-title>
                         <span class="headline">Ubah Alamat</span>
                       </v-card-title>
@@ -24,7 +24,12 @@
                               <v-subheader>Alamat Baru</v-subheader>
                             </v-flex>
                             <v-flex>
-                              <v-text-field class="pt-0" required v-model="alamat.address"></v-text-field>
+                              <v-text-field class="pt-0" 
+                                required 
+                                v-model="alamat.address"
+                                :rules="[v => !!v || 'required']"
+                              >
+                              </v-text-field>
                             </v-flex>
                           </v-layout>
                           <v-layout>
@@ -32,7 +37,16 @@
                               <v-subheader>Provinsi</v-subheader>
                             </v-flex>
                             <v-flex md5>
-                              <v-select class="pt-0" :items="provinsi" v-model="alamat.provinsi" item-text="province" item-value="item" @input="getKota(alamat.provinsi.province_id)">
+                              <v-select class="pt-0" :items="provinsi" 
+                                v-model="alamat.provinsi" 
+                                item-text="province" 
+                                item-value="item" 
+                                @input="getKota(alamat.provinsi.province_id)" 
+                                overflow
+                                autocomplete
+                                :rules="[v => !!v || 'required']"
+                                required
+                              >
                                 <template slot="item" slot-scope="data">
                                   <span 
                                     close
@@ -49,7 +63,17 @@
                               <v-subheader>Kota/Kabupaten</v-subheader>
                             </v-flex>
                             <v-flex md5>
-                              <v-select class="pt-0" :items="kota" v-model="alamat.kota" item-value="item" item-text="city_name"></v-select>
+                              <v-select class="pt-0" 
+                                :items="kota" 
+                                v-model="alamat.kota" 
+                                item-value="item" 
+                                item-text="city_name" 
+                                overflow
+                                autocomplete
+                                :rules="[v => !!v || 'required']"
+                                required
+                              >
+                              </v-select>
                             </v-flex>
                           </v-layout>
                         </v-container>
@@ -104,8 +128,10 @@ export default {
 
   methods: {
     simpan () {
-      this.$store.dispatch('setAlamat', this.alamat)
-      this.dialog = false
+      if (this.$refs.form.validate()) {
+        this.$store.dispatch('setAlamat', this.alamat)
+        this.dialog = false
+      }
     },
     getKota (id) {
       console.log(id)

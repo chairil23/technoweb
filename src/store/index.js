@@ -112,10 +112,10 @@ export const store = new Vuex.Store({
     },
     setAlamat ({commit}, alamat) {
       let x = {}
-      x.address = alamat.address,
-      x.city_id = alamat.kota.city_id,
-      x.city_name = alamat.kota.city_name,
-      x.postal_code = alamat.kota.postal_code,
+      x.address = alamat.address
+      x.city_id = alamat.kota.city_id
+      x.city_name = alamat.kota.city_name
+      x.postal_code = alamat.kota.postal_code
       x.province = alamat.kota.province
       x.type = alamat.kota.type
       post('/user/alamat', x).then((res) => {
@@ -123,7 +123,7 @@ export const store = new Vuex.Store({
           commit('setAlamat', x)
         }
       }).catch((err) => {
-        if(err) {
+        if (err) {
           console.log(err)
         }
       })
@@ -131,8 +131,8 @@ export const store = new Vuex.Store({
     getAlamat ({commit}) {
       get('/user/alamat').then((res) => {
         if (res.status === 200) {
-          console.log(res.data)
-          commit('setAlamat', res.data) 
+          console.log(res.data, 'alamat')
+          commit('setAlamat', res.data)
         }
       }).catch((err) => {
         if (err) {

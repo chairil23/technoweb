@@ -9,7 +9,19 @@ export const state = {
   },
   badge: '',
   temp: [],
-  checkout: []
+  checkout: [],
+  order: {
+    bank_id: '',
+    address: '',
+    city_id: '',
+    city_name: '',
+    province: '',
+    postal_code: '',
+    kurir: '',
+    service: '',
+    biaya_kurir: '',
+    items: []
+  }
 }
 
 export const mutations = {
@@ -52,6 +64,33 @@ export const mutations = {
   },
   deleteCheckout (state) {
     state.checkout = []
+    state.temp = []
+  },
+  [types.CHECKOUT] (state) {
+    state.temp.forEach(element => {
+      let index = state.cart.items.findIndex((x) => x.id === element.id)
+      state.cart.items.splice(index, 1)
+    })
+  },
+  rollback (state) {
+    state.temp.forEach(element => {
+      let item = state.cart.items.find(x => x.id === element.id)
+      if (!item) {
+        state.cart.items.push(element)
+      }      
+    })
+  },
+  [types.ORDER] (state, payload) {
+    console.log(payload)
+    
+    post('/order', payload).then((res) => {
+      if (res.status === 200) {
+        state.checkout =[],
+        state.temp = []
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 }
 
@@ -98,6 +137,27 @@ export const actions = {
   },
   delCheckout ({commit}) {
     commit('deleteCheckout')
+  },
+  checkout ({commit}) {
+    commit(types.CHECKOUT)
+  },
+  rollback ({commit}) {
+    commit('rollback')
+  },
+  order ({commit, rootState}, kurir) {
+    console.log(kurir)
+    let order = {}
+    order.bank_id = 1
+    order.address = rootState.alamat.address
+    order.city_id = rootState.alamat.city_id
+    order.city_name = rootState.alamat.city_name
+    order.postal_code = rootState.alamat.postal_code
+    order.province = rootState.alamat.province
+    order.kurir = kurir.name
+    order.service = kurir.service.service
+    order.biaya_kurir = kurir.service.cost[0].value
+    order.items = state.checkout
+    commit(types.ORDER, order)
   }
 }
 
