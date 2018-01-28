@@ -41,66 +41,24 @@
               </v-layout> 
               <v-layout class="pb-2">
                 <v-flex>
-                  <span class="count headline red--text">Rp 5000,-</span>   
+                  <span class="count headline red--text">{{product.harga_awal | currency}}</span>   
                 </v-flex>            
               </v-layout>
             </v-flex>            
           </v-layout>           
           <v-divider></v-divider>    
-          <v-layout row class="pt-3">
-            <v-flex>
-              <v-layout row class="shipping">
-                <v-flex>
-                  <v-layout>
-                    <v-flex>
-                      <v-icon class="pb-5">local_shipping</v-icon>
-                    </v-flex>
-                  </v-layout>
-                  <v-layout>
-                    <v-flex>                      
-                    </v-flex>
-                  </v-layout>                  
-                </v-flex>
-                <v-flex md12 class="pb-0">
-                  <v-layout>
-                    <v-flex md2>
-                      <span class="body-1">Pengiriman ke: </span>                       
-                    </v-flex>
-                    <v-flex md4>
-                       <span class="body-1">Medan, Sumatera Utara</span>
-                    </v-flex>                    
-                  </v-layout>
-                  <v-layout>
-                    <v-layout>
-                      <v-flex md2>
-                        <span class="body-1 pl-1">Ongkos Kirim: </span>
-                      </v-flex>   
-                      <v-flex md4>
-                        <span class="body-1 pl-1">Rp 30.000</span>
-                      </v-flex>                     
-                    </v-layout>                    
-                  </v-layout>                 
-                </v-flex>
-              </v-layout>              
-            </v-flex>
-          </v-layout>
-          <v-divider></v-divider>
-          <v-layout>
-            <v-flex md3>
-              <v-subheader>Jumlah: </v-subheader>
-            </v-flex>
-            <v-flex md3>
-              <v-select class="pt-1 pl-4" v-model="item.kuantitas" :items="quantity" single-line bottom></v-select>
-            </v-flex>
-          </v-layout>
-          <v-layout>
-            <v-flex md3>
-              <v-subheader>Jenis Kertas: </v-subheader>
-            </v-flex>
-            <v-flex md3>
-              <v-select class="pt-1 pl-4" v-model="item.jenis_kertas" :items="jenis" single-line bottom></v-select>
-            </v-flex>
-          </v-layout>
+          <div v-if="product.subcategory_id === 1">
+            <kartu-nama @send="receive"></kartu-nama>          
+          </div>
+           <div v-else-if="product.subcategory_id === 2">
+            <square-card @send="receive"></square-card>          
+          </div>   
+          <div v-else-if="product.subcategory_id === 3">
+            <amplop @send="receive"></amplop>          
+          </div>   
+          <div v-else-if="product.subcategory_id === 4">
+            <kop-surat @send="receive"></kop-surat>          
+          </div>      
           <v-layout row>
             <v-btn outline color="primary">
               <v-icon color="primary">email</v-icon>
@@ -225,12 +183,23 @@
 
 <script>
 import StarRating from 'vue-star-rating'
+import Test from './form/test'
+import KartuNama from './form/KartuNama'
+import SquareCard from './form/SquareCard'
+import Amplop from './form/Amplop'
+import KopSurat from './form/KopSurat'
 export default {
   components: {
-    StarRating
+    StarRating,
+    Test,
+    KartuNama,
+    SquareCard,
+    Amplop,
+    KopSurat
   },
   data () {
     return {
+      test: '',
       base: 'http://localhost:8000/uploads/',
       image: '/static/v.png',
       e1: null,
@@ -242,38 +211,7 @@ export default {
         {text: 'Kartu Nama 3 x 3', disabled: true}
       ],
       j1: null,
-      quantity: [
-          { text: 50 },
-          { text: 100 }
-      ],
-      jenis: [
-        {
-          text: 'Standart'
-        },
-        {
-          text: 'Extra Fancy'
-        }
-      ],
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      item: {
-        product_id: this.$route.params.id,
-        kuantitas: {text: ''},
-        jenis_kertas: {text: ''},
-        model: {text: ''},
-        kain: {text: ''},
-        ukuran: {text: ''},
-        warna: {text: ''},
-        jenis_cetak: {text: ''},
-        bahan: {text: ''},
-        sisi: {text: ''},
-        jilid: {text: ''},
-        lembar: {text: ''},
-        cetak_depan: {text: ''},
-        cetak_belakang: {text: ''},
-        cetak_lengan_kanan: {text: ''},
-        cetak_lengan_kiri: {text: ''},
-        kaos_metode: {text: ''}
-      },
       form: {
         product_id: '',
         kuantitas: '',
@@ -291,31 +229,40 @@ export default {
         cetak_belakang: '',
         cetak_lengan_kanan: '',
         cetak_lengan_kiri: '',
-        kaos_metode: ''
+        kaos_metode: '',
+        nama: '',
+        nama_perusahaan: '',
+        no_telpon: '',
+        alamat: '',
+        email: '',
+        jabatan: '',
+        material: '',
+        logo: ''
       }
     }
   },
   computed: {
-    test () {
-      this.form.product_id = parseInt(this.$route.params.id)
-      this.form.kuantitas = this.item.kuantitas.text
-      this.form.jenis_kertas = this.item.jenis_kertas.text
-      this.form.model = this.item.model.text
-      this.form.kain = this.item.kain.text
-      this.form.ukuran = this.item.ukuran.text
-      this.form.warna = this.item.warna.text
-      this.form.jenis_cetak = this.item.jenis_cetak.text
-      this.form.bahan = this.item.bahan.text
-      this.form.sisi = this.item.model.sisi
-      this.form.jilid = this.item.jilid.text
-      this.form.lembar = this.item.lembar.text
-      this.form.cetak_depan = this.item.cetak_depan.text
-      this.form.cetak_belakang = this.item.cetak_belakang.text
-      this.form.cetak_lengan_kanan = this.item.cetak_lengan_kanan.text
-      this.form.cetak_lengan_kiri = this.item.cetak_lengan_kiri.text
-      this.form.kaos_metode = this.item.kaos_metode.text
-      return this.form
-    },
+
+    // test () {
+    //   this.form.product_id = parseInt(this.$route.params.id)
+    //   this.form.kuantitas = this.item.kuantitas.text
+    //   this.form.jenis_kertas = this.item.jenis_kertas.text
+    //   this.form.model = this.item.model.text
+    //   this.form.kain = this.item.kain.text
+    //   this.form.ukuran = this.item.ukuran.text
+    //   this.form.warna = this.item.warna.text
+    //   this.form.jenis_cetak = this.item.jenis_cetak.text
+    //   this.form.bahan = this.item.bahan.text
+    //   this.form.sisi = this.item.model.sisi
+    //   this.form.jilid = this.item.jilid.text
+    //   this.form.lembar = this.item.lembar.text
+    //   this.form.cetak_depan = this.item.cetak_depan.text
+    //   this.form.cetak_belakang = this.item.cetak_belakang.text
+    //   this.form.cetak_lengan_kanan = this.item.cetak_lengan_kanan.text
+    //   this.form.cetak_lengan_kiri = this.item.cetak_lengan_kiri.text
+    //   this.form.kaos_metode = this.item.kaos_metode.text
+    //   return this.form
+    // },
     product () {
       console.log(this.form.cart_id, 'CARTID')
       return this.$store.getters.productDetail
@@ -325,10 +272,39 @@ export default {
     this.$store.dispatch('getProduct', this.$route.params.id)
   },
   methods: {
+    receive (item) {
+      // console.log(item, 'parent')
+      this.form.product_id = parseInt(this.$route.params.id)
+      this.form.kuantitas = item.kuantitas.text
+      this.form.jenis_kertas = item.jenis_kertas.text
+      this.form.model = item.model.text
+      this.form.kain = item.kain.text
+      this.form.ukuran = item.ukuran.text
+      this.form.warna = item.warna.text
+      this.form.jenis_cetak = item.jenis_cetak.text
+      this.form.bahan = item.bahan.text
+      this.form.sisi = item.model.sisi
+      this.form.jilid = item.jilid.text
+      this.form.lembar = item.lembar.text
+      this.form.cetak_depan = item.cetak_depan.text
+      this.form.cetak_belakang = item.cetak_belakang.text
+      this.form.cetak_lengan_kanan = item.cetak_lengan_kanan.text
+      this.form.cetak_lengan_kiri = item.cetak_lengan_kiri.text
+      this.form.kaos_metode = item.kaos_metode.text
+      this.form.nama = item.nama
+      this.form.nama_perusahaan = item.nama_perusahaan
+      this.form.no_telpon = item.no_telpon
+      this.form.alamat = item.alamat
+      this.form.email = item.email
+      this.form.jabatan = item.jabatan
+      this.form.material = item.material
+      this.form.logo = item.logo
+      console.log(this.form, 'form')
+    },
     addItem () {
-      console.log(this.$session.get('token'), 'wewe')
-      if (this.test.kuantitas !== 0) {
-        this.$store.dispatch('addToCart', this.test)
+      // console.log(this.$session.get('token'), 'wewe')
+      if (this.form.kuantitas !== 0) {
+        this.$store.dispatch('addToCart', this.form)
       }
     }
   }
