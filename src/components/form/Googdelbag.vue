@@ -16,26 +16,40 @@
     </v-layout>
 
      <v-layout>
-      <v-flex md2>
-        <v-subheader>Nama perusahaan: </v-subheader>
+      <v-flex md1>
+        <v-subheader>Model Cetak </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-text-field class="pt-1 pl-4" v-model="item.nama_perusahaan" single-line bottom></v-text-field>
+        <v-select class="pt-1 pl-4" v-model="item.model" :items="model" single-line bottom></v-select>
       </v-flex>
+       <v-flex md1>
+        <v-subheader>Sisi </v-subheader>
+      </v-flex>
+      <v-flex md4>
+        <v-select class="pt-1 pl-4" v-model="item.sisi" :items="sisi" single-line bottom></v-select>
+      </v-flex>
+    </v-layout>
+     <v-layout>
       <v-flex md1>
+        <v-subheader>Bahan: </v-subheader>
+      </v-flex>
+      <v-flex md4>
+        <v-select class="pt-1 pl-4" v-model="item.bahan" :items="bahan" single-line bottom></v-select>
+      </v-flex>
+       <v-flex md1>
         <v-subheader>Warna: </v-subheader>
       </v-flex>
       <v-flex md4>
         <v-select class="pt-1 pl-4" v-model="item.warna" :items="warna" single-line bottom></v-select>
       </v-flex>
     </v-layout>
-    
+
     <v-layout>
       <v-flex md1>
         <v-subheader>Logo: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-btn label="upload" class="pt-1 pl-4" v-model="item.kuantitas" :items="quantity" single-line bottom></v-btn>
+        <v-btn label="upload" class="pt-1 pl-4" v-model="item.logo" single-line bottom></v-btn>
       </v-flex>
     </v-layout>
   </div>
@@ -50,9 +64,55 @@ export default {
         { text: 50 },
         { text: 100 }
       ],
+      model: [
+        {
+          text: 'Potrait'
+        },
+        {
+          text: 'Landscape'
+        }
+      ],
+      bahan: [
+        {
+          text: 'kain'
+        },
+        {
+          text: 'wol'
+        }
+      ],
+      sisi: [
+        {
+          text: '1 sisi'
+        },
+        {
+          text: '2 sisi'
+        }
+      ],
+      lembar: [
+        {text: 'ya'}
+      ],
+      jilid: [
+        {text: 'ya'}
+      ],
       warna: [
         {
           text: 'Merah'
+        }
+      ],
+      material: [
+        {
+          text: 'Standart'
+        },
+        {
+          text: 'Extra Fancy'
+        }
+      ],
+      jenis: [
+        {
+          text: 'Standart'
+        },
+        {
+          text: 'Extra Fancy'
         }
       ],
       ukuran: [

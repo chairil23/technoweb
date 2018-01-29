@@ -58,7 +58,46 @@
           </div>   
           <div v-else-if="product.subcategory_id === 4">
             <kop-surat @send="receive"></kop-surat>          
-          </div>      
+          </div>
+           <div v-else-if="product.subcategory_id === 5">
+            <stempel @send="receive"></stempel>          
+          </div>   
+          <div v-else-if="product.subcategory_id === 6">
+            <kalender @send="receive"></kalender>          
+          </div>  
+          <div v-else-if="product.subcategory_id === 7">
+            <brosur @send="receive"></brosur>          
+          </div>   
+          <div v-else-if="product.subcategory_id === 8">
+            <stiker @send="receive"></stiker>          
+          </div>
+          <div v-else-if="product.subcategory_id === 9">
+            <poster @send="receive"></poster>          
+          </div>
+          <div v-else-if="product.subcategory_id === 10">
+            <goodle-bag @send="receive"></goodle-bag>          
+          </div>
+          <div v-else-if="product.subcategory_id === 11">
+            <mug @send="receive"></mug>          
+          </div>
+          <div v-else-if="product.subcategory_id === 12">
+            <bantal @send="receive"></bantal>          
+          </div>
+          <div v-else-if="product.subcategory_id === 13">
+            <spanduk @send="receive"></spanduk>          
+          </div>
+          <div v-else-if="product.subcategory_id === 14">
+            <x-banner @send="receive"></x-banner>          
+          </div>
+          <div v-else-if="product.subcategory_id === 15">
+            <roll-banner @send="receive"></roll-banner>          
+          </div>
+          <div v-else-if="product.subcategory_id === 16">
+            <kaos @send="receive"></kaos>          
+          </div>
+          <div v-else-if="product.subcategory_id === 17">
+            <polo-shirt @send="receive"></polo-shirt>          
+          </div>
           <v-layout row>
             <v-btn outline color="primary">
               <v-icon color="primary">email</v-icon>
@@ -188,6 +227,19 @@ import KartuNama from './form/KartuNama'
 import SquareCard from './form/SquareCard'
 import Amplop from './form/Amplop'
 import KopSurat from './form/KopSurat'
+import Stempel from './form/Stempel'
+import Kalender from './form/Kalender'
+import Brosur from './form/Brosur'
+import Stiker from './form/Stiker'
+import Poster from './form/Poster'
+import GoodleBag from './form/Googdelbag'
+import Mug from './form/Mug'
+import Bantal from './form/Bantal'
+import Spanduk from './form/Spanduk'
+import XBanner from './form/XBanner'
+import RollBanner from './form/RollBanner'
+import Kaos from './form//Kaos'
+import PoloShirt from './form/PoloShirt'
 export default {
   components: {
     StarRating,
@@ -195,7 +247,20 @@ export default {
     KartuNama,
     SquareCard,
     Amplop,
-    KopSurat
+    KopSurat,
+    Stempel,
+    Kalender,
+    Brosur,
+    Stiker,
+    Poster,
+    GoodleBag,
+    Mug,
+    Bantal,
+    Spanduk,
+    XBanner,
+    RollBanner,
+    Kaos,
+    PoloShirt
   },
   data () {
     return {
@@ -304,6 +369,7 @@ export default {
     addItem () {
       // console.log(this.$session.get('token'), 'wewe')
       if (this.form.kuantitas !== 0) {
+        console.log(this.form.ukuran)
         this.$store.dispatch('addToCart', this.form)
       }
     }

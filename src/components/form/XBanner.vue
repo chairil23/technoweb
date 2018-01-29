@@ -7,35 +7,34 @@
       <v-flex md4>
         <v-select class="pt-1 pl-4" v-model="item.kuantitas" :items="quantity" single-line bottom></v-select>
       </v-flex>
-      <v-flex md1>
-        <v-subheader>Ukuran: </v-subheader>
+     <v-flex md1>
+        <v-subheader>Jenis </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.ukuran" :items="ukuran" single-line bottom></v-select>
-      </v-flex>
+        <v-select class="pt-1 pl-4" v-model="item.jenis_kertas" :items="jenis" single-line bottom></v-select>
+      </v-flex>  
     </v-layout>
 
-     <v-layout>
-      <v-flex md2>
-        <v-subheader>Nama perusahaan: </v-subheader>
+    <v-layout>
+       <v-flex md1 class="mr-4">
+        <v-subheader>Ukuran:  </v-subheader>
       </v-flex>
-      <v-flex md4>
-        <v-text-field class="pt-1 pl-4" v-model="item.nama_perusahaan" single-line bottom></v-text-field>
-      </v-flex>
-      <v-flex md1>
-        <v-subheader>Warna: </v-subheader>
-      </v-flex>
-      <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.warna" :items="warna" single-line bottom></v-select>
-      </v-flex>
+          <v-flex md1>
+            <v-text-field class="pt-1" v-model="u1" single-line bottom></v-text-field>
+          </v-flex>
+          <span class="pt-3">x</span>
+          <v-flex md1>
+            <v-text-field class="pt-1" v-model="u2" single-line bottom></v-text-field>
+          </v-flex>
+          <span class="pt-3">cm</span>
     </v-layout>
-    
+
     <v-layout>
       <v-flex md1>
         <v-subheader>Logo: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-btn label="upload" class="pt-1 pl-4" v-model="item.kuantitas" :items="quantity" single-line bottom></v-btn>
+        <v-btn label="upload" class="pt-1 pl-4" v-model="item.logo" single-line bottom></v-btn>
       </v-flex>
     </v-layout>
   </div>
@@ -45,14 +44,62 @@
 export default {
   data () {
     return {
+      u1: '',
+      u2: '',
       text: '',
       quantity: [
         { text: 50 },
         { text: 100 }
       ],
+      model: [
+        {
+          text: 'Potrait'
+        },
+        {
+          text: 'Landscape'
+        }
+      ],
+      bahan: [
+        {
+          text: 'kain'
+        },
+        {
+          text: 'wol'
+        }
+      ],
+      sisi: [
+        {
+          text: '1 sisi'
+        },
+        {
+          text: '2 sisi'
+        }
+      ],
+      lembar: [
+        {text: 'ya'}
+      ],
+      jilid: [
+        {text: 'ya'}
+      ],
       warna: [
         {
           text: 'Merah'
+        }
+      ],
+      material: [
+        {
+          text: 'Standart'
+        },
+        {
+          text: 'Extra Fancy'
+        }
+      ],
+      jenis: [
+        {
+          text: 'Standart'
+        },
+        {
+          text: 'Extra Fancy'
         }
       ],
       ukuran: [
@@ -93,6 +140,14 @@ export default {
     }
   },
   watch: {
+    u1 () {
+      this.item.ukuran.text = this.u1 + ' x ' + this.u2
+      console.log(this.u1, this.item.ukuran.text)
+    },
+    u2 () {
+      this.item.ukuran.text = this.u1 + ' x ' + this.u2
+      console.log(this.u2, this.item.ukuran.text)
+    },
     'item.kuantitas.text' () {
       // console.log(this.item)
       this.$emit('send', this.item)
@@ -172,6 +227,11 @@ export default {
     },
     'tem.material' () {
       this.$emit('send', this.item)
+    }
+  },
+  computed: {
+    _ukuran () {
+      return this.u1 + ' x ' + this.u2 + ' cm'
     }
   }
 }

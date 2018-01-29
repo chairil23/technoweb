@@ -11,31 +11,61 @@
         <v-subheader>Ukuran: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.ukuran" :items="ukuran" single-line bottom></v-select>
+        <v-select class="pt-1 pl-4" v-model="ukuran" :items="ukuran" single-line bottom></v-select>
       </v-flex>
     </v-layout>
 
-     <v-layout>
-      <v-flex md2>
-        <v-subheader>Nama perusahaan: </v-subheader>
+    <v-layout>
+      <v-flex md1>
+        <v-subheader>Bahan: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-text-field class="pt-1 pl-4" v-model="item.nama_perusahaan" single-line bottom></v-text-field>
+        <v-select class="pt-1 pl-4" v-model="item.bahan" :items="bahan" single-line bottom></v-select>
+      </v-flex>
+      <v-flex md1>
+        <v-subheader>Area Cetak Depan: </v-subheader>
+      </v-flex>
+      <v-flex md4>
+        <v-select class="pt-1 pl-4" v-model="item.cetak_depan" :items="area" single-line bottom></v-select>
+      </v-flex>     
+    </v-layout>
+
+    <v-layout>
+      <v-flex md1>
+        <v-subheader>Area Cetak belakang: </v-subheader>
+      </v-flex>
+      <v-flex md4>
+        <v-select class="pt-1 pl-4" v-model="item.cetak_belakang" :items="area" single-line bottom></v-select>
       </v-flex>
       <v-flex md1>
         <v-subheader>Warna: </v-subheader>
       </v-flex>
       <v-flex md4>
         <v-select class="pt-1 pl-4" v-model="item.warna" :items="warna" single-line bottom></v-select>
-      </v-flex>
+      </v-flex>     
     </v-layout>
-    
+
+    <v-layout>
+      <v-flex md1>
+        <v-subheader>Finishing: </v-subheader>
+      </v-flex>
+      <v-flex md4>
+        <v-select class="pt-1 pl-4" v-model="item.jenis_cetak" :items="print" single-line bottom></v-select>
+      </v-flex>
+      <v-flex md1>
+        <v-subheader>Cetak Bagian Lengan: </v-subheader>
+      </v-flex>
+      <v-flex md4>
+        <v-select class="pt-1 pl-4" v-model="item.lengan_kanan" :items="cetak_lengan" single-line bottom></v-select>
+      </v-flex>     
+    </v-layout>
+
     <v-layout>
       <v-flex md1>
         <v-subheader>Logo: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-btn label="upload" class="pt-1 pl-4" v-model="item.kuantitas" :items="quantity" single-line bottom></v-btn>
+        <v-btn label="upload" class="pt-1 pl-4" v-model="item.logo" single-line bottom></v-btn>
       </v-flex>
     </v-layout>
   </div>
@@ -45,22 +75,109 @@
 export default {
   data () {
     return {
+      u1: '',
+      u2: '',
       text: '',
       quantity: [
         { text: 50 },
         { text: 100 }
+      ],
+      cetak_lengan: [
+        {
+          text: 'None'
+        },
+        {
+          text: 'Right Arm'
+        },
+        {
+          text: 'Left Arm'
+        },
+        {
+          text: 'Both Arm'
+        }
+      ],
+      cetak: [
+        {
+          text: 'Bordir'
+        },
+        {
+          text: 'Print'
+        }
+      ],
+      area: [
+        {
+          text: 'Tidak Ada'
+        },
+        {
+          text: 'A4'
+        },
+        {
+          text: 'A3'
+        }
+      ],
+      model: [
+        {
+          text: 'Potrait'
+        },
+        {
+          text: 'Landscape'
+        }
+      ],
+      bahan: [
+        {
+          text: 'kain'
+        },
+        {
+          text: 'wol'
+        }
+      ],
+      sisi: [
+        {
+          text: '1 sisi'
+        },
+        {
+          text: '2 sisi'
+        }
+      ],
+      lembar: [
+        {text: 'ya'}
+      ],
+      jilid: [
+        {text: 'ya'}
       ],
       warna: [
         {
           text: 'Merah'
         }
       ],
-      ukuran: [
+      material: [
         {
           text: 'Standart'
         },
         {
           text: 'Extra Fancy'
+        }
+      ],
+      jenis: [
+        {
+          text: 'Standart'
+        },
+        {
+          text: 'Extra Fancy'
+        }
+      ],
+      ukuran: [
+        {
+          text: 'S Small'
+        },
+        {
+          text: 'M Medium'
+        },
+        {
+          text: 'L Large'
+        },
+        {
+          text: 'XL Extra Large'
         }
       ],
       item: {
@@ -69,7 +186,7 @@ export default {
         jenis_kertas: {text: ''},
         model: {text: ''},
         kain: {text: ''},
-        ukuran: {text: ''},
+        ukuran: {text: this.ukuran},
         warna: {text: ''},
         jenis_cetak: {text: ''},
         bahan: {text: ''},
@@ -172,6 +289,11 @@ export default {
     },
     'tem.material' () {
       this.$emit('send', this.item)
+    }
+  },
+  computed: {
+    ukuran () {
+      return this.u1 + ' x ' + this.u2 + ' cm'
     }
   }
 }

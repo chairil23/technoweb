@@ -149,6 +149,54 @@ export default {
     'item.logo' () {
       // console.log(this.item)
       this.$emit('send', this.item)
+    },
+    'item.jenis_kertas.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.model.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.kain.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.ukuran.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.warna.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.jenis_cetak.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.bahan.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.model.sisi' () {
+      this.$emit('send', this.item)
+    },
+    'item.jilid.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.lembar.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.cetak_depan.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.cetak_belakang.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.cetak_lengan_kanan.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.cetak_lengan_kiri.text' () {
+      this.$emit('send', this.item)
+    },
+    'item.kaos_metode.text' () {
+      this.$emit('send', this.item)
+    },
+    'tem.material' () {
+      this.$emit('send', this.item)
     }
   }
 }
