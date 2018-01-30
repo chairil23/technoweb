@@ -5,6 +5,7 @@ import {post, get} from '../helper/api'
 import products from './module/products'
 import cart from './module/cart'
 import ongkir from './module/ongkir'
+import transaction from './module/transaction'
 import * as types from './mutation-types'
 
 Vue.use(Vuex)
@@ -46,6 +47,12 @@ export const store = new Vuex.Store({
     },
     setAlamat (state, payload) {
       state.alamat = payload
+    },
+    changePhone (state, payload) {
+      state.user.phone = payload
+    },
+    kelamin (state, paylod) {
+      state.user.gender = payload
     }
 
   },
@@ -140,12 +147,48 @@ export const store = new Vuex.Store({
           console.log(err)
         }
       })
+    }, 
+    getUser ({commit}) {
+      get('/user/').then((res) => {
+        if (res.status === 200) {
+          commit('setUser', res.data)
+        }
+      }).catch((err) => {
+        if (err) {
+          console.log(err)
+        }
+      })
+    },
+    changePhone ({commit}, _phone) {
+      let phone ={phone: _phone}
+      post('/changephone/', phone).then((res) => {
+        if (res.status === 200) {
+          commit('changePhone', _phone)
+        }
+      }).catch((err) => {
+        if (err) {
+          console.log(err)
+        }
+      })
+    },
+    kelamin ({commit}, _kelamin) {
+      let kelamin = {kelamin: _kelamin}
+      post('/kelamin', kelamin).then((res) => {
+        if (res.status === 200) {
+          commit('kelamin', _kelamin)
+        }
+      }).catch((err) => {
+        if (err) {
+          console.log(err)
+        }
+      })
     }
   },
   modules: {
     products,
     cart,
-    ongkir
+    ongkir,
+    transaction
   },
   getters: {
     getMsg (state) {

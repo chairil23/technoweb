@@ -92,7 +92,7 @@
           <v-card-text>
             <v-layout>
               <v-flex>
-                <span>Chairil Azmi</span>
+                <span>{{user.username}}</span>
               </v-flex>
             </v-layout>
              <v-layout>
@@ -146,6 +146,9 @@ export default {
     this.$store.dispatch('getAlamat')
   },
   computed: {
+    user () {
+      return this.$store.getters.getUser
+    },
     kota () {
       console.log(this.prov)
       return this.$store.getters.kota

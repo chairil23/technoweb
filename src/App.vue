@@ -220,8 +220,9 @@ export default {
       ]
       if (this.userIsAuthenticated) {
         menuItems = [
+          {icon: 'mail', title: 'Message', link: '/message', show: false},
           {icon: 'shopping_cart', title: 'Cart', link: '/cart', show: this.show},
-          {icon: 'person', title: 'Account', link: '/profile', show: false}
+          {icon: 'person', title: 'Account', link: '/profile', show: false}          
         ]
       }
       return menuItems
@@ -278,6 +279,7 @@ export default {
   created() {
     if (this.userIsAuthenticated) {
       console.log('true')
+      this.$store.dispatch('getUser')
       this.$store.dispatch('getCart')
     } else {
       console.log('false')

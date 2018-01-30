@@ -9,6 +9,9 @@ import Transaction from '@/components/Transaction'
 import Profile from '@/components/Profile'
 import Informasi from '@/components/InformasiProfile'
 import Alamat from '@/components/Alamat'
+import Pesanan from '@/components/Pesanan'
+import RegFreelance from '@/components/RegFreelance'
+import Message from '@/components/Message'
 
 Vue.use(Router)
 
@@ -54,8 +57,23 @@ export default new Router({
           path: '/alamat',
           name: 'Alamat',
           component: Alamat
+        },
+        {
+          path: '/pesanan',
+          name: 'Pesanan',
+          component: Pesanan
+        },
+        {
+          path: '/freelance',
+          name: 'Freelance',
+          component: RegFreelance
         }
       ]
+    },
+    {
+      path: '/message',
+      name: 'Message',
+      component: Message
     }
   ]
 })

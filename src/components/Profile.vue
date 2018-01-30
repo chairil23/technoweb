@@ -2,7 +2,7 @@
   <v-container class="mt-5">
     <v-layout>
       <v-flex class="mb-2">
-        <strong>Chairl Azmi</strong>
+        <strong>{{user.username}}</strong>
       </v-flex>
     </v-layout>
     <v-layout>
@@ -29,11 +29,19 @@ export default {
       menu: [
         {text: 'Informasi Pribadi', link: 'Informasi', value: false},
         {text: 'Pesanan', link: 'Pesanan'},
-        {text: 'Whishlist', link: 'Wishlist'},
+        // {text: 'Whishlist', link: 'Wishlist'},
         {text: 'Alamat', link: 'Alamat'},
         {text: 'Menjadi Freelance Designer', link: 'Freelance'}
       ]
     }
+  },
+  computed: {
+    user () {
+      return this.$store.getters.getUser
+    }
+  },
+  created () {
+    this.$store.dispatch('getTransaction')
   }
 }
 </script>

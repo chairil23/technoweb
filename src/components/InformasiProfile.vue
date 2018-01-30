@@ -14,9 +14,9 @@
             <v-subheader>Email</v-subheader>
           </v-flex>
           <v-flex md3 class="email">
-            <span class="subheading pr-4">{{email}}</span>        
+            <span class="subheading pr-4">{{user.email}}</span>        
           </v-flex>
-          <v-flex md2 class="email">
+          <!-- <v-flex md2 class="email">
             <v-dialog v-model="dialogEmail" persistent max-width="500px">
               <a color primary dark slot="activator">Ubah email</a>
               <v-card>
@@ -52,14 +52,14 @@
               
               </v-card>
             </v-dialog>
-          </v-flex>
+          </v-flex> -->
         </v-layout>
         <v-layout>
           <v-flex md2>
             <v-subheader>Nomor Ponsel</v-subheader>        
           </v-flex>
           <v-flex md3 class="email"> 
-            <span class="subheading pr-4">{{ponsel}}</span>        
+            <span class="subheading pr-4">{{user.phone}}</span>        
           </v-flex>
           <v-flex md-2 class="email">
             <v-dialog v-model="dialogPonsel" persistent max-width="500px">
@@ -76,7 +76,7 @@
                           <v-subheader>No Lama</v-subheader>
                         </v-flex>
                         <v-flex>
-                          <v-subheader class="subheading">{{ponsel}}</v-subheader>
+                          <v-subheader class="subheading">{{user.phone}}</v-subheader>
                         </v-flex>
                       </v-layout>
                       <v-layout>
@@ -103,9 +103,9 @@
             <v-subheader>Jenis Kelamin</v-subheader>
           </v-flex>
           <v-flex md3>
-            <v-radio-group class="pt-2" v-model="jkelamin" row>
+            <v-radio-group class="pt-2" v-model="kelamin" row>
               <v-radio color="primary" label="Pria" value="1"></v-radio>
-              <v-radio color="primary" label="Wanita" value="2"></v-radio>
+              <v-radio color="primary" label="Wanita" value="0"></v-radio>
             </v-radio-group>
           </v-flex>
         </v-layout>
@@ -130,9 +130,9 @@ export default {
     return {
       fLahir: '##-##-####',
       tLahir: '',
-      jkelamin: '1',
       fponsel: '####-####-####-#',
       valid: true,
+      kelamin: this.jkelamin,
       valid1: false,
       email: 'chairil.azmi.ca@gmail.com',
       inputEmail: '',
@@ -160,9 +160,27 @@ export default {
     simpanNo () {
       if (this.inputPonsel !== '') {
         this.dialogPonsel = false
-        this.ponsel = this.inputPonsel
+        this.$store.dispatch('changePhone', this.inputPonsel)
         this.inputPonsel = ''
       }
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.getters.getUser
+    },
+    jkelamin: {
+      get () {
+        return String (this.$store.getters.getUser.gender)
+      },
+      set () {
+        this.$store.dispatch('kelamin', parseInt(this.kelamin))
+      }
+    }
+  },
+  watch: {
+    jkelamin () {
+      this.$store.dispatch('kelamin', parseInt(this.jkelamin))      
     }
   }
 }
