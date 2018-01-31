@@ -108,7 +108,7 @@
         </v-stepper-content>
         <v-stepper-content step="3">
           <v-card color="white" class="mb-5">
-            <konfirmasi-pembayaran></konfirmasi-pembayaran>
+            <konfirmasi-pembayaran :data="transaction"></konfirmasi-pembayaran>
           </v-card>
           <v-layout>
               <v-flex md12 class="text-xs-center">
@@ -168,6 +168,10 @@ export default {
     }
   },
   computed: {
+    transaction () {
+      console.log(this.$store.getters.transaction, 'trans')
+      return this.$store.getters.transaction
+    },
     tBiaya () {
       return this.totalHarga + this.service.cost[0].value
     },

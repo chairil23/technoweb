@@ -1,33 +1,23 @@
 <template>
-  <v-container>
-    <v-layout class="mb-3">
-      <v-flex md6>
-        <span class="title ">Total Pembayaran:</span>
-      </v-flex>
-      <v-flex md6>
-        <span class="title">{{500000 | currency}}</span>
-      </v-flex>
-    </v-layout>
-    <v-divider></v-divider>
-    <v-layout class="mt-3">
-      <v-flex>
-        <span>Mohon ikuti langkah-langkah berikut: </span>
-      </v-flex>
-    </v-layout>
-    <v-layout>
-      <v-flex>
+    <v-layout class="pb-3">
+      <v-flex  class="pl-2">
         <ol>
           <li>Pembayaran melalui transfer ke Bank Mandiri atas Nama Technographic dengan nomor Rekening 1111 231 109 231</li>
           <li>Tunjukkan bukti pembayaran dengan memfoto/menscan bukti pembayarannya dengan menguploadnya melaui tombol dibawah ini</li>
-           <input type="file" @change="inputChanged" class="pl-3">
-           <v-btn small @click="upload">Upload</v-btn>
+          <form>
+            <div class="form-group">
+              <input type="file" @change="inputChanged">
+            
+            </div>
+          </form>
+        
+          <v-btn small @click="upload">Upload</v-btn>
           <li>Pesanan akan diproses setelah melakukan pembayaran dan menunjukkan bukti pembayaran sesuai llangkah no 2</li>
           <li>Pesanan akan hilang jika tidak melakukan pembayaran dalam kurun waktu 24 jam dimulai dari pembuatan pesanan</li>
         </ol>
       </v-flex>
     </v-layout>
-  </v-container>
-</template>
+  </template>
 
 <script>
 import {post} from '../helper/api'
@@ -47,16 +37,16 @@ export default {
       }
     },
     upload () {
+      console.log('pload', this.image)
       if (this.image) {
         let transaction = {
-          id: this.$store.getters.transaction.id,
-          kode_invoice: this.$store.getters.transaction.kode_invoice,
+          id: this.data.id,
+          kode_invoice: this.data.kode_invoice,
           image: this.image
         }
         post('/upload', transaction).then((res) => {
           if (res.status === 200) {
             console.log('sukses')
-            this.$router.push({path: '/'})
           }
         }).catch((err) => {
           if (err) {
@@ -68,4 +58,4 @@ export default {
   }
 }
 </script>
-
+  

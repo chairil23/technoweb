@@ -5,46 +5,7 @@
         <strong>Pesanan</strong>
       </v-flex>
     </v-layou>
-    <!-- <v-stepper v-model="e1">
-      <v-stepper-header>
-        <v-stepper-step step="1" editable complete>Sedang dikerjakan</v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="2" editable complete>Sedang dikirim</v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="3" editable complete>Sudah di terima</v-stepper-step>
-      </v-stepper-header>
-      <v-stepper-items>
-        <v-stepper-content step="1">
-          <v-card color="grey lighten-1" class="mb-5" height="200px">
-            <v-list three-line>
-              <template v-for="item in transaction">
-                <v-list-tile avatar v-bind:key="item.image" @click="">
-                  <v-list-tile-avatar>
-                    <img v-bind:src="item.avatar"/>
-                  </v-list-tile-avatar>
-                  <v-list-tile-content>
-                    <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                    <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </template>
-            </v-list>
-          </v-card>
-          <v-btn color="primary" @click.native="e1 = 2">Continue</v-btn>
-          <v-btn flat>Cancel</v-btn>
-        </v-stepper-content>
-        <v-stepper-content step="2">
-          <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
-          <v-btn color="primary" @click.native="e1 = 3">Continue</v-btn>
-          <v-btn flat>Cancel</v-btn>
-        </v-stepper-content>
-        <v-stepper-content step="3">
-          <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
-          <v-btn color="primary" @click.native="e1 = 1">Continue</v-btn>
-          <v-btn flat>Cancel</v-btn>
-        </v-stepper-content>
-      </v-stepper-items>
-    </v-stepper> -->
+    
     <v-data-table
       v-bind:headers="headers"
       :items="transaction"
@@ -64,20 +25,12 @@
     <template slot="expand" slot-scope="props">
       <v-card flat>
         <v-container>
-          <v-layout class="pb-3">
-          <v-flex md2 class="pl-2">
-            <span class="body-1">Upload Bukti Transfer:</span>
-          </v-flex>
-          <v-flex md1>
-            <v-btn small>Upload</v-btn>
-          </v-flex>
-        </v-layout>
+          <pembayaran v-show="props.item.status === 0" :data="props.item"></pembayaran>
           <v-data-table
               v-bind:headers="headers2"
               :items="props.item.orders"
               hide-actions
               class="elevation-1"
-              
           >
             <template slot="items" slot-scope="props">             
               <td>{{ props.item.product.jdl_Pdk }}</td>
@@ -96,7 +49,11 @@
 </template>
 
 <script>
+import Pembayaran from '../components/Pembayaran'
 export default {
+  components: {
+    Pembayaran
+  },
   data () {
     return {
       headers: [

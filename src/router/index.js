@@ -12,6 +12,7 @@ import Alamat from '@/components/Alamat'
 import Pesanan from '@/components/Pesanan'
 import RegFreelance from '@/components/RegFreelance'
 import Message from '@/components/Message'
+import Test from '@/components/test'
 
 Vue.use(Router)
 
@@ -74,6 +75,11 @@ export default new Router({
       path: '/message',
       name: 'Message',
       component: Message
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      component: Test
     }
   ]
 })

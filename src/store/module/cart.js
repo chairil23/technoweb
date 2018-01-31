@@ -21,7 +21,8 @@ export const state = {
     service: '',
     biaya_kurir: '',
     items: []
-  }
+  },
+  transaction: {}
 }
 
 export const mutations = {
@@ -91,8 +92,9 @@ export const mutations = {
     
     post('/order', payload).then((res) => {
       if (res.status === 200) {
-        state.checkout =[],
+        state.checkout =[]
         state.temp = []
+        state.transaction = res.data
       }
     }).catch((err) => {
       console.log(err)
@@ -170,7 +172,8 @@ export const actions = {
 export const getters = {
   cart: state => state.cart,
   temp: state => state.temp,
-  checkout: state => state.checkout
+  checkout: state => state.checkout,
+  transaction: state => state.transaction
 }
 
 export default {
