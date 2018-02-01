@@ -23,7 +23,7 @@
           <v-container class="px-1 pt-0 mt-0">
             <v-card flat fill-height class="cards grey lighten-4 mb-4" :to="{path: '/product/'+product.id}">
               <v-card-media
-                :src="base + product.images"
+                :src="base + product.images[0].images"
                 height="250px"
                 class="white"
               >                

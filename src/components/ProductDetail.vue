@@ -19,7 +19,7 @@
         <v-card>
           <v-card-media
           flat
-          :src= "base + product.images"
+          :src= "base + product.images[0].images"
           height= "300px"
           >
             <v-card-action
@@ -222,7 +222,6 @@
 
 <script>
 import StarRating from 'vue-star-rating'
-import Test from './form/test'
 import KartuNama from './form/KartuNama'
 import SquareCard from './form/SquareCard'
 import Amplop from './form/Amplop'
@@ -243,7 +242,6 @@ import PoloShirt from './form/PoloShirt'
 export default {
   components: {
     StarRating,
-    Test,
     KartuNama,
     SquareCard,
     Amplop,

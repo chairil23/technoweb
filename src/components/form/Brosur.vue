@@ -2,7 +2,7 @@
   <div>
     <v-layout>
       <v-flex md1>
-        <v-subheader>Jumlah: </v-subheader>
+        <v-subheader>Jumlah pesanan (Rim): </v-subheader>
       </v-flex>
       <v-flex md4>
         <v-select class="pt-1 pl-4" v-model="item.kuantitas" :items="quantity" single-line bottom></v-select>
