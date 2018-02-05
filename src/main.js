@@ -6,6 +6,8 @@ import App from './App'
 import router from './router'
 import {store} from './store'
 import VueSession from 'vue-session'
+import BootstrapVue from 'bootstrap-vue'
+
 
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
@@ -108,6 +110,7 @@ Vue.use(VueCurrencyFilter, {
 })
 
 Vue.use(VueSession)
+Vue.use(BootstrapVue);
 
 Vue.component('icon', Icon)
 Vue.component('alert', Alert)
