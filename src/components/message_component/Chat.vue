@@ -19,12 +19,12 @@
           <li v-for="x in chat" :key="x.id" :class="{clearfix: x.fr_user_id === user.id}">
             <div v-if="x.fr_user_id !== 6">
               <div  class="message-data">
-                <span class="message-data-name"><i class="fa fa-circle online"></i> {{x.freelance}}i</span>
+                <span class="message-data-name">{{x.freelance}}</span>
                 <span class="message-data-time">{{x.created_at}}</span>
               </div>
               <div class="message my-message">
                   <div>
-                    <img :src="base + x.images" alt="" width="300">
+                    <img :src="base + x.images" :alt="base + x.images" width="300">
                   </div>
               {{x.message}}
                 <div v-if="x.images">
@@ -37,10 +37,13 @@
             <div v-if="x.fr_user_id === user.id">
               <div class="message-data align-right">
                 <span class="message-data-time" >{{x.created_at}}</span> &nbsp; &nbsp;
-                <span class="message-data-name" >Me</span> <i class="fa fa-circle me"></i>
+                <span class="message-data-name" >Me</span>
                 
               </div>
               <div class="message other-message float-right">
+                <div>
+                  <img :src="base+'/uploads/'+ x.images" alt="" width="300">
+                </div>
                 {{ x.message }}        
               </div>
             </div>
@@ -66,7 +69,7 @@
       <v-toolbar flat prominent>
         <v-toolbar-items class="hidden-sm-and-down mx-0">
           <v-text-field placeholder="send yout message...." solo class="chat_box" v-model="chat.message"></v-text-field>
-          <v-btn flat class="btn-file" color="blue darken-2"><v-icon>attach_file</v-icon><input type="file" class="upload" /></v-btn>
+          <v-btn flat class="btn-file" color="blue darken-2"><v-icon>attach_file</v-icon><input type="file" class="upload" @change="onChange"/></v-btn>
           <v-btn flat color="green darken-2" @click="send()"><v-icon>send</v-icon></v-btn>         
          
         </v-toolbar-items>
@@ -80,7 +83,7 @@ export default {
   props: ['chat', 'list'],
   data () {
     return {
-      base: 'http://localhost:8000/messages/',
+      // base: 'http://localhost:8000/messages/',
       chat: {
         message: '',
         image: ''
@@ -91,17 +94,30 @@ export default {
   methods: {
     send () {
       console.log(this.chat.message)
-      let data = {
-        to_user_id: this.list.freelancer_id,
-        order_id: this.list.id,
-        message: this.chat.message,
-        images: this.chat.image
+      if (this.chat.message) {
+        let data = {
+          to_user_id: this.list.freelancer_id,
+          order_id: this.list.id,
+          message: this.chat.message,
+          images: this.chat.image
+        }
+        this.$store.dispatch('sendMessage', data)
+        this.chat.message = ''
       }
-      this.$store.dispatch('sendMessage', data)
-      this.chat.message = ''
+    },
+    onChange (e) {
+      var fileReader = new FileReader()
+      fileReader.readAsDataURL(e.target.files[0])
+      fileReader.onload = (e) => {
+        this.chat.image = e.target.result
+        console.log(this.chat.image)
+      }
     }
   },
   computed: {
+    base () {
+      return this.$store.getters.url
+    },
     user () {
       return this.$store.getters.getUser
     }
@@ -130,61 +146,8 @@ $gray: #92959E;
   border-radius: 5px;
 }
 
-.people-list {
-  width:260px;
-  float: left;
-  
-  .search {
-    padding: 20px;
-  }
-  
-  input {
-    border-radius: 3px;
-    border: none;
-    padding: 14px;
-    color: white;
-    background: #6A6C75;
-    width: 90%;
-    font-size: 14px;
-  }
-  
-  .fa-search {
-    position: relative;
-    left: -25px;
-  }
-  
-  ul {
-    padding: 20px;
-    height: 770px;
- 
-    
-    
-    
-    li {
-      padding-bottom: 20px;
-    }
-  }
-  
-  img {
-    float: left;
-  }
-  
-  .about {
-    float: left;
-    margin-top: 8px;
-  }
-  
-  .about {
-    padding-left: 8px;
-  }
-  
-  .status {
-    color: $gray;
-  }
-  
-}
-
 .btn-file input.upload{
+  width: 100%;
   height: 100%;
    position: absolute;
     top: 0;
@@ -295,43 +258,6 @@ $gray: #92959E;
     }
     
   }
-  
-  .chat-message {
-    padding: 30px;
-    
-    textarea {
-      width: 100%;
-      border: none;
-      padding: 10px 20px;
-      font: 14px/22px "Lato", Arial, sans-serif;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      resize: none;
-      
-    }
-    
-    .fa-file-o, .fa-file-image-o {
-      font-size: 16px;
-      color: gray;
-      cursor: pointer;
-      
-    }
-    
-    button {
-      float: right;
-      color: $blue;
-      font-size: 16px;
-      text-transform: uppercase;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      background: #F2F5F8;
-      
-      &:hover {
-        color: darken($blue, 7%);
-      }
-    }
-  }
 }
 
 .online, .offline, .me {
@@ -370,6 +296,10 @@ $gray: #92959E;
 	content: " ";
 	clear: both;
 	height: 0;
+}
+
+ul{
+     list-style:none;
 }
 
 </style>

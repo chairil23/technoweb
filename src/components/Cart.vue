@@ -30,17 +30,23 @@
                   <v-container>
                     <v-layout>
                       <v-flex md4>
-                        <img class="image_produk" :src="base + props.item.images" alt="image">
+                        <img class="image_produk" :src="base+'/uploads/' + props.item.images" alt="image">
                       </v-flex>
                       <v-flex md8>
                         <span class="body-2 title-produk pl-1">{{props.item.jdl_Pdk}}</span>
+                        <br>
+                        <br>
+                        <span wrap clas="wrap">{{form(props.item.bahan, props.item.cetak_belakang, props.item.cetak_depan, 
+                          props.item.jenis_cetak, props.item.jenis_kertas, props.item.jilid, props.item.kain,
+                          props.item.kaos_metode, props.item.lembar, props.item.material, props.item.model,
+                          props.item.sisi, props.item.ukuran, props.item.warna)}}</span>
                       </v-flex>
                     </v-layout>
                   </v-container>
                 </td>         
-                <td class="text-xs-right body-1">{{ props.item.harga_awal | currency}} </td>
+                <td class="text-xs-right body-1">{{ harga(props.item.harga_awal, props.item.harga) | currency}} </td>
                 <td class="text-xs-right body-1">{{ props.item.kuantitas }}</td>
-                <td class="text-xs-right body-1">{{ total(props.item.kuantitas, props.item.harga_awal) | currency}}</td>
+                <td class="text-xs-right body-1">{{ total(props.item.kuantitas, props.item.harga_awal, props.item.harga) | currency}}</td>
                 <td>
                   <v-layout>
                     <v-flex class="text-xs-right">
@@ -71,7 +77,7 @@ export default {
   props: ['items', 'checkout'],
   data () {
     return {
-      base: 'http://localhost:8000/uploads/',
+      // base: 'http://localhost:8000/uploads/',
       search: '',
       btn: [],
       selected: [],
@@ -126,6 +132,53 @@ export default {
     }
   },
   methods: {
+    form (bahan, belakang, depan, cetak, kertas, jilid, kain, metode, lembar, material, model, sisi, ukuran, warna) {
+      let array = []
+      if (bahan) {
+        array.push(bahan)
+      }
+      if (belakang) {
+        array.push(belakang)
+      }
+      if (depan) {
+        array.push(depan)
+      }
+      if (cetak) {
+        array.push(cetak)
+      }
+      if (kertas) {
+        array.push(kertas)
+      }
+      if (jilid) {
+        array.push(jilid)
+      }
+      if (kain) {
+        array.push(kain)
+      }
+      if (metode) {
+        array.push(metode)
+      }
+      if (lembar) {
+        array.push(lembar)
+      }
+      if (material) {
+        array.push(material)
+      }
+      if (model) {
+        array.push(model)
+      }
+      if (sisi) {
+        array.push(sisi)
+      }
+      if (ukuran) {
+        array.push(ukuran)
+      }
+      if (warna) {
+        array.push(warna)
+      }
+      console.log(array.join(', '))
+      return array.join(',  ')
+    },
     del (item) {
       this.$store.dispatch('delItem', item)
       // for (let i = 0; this.items.length; i++) {
@@ -134,11 +187,17 @@ export default {
       //   }
       // }
     },
-    total (kuantitas, harga) {
-      return kuantitas * harga
+    harga (desain, material) {
+      return material + desain
+    },
+    total (kuantitas, desain, material) {
+      return kuantitas * (desain + material)
     }
   },
   computed: {
+    base () {
+      return this.$store.getters.url
+    }
     // items () {
     //   return this.$store.getters.cart.items
     // }

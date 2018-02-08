@@ -247,12 +247,18 @@ export default {
     },
     userIsAuthenticated () {      
       if (this.user.api_token === undefined) {
-        return this.$session.exists()
+        // console.log(this.$cookie.get('token'), 'cookie')
+        // this.$store.dispatch('getCart')
+        return this.$cookie.get('token') ? true : false 
       } else {                  
-        this.$session.set('token', this.user.api_token)
+        // this.$session.set('token', this.user.api_token)
+        // this.$cookie.set('token', this.user.api_token, 1)
+        // console.log(this.$cookie.get('token'), 'cookie')
         this.$store.dispatch('getCart')
-        return this.$session.exists()
-      }      
+        // return this.$session.exists()
+        return this.$cookie.get('token') ? true : false     
+      }
+          
     },
     loading () {
       return true
@@ -280,7 +286,7 @@ export default {
     if (this.userIsAuthenticated) {
       console.log('true')
       this.$store.dispatch('getUser')
-      this.$store.dispatch('getCart')
+      // this.$store.dispatch('getCart')
     } else {
       console.log('false')
       this.$store.dispatch('delCart')
@@ -294,15 +300,15 @@ export default {
     signIn () {
       if(this.$refs.form.validate()){
         this.$store.dispatch('signIn', this.login)  
-        console.log('signin')
       }
     },
     signOut () {
-      console.log(this.$session.get('token'))
+      // console.log(this.$session.get('token'))
       this.$store.dispatch('userNull')
-      this.$session.destroy()
+      // this.$session.destroy()
+      this.$cookie.delete('token')
       this.$router.push('/')
-      console.log(this.$session.exists())
+      // console.log(this.$session.exists())
     }
   }
 }

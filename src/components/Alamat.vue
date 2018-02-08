@@ -10,7 +10,7 @@
               </v-flex>
               <v-flex md2 class="pa-0 text-xs-right">
                 <v-dialog v-model="dialog" persistent max-width="600px">
-                  <a v-if="alamat" color primary dark slot="activator">Ubah</a>
+                  <a v-if="alamat.address" color primary dark slot="activator">Ubah</a>
                   <a v-else color primary dark slot="activator">Masukkan Alamat</a>
                   <v-card>
                     <v-form v-model="valid" ref="form" lazy-validation>

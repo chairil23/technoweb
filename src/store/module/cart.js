@@ -84,15 +84,14 @@ export const mutations = {
       let item = state.cart.items.find(x => x.id === element.id)
       if (!item) {
         state.cart.items.push(element)
-      }      
+      }
     })
   },
   [types.ORDER] (state, payload) {
     console.log(payload)
-    
     post('/order', payload).then((res) => {
       if (res.status === 200) {
-        state.checkout =[]
+        state.checkout = []
         state.temp = []
         state.transaction = res.data
       }
@@ -108,7 +107,7 @@ export const actions = {
     get('/item').then((res) => {
       if (res.status === 200) {
         console.log(getToken(), 'token')
-        console.log(res.data)
+        console.log(res.data, 'getcart')
         commit(types.RECEIVE_CART, res.data)
       }
     })

@@ -48,8 +48,8 @@ export const actions = {
       }
     })
   },
-  getKurir ({commit}, kurir) {
-    get('/cost/'+ kurir).then((res) => {
+  getKurir ({commit}, x) {
+    get('/cost/berat/' + x.berat + '/kurir/' + x.kurir).then((res) => {
       if (res.status === 200) {
         commit(types.GET_KURIR, res.data.rajaongkir.results[0].costs)
       }

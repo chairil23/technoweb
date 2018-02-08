@@ -19,7 +19,7 @@
         <td class="text-xs-left">{{ props.item.city_name }}</td>
         <td class="text-xs-left">{{ props.item.province }}</td>
         <td class="text-xs-left">{{ total(props.item.orders) | currency }}</td>
-        <td class="text-xs-left">{{ status(props.item.status) }}</td>
+        <td class="text-xs-left">{{ status(props.item.status_transaksi) }}</td>
       </tr>
     </template>
     <template slot="expand" slot-scope="props">
@@ -36,8 +36,8 @@
               <td>{{ props.item.product.jdl_Pdk }}</td>
               <td class="text-xs-left">{{ props.item.kuantitas}}</td>
               <td class="text-xs-left">{{ props.item.product.harga_awal | currency}}</td>
-              <td class="text-xs-left">{{ status1(props.item.ket)}}</td>
-              <td class="text-xs-left" v-if="props.item.ket === 3">Sudah di terima</td>
+              <td class="text-xs-left">{{ status1(props.item.status)}}</td>
+              <td class="text-xs-left" v-if="props.item.status === 4">Sudah di terima</td>
             </template>
             
           </v-data-table>
@@ -63,7 +63,7 @@ export default {
           sortable: false,
           value: 'name'
         },
-        { text: 'Alamat', value: 'alamaat', align: 'center'},
+        {text: 'Alamat', value: 'alamaat', align: 'center'},
         { text: 'Kota', value: 'kota', align: 'center' },
         { text: 'Provinsi', value: 'provinsi', align: 'center' },
         { text: 'Total', value: 'total', align: 'center' },
@@ -112,8 +112,10 @@ export default {
         return 'Order disetujui'
       } else if (_status === 2) {
         return 'Sedang Dikerjakan'
-      } else {
+      } else if (_status === 3) {
         return 'Dikirim'
+      } else {
+        return 'Sudah diterima'
       }
     }
   }

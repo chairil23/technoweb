@@ -1,11 +1,13 @@
 
 import Axios from 'axios'
+import cookie from 'vue-cookie'
 // import session from './session'
 
 /* eslint-disable */
 
 const state = {
-  token: ''
+  token: '',
+  url: 'http://localhost:8000/api'
 }
 
 export function setAll () {
@@ -25,7 +27,7 @@ export function getToken () {
 }
 
 const HTTP = Axios.create({
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: 'http://192.168.137.1/api/',
     headers: {
       'Authorization' : 'Bearer ' + getToken()
     }
@@ -35,10 +37,10 @@ export function post (url, payload ){
   return Axios(
     {
       method: 'POST',
-      url: 'http://localhost:8000/api' + url,
+      url: state.url + url,
       data: payload,
       headers: {
-        'Authorization' : 'Bearer ' + getToken()
+        'Authorization' : 'Bearer ' + cookie.get('token')
       }
     }
   )
@@ -49,9 +51,9 @@ export function get (url) {
   return Axios(
     {
       method: 'GET',
-      url: 'http://localhost:8000/api' + url,
+      url: state.url + url,
       headers: {
-        'Authorization' : 'Bearer ' + getToken()
+        'Authorization' : 'Bearer ' + cookie.get('token')
       }
     }
   )
@@ -61,9 +63,9 @@ export function del (url) {
   return Axios(
     {
       method: 'DELETE',
-      url: 'http://localhost:8000/api' + url,
+      url: state.url + url,
       headers: {
-        'Authorization' : 'Bearer ' + getToken()
+        'Authorization' : 'Bearer ' + cookie.get('token')
       }
     }
   )
@@ -73,9 +75,9 @@ export function getCart (url) {
   return Axios(
     {
       method: 'GET',
-      url: 'http://localhost:8000/api' + url,
+      url: state.url + url,
       headers: {
-        'Authorization' : 'Bearer ' + getToken()
+        'Authorization' : 'Bearer ' + cookie.get('token')
       }
     }
   )

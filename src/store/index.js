@@ -8,6 +8,7 @@ import ongkir from './module/ongkir'
 import transaction from './module/transaction'
 import message from './module/message'
 import * as types from './mutation-types'
+import cookie from 'vue-cookie'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ export const store = new Vuex.Store({
     msg: {},
     loading: false,
     err: {text: '', value: false},
-    alamat: {}
+    alamat: {},
+    basUrl: 'http://localhost:8000'
   },
   mutations: {
     setMsg (state, payload) {
@@ -52,7 +54,7 @@ export const store = new Vuex.Store({
     changePhone (state, payload) {
       state.user.phone = payload
     },
-    kelamin (state, paylod) {
+    kelamin (state, payload) {
       state.user.gender = payload
     }
 
@@ -94,6 +96,7 @@ export const store = new Vuex.Store({
       post('/auth/login', payload)
         .then((res) => {
           if (res.status === 200) {
+            cookie.set('token', res.data.api_token, '1M')
             commit(types.ADD_CART)
             commit('setUser', res.data)
             commit('setLoading', false)
@@ -148,7 +151,7 @@ export const store = new Vuex.Store({
           console.log(err)
         }
       })
-    }, 
+    },
     getUser ({commit}) {
       get('/user/').then((res) => {
         if (res.status === 200) {
@@ -161,7 +164,7 @@ export const store = new Vuex.Store({
       })
     },
     changePhone ({commit}, _phone) {
-      let phone ={phone: _phone}
+      let phone = {phone: _phone}
       post('/changephone/', phone).then((res) => {
         if (res.status === 200) {
           commit('changePhone', _phone)
@@ -205,6 +208,7 @@ export const store = new Vuex.Store({
     getLoading (state) {
       return state.loading
     },
-    alamat: state => state.alamat
+    alamat: state => state.alamat,
+    url: state => state.basUrl
   }
 })

@@ -13,7 +13,6 @@ import Pesanan from '@/components/Pesanan'
 import RegFreelance from '@/components/RegFreelance'
 import Message from '@/components/Message'
 import Test from '@/components/test'
-import Chat from '@/components/message_component/Chat'
 
 Vue.use(Router)
 

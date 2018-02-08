@@ -15,12 +15,12 @@ export const mutations = {
     let data = payload
     data.forEach(element => {
       state.chat.push(element)
-    });
+    })
     state.chat = payload
   },
   pushMessage (state, payload) {
     state.chat.push(payload)
-  } 
+  }
 }
 
 export const actions = {
@@ -35,7 +35,7 @@ export const actions = {
   },
 
   getMessage ({commit}, id) {
-    get('/messages/'+id).then(res => {
+    get('/messages/' + id).then(res => {
       if (res.status === 200) {
         commit(types.GET_MESSAGE, res.data)
       }
@@ -43,15 +43,15 @@ export const actions = {
       console.log(err)
     })
   },
-  sendMessage ({commit},data) {
+  sendMessage ({commit}, data) {
     post('/sendmessage', data).then(res => {
-      if (res.status == 200) {
+      if (res.status === 200) {
         commit('pushMessage', res.data)
       }
     }).catch(err => {
       console.log(err)
     })
-  },
+  }
 }
 
 export const getters = {

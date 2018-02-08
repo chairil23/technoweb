@@ -19,7 +19,7 @@
         <v-card>
           <v-card-media
           flat
-          :src= "base + product.images[0].images"
+          :src= "base+'/uploads/'+ product.images[0].images"
           height= "300px"
           >
             <v-card-action
@@ -41,14 +41,14 @@
               </v-layout> 
               <v-layout class="pb-2">
                 <v-flex>
-                  <span class="count headline red--text">{{product.harga_awal | currency}}</span>   
+                  <span class="count headline red--text">{{harga | currency}}</span>   
                 </v-flex>            
               </v-layout>
             </v-flex>            
           </v-layout>           
           <v-divider></v-divider>    
           <div v-if="product.subcategory_id === 1">
-            <kartu-nama @send="receive"></kartu-nama>          
+            <kartu-nama :subcategory="product.subcategory_id" @send="receive"></kartu-nama>          
           </div>
            <div v-else-if="product.subcategory_id === 2">
             <square-card @send="receive"></square-card>          
@@ -263,7 +263,7 @@ export default {
   data () {
     return {
       test: '',
-      base: 'http://localhost:8000/uploads/',
+      // base: 'http://localhost:8000/uploads/',
       image: '/static/v.png',
       e1: null,
       t: null,
@@ -300,11 +300,24 @@ export default {
         email: '',
         jabatan: '',
         material: '',
-        logo: ''
+        logo: '',
+        berat: '',
+        harga: '',
+        subcategory_id: ''
       }
     }
   },
   computed: {
+    harga () {
+      console.log(this.material.harga, this.form.kuantitas, this.product.harga_awal)
+      return (this.material.harga + this.product.harga_awal) * parseInt(this.form.kuantitas)
+    },
+    material () {
+      return this.$store.getters.value
+    },
+    base () {
+      return this.$store.getters.url
+    },
 
     // test () {
     //   this.form.product_id = parseInt(this.$route.params.id)
@@ -362,6 +375,10 @@ export default {
       this.form.jabatan = item.jabatan
       this.form.material = item.material
       this.form.logo = item.logo
+      this.form.berat = this.material.berat
+      this.form.harga = this.material.harga
+      this.form.subcategory_id = this.product.subcategory_id
+      this.$store.dispatch('getValue', this.form)
       console.log(this.form, 'form')
     },
     addItem () {
@@ -371,6 +388,19 @@ export default {
         this.$store.dispatch('addToCart', this.form)
       }
     }
+  },
+  beforeMount () {
+    console.log('before')
+    this.form.product_id = parseInt(this.$route.params.id)
+    this.form.kuantitas = 1
+    this.form.jenis_kertas = 'Art Carton 260gr'
+    this.form.model = ''
+    this.form.kain = ''
+    this.form.ukuran = ''
+    this.form.warna = ''
+    this.form.jenis_cetak = 'Laminating Glossy'
+    this.form.subcategory_id = this.product.subcategory_id
+    this.$store.dispatch('getValue', this.form)
   }
 }
 </script>

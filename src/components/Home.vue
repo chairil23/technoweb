@@ -23,7 +23,7 @@
           <v-container class="px-1 pt-0 mt-0">
             <v-card flat fill-height class="cards grey lighten-4 mb-4" :to="{path: '/product/'+product.id}">
               <v-card-media
-                :src="base + product.images[0].images"
+                :src="base+'/uploads/'+ product.images[0].images"
                 height="250px"
                 class="white"
               >                
@@ -45,7 +45,7 @@
         </v-flex>
       </v-layout>
       <div class="text-xs-center py-5">
-        <vue-paginate-al :totalPage="allProducts.last_page" customActiveBGColor="success" @btnClick="pages"></vue-paginate-al>
+        <vue-paginate-al :totalPage="allProducts.last_page ? allProducts.last_page : 0" customActiveBGColor="success" @btnClick="pages"></vue-paginate-al>
       </div>
     </v-container>
   </v-container>
@@ -55,7 +55,7 @@
 export default {
   data () {
     return {
-      base: 'http://localhost:8000/uploads/',
+      // base: 'http://localhost:8000/uploads/',
       items: [
         {
           src: '/static/v.png'
@@ -97,9 +97,15 @@ export default {
     }
   },
   computed: {
+    base () {
+      return this.$store.getters.url
+    },
     allProducts () {
-      console.log(this.$store.getters.allProducts(this.page))
-      return this.$store.getters.allProducts(this.page)
+      if (this.$store.getters.allProducts(this.page)) {
+        return this.$store.getters.allProducts(this.page)
+      } else {
+        return {}
+      }
     },
     image () {
       return this.base + this.product.image
@@ -126,12 +132,16 @@ export default {
 
 .harga{
   color:gray;
+  text-decoration: none;
 }
 
 .text-title {
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis;  
 }
 
+to{
+    text-decoration: none;
+}
 </style>

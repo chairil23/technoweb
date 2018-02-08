@@ -97,6 +97,81 @@
               </v-flex>
             </v-layout>
           </v-card>
+          <v-dialog v-model="dialog" persistent max-width="600px">
+            <v-card>
+              <v-form v-model="valid" ref="form" lazy-validation>
+                <v-card-title>
+                  <span class="headline">Ubah Alamat</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container grid-list-md>
+                    <v-layout>
+                      <v-flex md3>
+                        <v-subheader>Alamat Baru</v-subheader>
+                      </v-flex>
+                      <v-flex>
+                        <v-text-field class="pt-0" 
+                          required 
+                          v-model="alamat.address"
+                          :rules="[v => !!v || 'required']"
+                        >
+                        </v-text-field>
+                      </v-flex>
+                    </v-layout>
+                    <v-layout>
+                      <v-flex md3>
+                        <v-subheader>Provinsi</v-subheader>
+                      </v-flex>
+                      <v-flex md5>
+                        <v-select class="pt-0" :items="provinsi" 
+                          v-model="alamat.provinsi" 
+                          item-text="province" 
+                          item-value="item" 
+                          @input="getKota(alamat.provinsi.province_id)" 
+                          overflow
+                          autocomplete
+                          :rules="[v => !!v || 'required']"
+                          required
+                        >
+                          <template slot="item" slot-scope="data">
+                            <span 
+                              close
+                              @input="getKota(data.item.province_id)"
+                            >
+                              {{data.item.province}}
+                            </span>
+                          </template>
+                        </v-select>
+                      </v-flex>
+                    </v-layout>
+                    <v-layout>
+                      <v-flex md3>
+                        <v-subheader>Kota/Kabupaten</v-subheader>
+                      </v-flex>
+                      <v-flex md5>
+                        <v-select class="pt-0" 
+                          :items="kota" 
+                          v-model="alamat.kota" 
+                          item-value="item" 
+                          item-text="city_name" 
+                          overflow
+                          autocomplete
+                          :rules="[v => !!v || 'required']"
+                          required
+                        >
+                        </v-select>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn color="primary" flat @click.native="dialog = false">Batal</v-btn>
+                  <v-btn color="primary" flat @click="simpan" :disabled="!valid">Simpan</v-btn>
+                </v-card-actions>
+              </v-form>
+            
+            </v-card>
+          </v-dialog>
          <v-layout>
               <v-flex md6> 
                 <v-btn flat @click="btnBack">Kembali</v-btn>
@@ -135,6 +210,7 @@ export default {
   },
   data () {
     return {
+      dialog: false,
       e1: 0,
       header_cart: 'Keranjang Belanja',
       header_pengiriman: 'Produk Pesanan',
@@ -168,6 +244,31 @@ export default {
     }
   },
   computed: {
+    kota () {
+      console.log(this.prov)
+      return this.$store.getters.kota
+    },
+    provinsi () {
+      return this.$store.getters.provinsi
+    },
+    address () {
+      return this.$store.getters.alamat
+    },
+    alamat () {
+      return this.$store.getters.alamat
+    },
+    berat () {
+      let c = this.$store.getters.checkout
+      let x = 0
+      c.forEach(p => {
+        x = x + p.berat
+      })
+      if (x <= 1000) {
+        return 1000
+      } else {
+        return x
+      }
+    },
     transaction () {
       console.log(this.$store.getters.transaction, 'trans')
       return this.$store.getters.transaction
@@ -201,7 +302,7 @@ export default {
       console.log(selected)
       let total = 0
       selected.forEach(element => {
-        total = total + (element.kuantitas * element.harga_awal)
+        total = total + (element.kuantitas * (element.harga + element.harga_awal))
       })
       return total
     },
@@ -222,21 +323,47 @@ export default {
     // },
   },
   created () {
+    this.$store.dispatch('getProvinsi')
     this.$store.dispatch('getAlamat')
-    this.$store.dispatch('getKurir', this.kurir)
+    let x = {
+      kurir: this.kurir,
+      berat: this.berat
+    }
+    this.$store.dispatch('getKurir', x)
     // this.$store.dispatch('setKurirNull')
   },
   methods: {
+    simpan () {
+      if (this.$refs.form.validate()) {
+        this.$store.dispatch('setAlamat', this.alamat)
+        this.dialog = false
+      }
+    },
+    getKota (id) {
+      console.log(id)
+      this.$store.dispatch('getKota', id)
+    },
+    regional (type, kota) {
+      return type + ' ' + kota
+    },
     order () {
-      let kurir = {}
-      kurir.name = this.kurir
-      kurir.service = this.service
-      this.$store.dispatch('order', kurir)
-      this.e1 = 3
+      if (this.alamat.address && this.alamat.postal_code) {
+        let kurir = {}
+        kurir.name = this.kurir
+        kurir.service = this.service
+        this.$store.dispatch('order', kurir)
+        this.e1 = 3
+      } else {
+        this.dialog = true
+      }
     },
     getKurir (kurir) {
+      let x = {
+        kurir: kurir,
+        berat: this.berat
+      }
       console.log(kurir)
-      this.$store.dispatch('getKurir', kurir)
+      this.$store.dispatch('getKurir', x)
     },
     btnCheckout () {
       this.$store.dispatch('checkout')

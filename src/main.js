@@ -5,9 +5,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import {store} from './store'
-import VueSession from 'vue-session'
 import BootstrapVue from 'bootstrap-vue'
-
+import VueCookie from 'vue-cookie'
 
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
@@ -103,14 +102,14 @@ Vue.use(Vuetify, {
 Vue.use(VueCurrencyFilter, {
   symbol: 'Rp',
   thousandsSeparator: '.',
-  fractionCount: 2,
-  fractionSeparator: ',',
+  // fractionCount: 2,
+  // fractionSeparator: ',',
   symbolPosition: 'front',
   symbolSpacing: true
 })
 
-Vue.use(VueSession)
-Vue.use(BootstrapVue);
+Vue.use(BootstrapVue)
+Vue.use(VueCookie)
 
 Vue.component('icon', Icon)
 Vue.component('alert', Alert)
