@@ -1,17 +1,20 @@
 <template>
   <div>
     <v-layout>
-      <v-flex md1>
-        <v-subheader>Jumlah pesanan (Lusin): </v-subheader>
+     <v-flex md1>
+        <v-subheader>Jumlah pesanan </v-subheader>
       </v-flex>
-      <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.kuantitas" :items="quantity" single-line bottom></v-select>
+      <v-flex md2>
+        <v-text-field type="number" min=1 class="pt-1 pl-4" v-model="item.kuantitas.text"  single-line bottom></v-text-field>
+      </v-flex>
+      <v-flex md2>
+        <v-subheader>lusin</v-subheader>
       </v-flex>
       <v-flex md1>
         <v-subheader>Ukuran: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.ukuran" :items="ukuran" single-line bottom></v-select>
+        <v-select class="pt-1 pl-4" v-model="item.ukuran.text" :items="jenis[0].materials" item-text="ukuran" item-value="ukuran" single-line bottom></v-select>
       </v-flex>
     </v-layout>
 
@@ -34,7 +37,7 @@
         <v-subheader>Bahan: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.bahan" :items="bahan" single-line bottom></v-select>
+        <v-select class="pt-1 pl-4" v-model="item.bahan.text" :items="jenis[0].materials" item-text="bahan" item-value="bahan" single-line bottom></v-select>
       </v-flex>
        <v-flex md1>
         <v-subheader>Warna: </v-subheader>
@@ -48,15 +51,19 @@
       <v-flex md1>
         <v-subheader>Logo: </v-subheader>
       </v-flex>
-      <v-flex md4>
-        <v-btn label="upload" class="pt-1 pl-4" v-model="item.logo" single-line bottom></v-btn>
+      <v-flex md2>
+        <v-btn label="upload" class=" btn-file mt-4 pl-4" single-line bottom>
+          <input type="file" class="upload"  @change="onChanged"/>Upload
+        </v-btn>        
       </v-flex>
+      <v-flex md2 class="pt-4 pl-5"> <span>{{image}}</span></v-flex>
     </v-layout>
   </div>
 </template>
 
 <script>
 export default {
+  props: ['subcategory'],
   data () {
     return {
       text: '',
@@ -233,7 +240,40 @@ export default {
     'tem.material' () {
       this.$emit('send', this.item)
     }
+  },
+  methods: {
+    onChanged (e) {
+      var fileReader = new FileReader()
+      fileReader.readAsDataURL(e.target.files[0])
+      this.image = e.target.files[0].name
+      console.log(e.target.files[0])
+      fileReader.onload = (e) => {
+        this.item.logo = e.target.result
+      }
+    }
+  },
+  computed: {
+    jenis () {
+      console.log(this.$store.getters.materials(this.subcategory), 'mate')
+      return this.$store.getters.materials(this.subcategory)
+    }
   }
 }
 </script>
 
+<style scoped>
+.btn-file input.upload{
+  width: 100%;
+  height: 100%;
+   position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    
+}
+</style>

@@ -2,41 +2,44 @@
   <div>
     <v-layout>
       <v-flex md1>
-        <v-subheader>Jumlah pesanan (Lusin): </v-subheader>
+        <v-subheader>Jumlah pesanan </v-subheader>
       </v-flex>
-      <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.kuantitas" :items="quantity" single-line bottom></v-select>
+      <v-flex md2>
+        <v-text-field type="number" min=1 class="pt-1 pl-4" v-model="item.kuantitas.text"  single-line bottom></v-text-field>
+      </v-flex>
+      <v-flex md2>
+        <v-subheader>Lusin</v-subheader>
       </v-flex>
       <v-flex md1>
         <v-subheader>Ukuran: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="ukuran" :items="ukuran" single-line bottom></v-select>
+        <v-select class="pt-1 pl-4" v-model="item.ukuran.text" :items="jenis[0].materials" item-text="ukuran" item-value="ukuran" single-line bottom></v-select>
       </v-flex>
     </v-layout>
 
     <v-layout>
-      <v-flex md1>
+     <v-flex md1>
         <v-subheader>Bahan: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.bahan" :items="bahan" single-line bottom></v-select>
+        <v-select class="pt-1 pl-4" v-model="item.bahan.text" :items="jenis[0].materials" item-text="bahan" item-value="bahan" single-line bottom></v-select>
       </v-flex>
       <v-flex md1>
         <v-subheader>Area Cetak Depan: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.cetak_depan" :items="area" single-line bottom></v-select>
-      </v-flex>     
+        <v-select class="pt-1 pl-4" v-model="item.cetak_depan.text" :items="jenis[0].materials" item-text="cetak_depan" item-value="cetak_depan" single-line bottom></v-select>
+      </v-flex>  
     </v-layout>
 
     <v-layout>
       <v-flex md1>
-        <v-subheader>Area Cetak belakang: </v-subheader>
+        <v-subheader>Area Cetak Belakang: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.cetak_belakang" :items="area" single-line bottom></v-select>
-      </v-flex>
+        <v-select class="pt-1 pl-4" v-model="item.cetak_belakang.text" :items="jenis[0].materials" item-text="cetak_belakang" item-value="cetak_belakang" single-line bottom></v-select>
+      </v-flex>  
       <v-flex md1>
         <v-subheader>Warna: </v-subheader>
       </v-flex>
@@ -50,13 +53,13 @@
         <v-subheader>Finishing: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.jenis_cetak" :items="print" single-line bottom></v-select>
-      </v-flex>
+        <v-select class="pt-1 pl-4" v-model="item.jenis_cetak.text" :items="jenis[0].materials" item-text="jns_finishing" item-value="jns_finishing" single-line bottom></v-select>
+      </v-flex> 
       <v-flex md1>
         <v-subheader>Cetak Bagian Lengan: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.lengan_kanan" :items="cetak_lengan" single-line bottom></v-select>
+        <v-select class="pt-1 pl-4" v-model="item.lengan_kanan" :items="jenis[0].materials" item-text="cetak_lengan" item-value="cetak_lengan" single-line bottom></v-select>
       </v-flex>     
     </v-layout>
 
@@ -64,15 +67,19 @@
       <v-flex md1>
         <v-subheader>Logo: </v-subheader>
       </v-flex>
-      <v-flex md4>
-        <v-btn label="upload" class="pt-1 pl-4" v-model="item.logo" single-line bottom></v-btn>
+      <v-flex md2>
+        <v-btn label="upload" class=" btn-file mt-4 pl-4" single-line bottom>
+          <input type="file" class="upload"  @change="onChanged"/>Upload
+        </v-btn>        
       </v-flex>
+      <v-flex md2 class="pt-4 pl-5"> <span>{{image}}</span></v-flex>
     </v-layout>
   </div>
 </template>
 
 <script>
 export default {
+  props: ['subcategory'],
   data () {
     return {
       u1: '',
@@ -123,14 +130,14 @@ export default {
           text: 'Landscape'
         }
       ],
-      bahan: [
-        {
-          text: 'kain'
-        },
-        {
-          text: 'wol'
-        }
-      ],
+      // bahan: [
+      //   {
+      //     text: 'kain'
+      //   },
+      //   {
+      //     text: 'wol'
+      //   }
+      // ],
       sisi: [
         {
           text: '1 sisi'
@@ -158,28 +165,28 @@ export default {
           text: 'Extra Fancy'
         }
       ],
-      jenis: [
-        {
-          text: 'Standart'
-        },
-        {
-          text: 'Extra Fancy'
-        }
-      ],
-      ukuran: [
-        {
-          text: 'S Small'
-        },
-        {
-          text: 'M Medium'
-        },
-        {
-          text: 'L Large'
-        },
-        {
-          text: 'XL Extra Large'
-        }
-      ],
+      // jenis: [
+      //   {
+      //     text: 'Standart'
+      //   },
+      //   {
+      //     text: 'Extra Fancy'
+      //   }
+      // ],
+      // ukuran: [
+      //   {
+      //     text: 'S Small'
+      //   },
+      //   {
+      //     text: 'M Medium'
+      //   },
+      //   {
+      //     text: 'L Large'
+      //   },
+      //   {
+      //     text: 'XL Extra Large'
+      //   }
+      // ],
       item: {
         product_id: this.$route.params.id,
         kuantitas: {text: ''},
@@ -291,11 +298,41 @@ export default {
       this.$emit('send', this.item)
     }
   },
+  methods: {
+    onChanged (e) {
+      var fileReader = new FileReader()
+      fileReader.readAsDataURL(e.target.files[0])
+      this.image = e.target.files[0].name
+      console.log(e.target.files[0])
+      fileReader.onload = (e) => {
+        this.item.logo = e.target.result
+      }
+    }
+  },
   computed: {
-    ukuran () {
-      return this.u1 + ' x ' + this.u2 + ' cm'
+    jenis () {
+      console.log(this.$store.getters.materials(this.subcategory), 'mate')
+      return this.$store.getters.materials(this.subcategory)
     }
   }
 }
 </script>
+
+<style scoped>
+.btn-file input.upload{
+  width: 100%;
+  height: 100%;
+   position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    
+}
+</style>
+
 

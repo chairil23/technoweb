@@ -51,52 +51,52 @@
             <kartu-nama :subcategory="product.subcategory_id" @send="receive"></kartu-nama>          
           </div>
            <div v-else-if="product.subcategory_id === 2">
-            <square-card @send="receive"></square-card>          
+            <square-card :subcategory="product.subcategory_id" @send="receive"></square-card>          
           </div>   
           <div v-else-if="product.subcategory_id === 3">
-            <amplop @send="receive"></amplop>          
+            <amplop :subcategory="product.subcategory_id" @send="receive"></amplop>          
           </div>   
           <div v-else-if="product.subcategory_id === 4">
-            <kop-surat @send="receive"></kop-surat>          
+            <kop-surat :subcategory="product.subcategory_id" @send="receive"></kop-surat>          
           </div>
            <div v-else-if="product.subcategory_id === 5">
-            <stempel @send="receive"></stempel>          
+            <stempel :subcategory="product.subcategory_id" @send="receive"></stempel>          
           </div>   
           <div v-else-if="product.subcategory_id === 6">
-            <kalender @send="receive"></kalender>          
+            <kalender :subcategory="product.subcategory_id" @send="receive"></kalender>          
           </div>  
           <div v-else-if="product.subcategory_id === 7">
-            <brosur @send="receive"></brosur>          
+            <brosur :subcategory="product.subcategory_id" @send="receive"></brosur>          
           </div>   
           <div v-else-if="product.subcategory_id === 8">
-            <stiker @send="receive"></stiker>          
+            <stiker :subcategory="product.subcategory_id" @send="receive"></stiker>          
           </div>
           <div v-else-if="product.subcategory_id === 9">
-            <poster @send="receive"></poster>          
+            <poster :subcategory="product.subcategory_id" @send="receive"></poster>          
           </div>
           <div v-else-if="product.subcategory_id === 10">
-            <goodle-bag @send="receive"></goodle-bag>          
+            <goodle-bag :subcategory="product.subcategory_id" @send="receive"></goodle-bag>          
           </div>
           <div v-else-if="product.subcategory_id === 11">
-            <mug @send="receive"></mug>          
+            <mug :subcategory="product.subcategory_id" @send="receive"></mug>          
           </div>
           <div v-else-if="product.subcategory_id === 12">
-            <bantal @send="receive"></bantal>          
+            <bantal :subcategory="product.subcategory_id" @send="receive"></bantal>          
           </div>
           <div v-else-if="product.subcategory_id === 13">
-            <spanduk @send="receive"></spanduk>          
+            <spanduk :subcategory="product.subcategory_id" @send="receive"></spanduk>          
           </div>
           <div v-else-if="product.subcategory_id === 14">
-            <x-banner @send="receive"></x-banner>          
+            <x-banner :subcategory="product.subcategory_id" @send="receive"></x-banner>          
           </div>
           <div v-else-if="product.subcategory_id === 15">
-            <roll-banner @send="receive"></roll-banner>          
+            <roll-banner :subcategory="product.subcategory_id" @send="receive"></roll-banner>          
           </div>
           <div v-else-if="product.subcategory_id === 16">
-            <kaos @send="receive"></kaos>          
+            <kaos :subcategory="product.subcategory_id" @send="receive"></kaos>          
           </div>
           <div v-else-if="product.subcategory_id === 17">
-            <polo-shirt @send="receive"></polo-shirt>          
+            <polo-shirt :subcategory="product.subcategory_id" @send="receive"></polo-shirt>          
           </div>
           <v-layout row>
             <v-btn outline color="primary">

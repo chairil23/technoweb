@@ -28,8 +28,8 @@
       <v-flex md2>
         <v-subheader>Nama perusahaan: </v-subheader>
       </v-flex>
-      <v-flex md4>
-        <v-text-field class="pt-1 pl-4" v-model="item.nama_perusahaan" single-line bottom></v-text-field>
+      <v-flex md3>
+        <v-text-field class="pt-1" v-model="item.nama_perusahaan" single-line bottom></v-text-field>
       </v-flex>
     </v-layout>
 
