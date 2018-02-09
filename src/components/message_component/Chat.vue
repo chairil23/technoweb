@@ -103,6 +103,7 @@ export default {
         }
         this.$store.dispatch('sendMessage', data)
         this.chat.message = ''
+        this.chat.image = ''
       }
     },
     onChange (e) {
