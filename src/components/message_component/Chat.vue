@@ -23,7 +23,7 @@
                 <span class="message-data-time">{{x.created_at}}</span>
               </div>
               <div class="message my-message">
-                  <div>
+                  <div v-if="x.images">
                     <img :src="base+'/messages/'+ x.images" :alt="base + x.images" width="300">
                   </div>
               {{x.message}}
@@ -41,7 +41,7 @@
                 
               </div>
               <div class="message other-message float-right">
-                <div>
+                <div v-if="x.images">
                   <img :src="base+'/messages/'+ x.images" alt="" width="300">
                 </div>
                 {{ x.message }}        
