@@ -20,6 +20,7 @@ const mutations = {
     // console.log(payload, 'wew', state.product)
   },
   [types.GET_MATERIAL] (state, payload) {
+    console.log(payload, 'mater')
     payload.forEach(element => {
       let material = state.subcategory.find(x => x.id === element.id)
       if (!material) {

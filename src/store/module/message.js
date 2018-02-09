@@ -27,7 +27,7 @@ export const actions = {
   getMessageList ({commit}) {
     get('/messages').then(res => {
       if (res.status === 200) {
-        commit(types.GET_MESSAGE_LIST, res.data.order_message)
+        commit(types.GET_MESSAGE_LIST, res.data)
       }
     }).catch(err => {
       console.log(err)

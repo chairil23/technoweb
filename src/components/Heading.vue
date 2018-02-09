@@ -18,7 +18,11 @@ export default {
   props: ['header'],
   computed: {
     count () {
-      return this.$store.getters.cart.items.length
+      if (this.header === 'Produk Pesanan') {
+        return this.$store.getters.checkout.length
+      } else {
+        return this.$store.getters.cart.items.length
+      }
     }
   }
 }

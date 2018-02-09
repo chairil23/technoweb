@@ -187,7 +187,7 @@
           </v-card>
           <v-layout>
               <v-flex md12 class="text-xs-center">
-                 <v-btn color="primary" @click.native="e1 = 1">Selesai</v-btn>
+                 <v-btn color="primary" @click="selesai()">Selesai</v-btn>
               </v-flex>
             </v-layout>      
         </v-stepper-content>
@@ -372,6 +372,10 @@ export default {
     btnBack () {
       this.$store.dispatch('rollback')
       this.e1 = 1
+    },
+    selesai () {
+      this.$router.push({path: '/'})
+      this.$store.dispatch('delCheckout')
     }
   },
   beforeRouteLeave (to, from, next) {

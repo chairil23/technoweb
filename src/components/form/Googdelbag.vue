@@ -114,14 +114,14 @@ export default {
           text: 'Extra Fancy'
         }
       ],
-      jenis: [
-        {
-          text: 'Standart'
-        },
-        {
-          text: 'Extra Fancy'
-        }
-      ],
+      // jenis: [
+      //   {
+      //     text: 'Standart'
+      //   },
+      //   {
+      //     text: 'Extra Fancy'
+      //   }
+      // ],
       ukuran: [
         {
           text: 'Standart'

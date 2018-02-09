@@ -80,7 +80,7 @@ export const mutations = {
     })
   },
   rollback (state) {
-    state.temp.forEach(element => {
+    state.checkout.forEach(element => {
       let item = state.cart.items.find(x => x.id === element.id)
       if (!item) {
         state.cart.items.push(element)
@@ -92,7 +92,7 @@ export const mutations = {
     post('/order', payload).then((res) => {
       if (res.status === 200) {
         state.checkout = []
-        state.temp = []
+        // state.temp = []
         state.transaction = res.data
       }
     }).catch((err) => {

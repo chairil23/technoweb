@@ -24,7 +24,7 @@
               </div>
               <div class="message my-message">
                   <div>
-                    <img :src="base + x.images" :alt="base + x.images" width="300">
+                    <img :src="base+'/messages/'+ x.images" :alt="base + x.images" width="300">
                   </div>
               {{x.message}}
                 <div v-if="x.images">
@@ -42,7 +42,7 @@
               </div>
               <div class="message other-message float-right">
                 <div>
-                  <img :src="base+'/uploads/'+ x.images" alt="" width="300">
+                  <img :src="base+'/messages/'+ x.images" alt="" width="300">
                 </div>
                 {{ x.message }}        
               </div>

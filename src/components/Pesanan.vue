@@ -14,6 +14,7 @@
     >
     <template slot="items" slot-scope="props">
       <tr @click="props.expanded = !props.expanded">
+        <td class="text-xs-left">{{ props.item.created_at }}</td>
         <td>{{ props.item.kode_invoice }}</td>
         <td class="text-xs-left">{{ props.item.address }}</td>
         <td class="text-xs-left">{{ props.item.city_name }}</td>
@@ -37,7 +38,6 @@
               <td class="text-xs-left">{{ props.item.kuantitas}}</td>
               <td class="text-xs-left">{{ props.item.product.harga_awal | currency}}</td>
               <td class="text-xs-left">{{ status1(props.item.status)}}</td>
-              <td class="text-xs-left" v-if="props.item.status === 4">Sudah di terima</td>
             </template>
             
           </v-data-table>
@@ -57,17 +57,18 @@ export default {
   data () {
     return {
       headers: [
+        {text: 'Tanggal', value: 'tanggal', align: 'center', sortable: false},
         {
           text: 'Kode Invoice',
           align: 'left',
           sortable: false,
           value: 'name'
         },
-        {text: 'Alamat', value: 'alamaat', align: 'center'},
-        { text: 'Kota', value: 'kota', align: 'center' },
-        { text: 'Provinsi', value: 'provinsi', align: 'center' },
-        { text: 'Total', value: 'total', align: 'center' },
-        { text: 'status', value: 'status', align: 'center' }
+        {text: 'Alamat', value: 'alamaat', align: 'center', sortable: false},
+        { text: 'Kota', value: 'kota', align: 'center', sortable: false },
+        { text: 'Provinsi', value: 'provinsi', align: 'center', sortable: false },
+        { text: 'Total', value: 'total', align: 'center', sortable: false },
+        { text: 'status', value: 'status', align: 'center', sortable: false }
       ],
       headers2: [
         {
@@ -76,9 +77,9 @@ export default {
           sortable: false,
           value: 'name'
         },
-        { text: 'Kuantitas', value: 'kuantitas', align: 'left' },
-        { text: 'harga', value: 'harga', align: 'left' },
-        { text: 'status', value: 'status', align: 'left' }
+        { text: 'Kuantitas', value: 'kuantitas', align: 'left', sortable: false },
+        { text: 'harga', value: 'harga', align: 'left', sortable: false },
+        { text: 'status', value: 'status', align: 'left', sortable: false }
       ],
       _transaction: []
     }

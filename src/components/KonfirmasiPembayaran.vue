@@ -5,7 +5,7 @@
         <span class="title ">Total Pembayaran:</span>
       </v-flex>
       <v-flex md6>
-        <span class="title">{{500000 | currency}}</span>
+        <span class="title">{{total | currency}}</span>
       </v-flex>
     </v-layout>
     <v-divider></v-divider>
@@ -26,6 +26,16 @@
         </ol>
       </v-flex>
     </v-layout>
+    <v-snackbar
+      timeout="6000"
+      color="success"
+      :multi-line="mode === 'multi-line'"
+      :vertical="mode === 'vertical'"
+      v-model="snackbar"
+    >
+      {{ text }}
+      <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -35,6 +45,8 @@ export default {
   props: ['data'],
   data () {
     return {
+      text: '',
+      snackbar: false,
       image: ''
     }
   },
@@ -56,7 +68,9 @@ export default {
         post('/upload', transaction).then((res) => {
           if (res.status === 200) {
             console.log('sukses')
-            this.$router.push({path: '/'})
+            // this.$router.push({path: '/'})
+            this.text = 'upload Sukses'
+            this.snackbar = true
           }
         }).catch((err) => {
           if (err) {
@@ -64,6 +78,19 @@ export default {
           }
         })
       }
+    }
+  },
+  computed: {
+    checkout () {
+      console.log(this.$store.getters.checkout, 'peme')
+      return this.$store.getters.temp
+    },
+    total () {
+      let total = 0
+      this.checkout.forEach(element => {
+        total = total + ((element.harga_awal + element.harga) * element.kuantitas)
+      })
+      return total
     }
   }
 }
