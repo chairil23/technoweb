@@ -26,7 +26,7 @@
     <template slot="expand" slot-scope="props">
       <v-card flat>
         <v-container>
-          <pembayaran v-show="props.item.status === 0" :data="props.item"></pembayaran>
+          <pembayaran v-show="props.item.status_transaksi !== 1" :data="props.item"></pembayaran>
           <v-data-table
               v-bind:headers="headers2"
               :items="props.item.orders"
@@ -38,6 +38,9 @@
               <td class="text-xs-left">{{ props.item.kuantitas}}</td>
               <td class="text-xs-left">{{ props.item.product.harga_awal | currency}}</td>
               <td class="text-xs-left">{{ status1(props.item.status)}}</td>
+              <td class="text-xs-left" v-if="props.item.status === 2">
+                <span>Sudah diterima</span>
+              </td>
             </template>
             
           </v-data-table>
@@ -108,13 +111,11 @@ export default {
     status1 (_status) {
       console.log(_status)
       if (_status === 0) {
-        return 'Dipending'
+        return 'menunggu konfirmasi'
       } else if (_status === 1) {
-        return 'Order disetujui'
+        return 'sedang dalam pengerjaan'
       } else if (_status === 2) {
-        return 'Sedang Dikerjakan'
-      } else if (_status === 3) {
-        return 'Dikirim'
+        return 'dalam proses pengiriman'
       } else {
         return 'Sudah diterima'
       }
