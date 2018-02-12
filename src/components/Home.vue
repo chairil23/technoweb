@@ -58,16 +58,13 @@ export default {
       // base: 'http://localhost:8000/uploads/',
       items: [
         {
-          src: '/static/v.png'
+          src: '/src/assets/carousel/slide_1.jpg'
         },
         {
-          src: '/static/v.png'
+          src: '/src/assets/carousel/slide_2.jpg'
         },
         {
-          src: '/static/v.png'
-        },
-        {
-          src: '/static/v.png'
+          src: '/src/assets/carousel/slide_3.jpg'
         }
       ],
       products: [

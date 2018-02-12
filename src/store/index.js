@@ -9,6 +9,7 @@ import transaction from './module/transaction'
 import message from './module/message'
 import * as types from './mutation-types'
 import cookie from 'vue-cookie'
+import ulasan from './module/ulasan'
 
 Vue.use(Vuex)
 
@@ -193,7 +194,8 @@ export const store = new Vuex.Store({
     cart,
     ongkir,
     transaction,
-    message
+    message,
+    ulasan
   },
   getters: {
     getMsg (state) {

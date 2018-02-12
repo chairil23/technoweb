@@ -99,10 +99,6 @@
             <polo-shirt :subcategory="product.subcategory_id" @send="receive"></polo-shirt>          
           </div>
           <v-layout row>
-            <v-btn outline color="primary">
-              <v-icon color="primary">email</v-icon>
-              <span class="text">Kirim Pesan</span>            
-            </v-btn>
             <v-btn outline color="primary" @click="addItem()">
               <v-icon color="primary">add_shopping_cart</v-icon>
               <span class="text">Masukkan Keranjang</span>            
@@ -114,9 +110,9 @@
           </v-layout>
         </v-container>
       </v-flex>
-    </v-layout>
+    </v-layout>   
     <v-layout row class="pt-3">       
-      <v-flex md4 class="white pb-0 pt-2 px-0">
+      <v-flex md3 class="white pb-0 pt-2 px-0">
         <v-layout>
           <v-flex md4>
             <v-layout>  
@@ -148,48 +144,52 @@
           </v-flex>
         </v-layout>
       </v-flex>
-      <v-flex md4 class="white px-0"> 
-        <v-card flat tile hover @click="" class="px-0">
+      <v-flex md3 class="white px-0"> 
+        <v-card flat tile hover class="px-0" :to="{name: 'Default'}" exact replace>
           <v-layout>          
-            <v-flex class="py-4">
+            <v-flex class="py-5">
               <v-layout>
                 <v-flex class="text-xs-center pb-0">
-                  <v-icon color="primary" class="pb-2">collections</v-icon>
                   <span class="tab">
-                    64
+                    Description
                   </span>
-                </v-flex>
-              </v-layout>
-              <v-layout>
-                <v-flex class="tab text text-xs-center pt-0">
-                  <span>Produk</span>
                 </v-flex>
               </v-layout>
             </v-flex>
           </v-layout>   
         </v-card>       
       </v-flex>
-      <v-flex md4 class="white px-0"> 
-        <v-card flat tile hover @click="" class="px-0 py-0">
+      <v-flex md3 class="white px-0"> 
+        <v-card flat tile hover  class="px-0 py-0" :to="{name: 'feedback'}" replace>
           <v-layout>          
-            <v-flex class="py-4">
+            <v-flex class="py-5">
               <v-layout>
                 <v-flex class="text-xs-center pb-0">
-                  <v-icon color="primary" class="pb-2">person</v-icon>
                   <span class="tab">
-                    3 Bulan lalu
+                    Feedback
                   </span>
-                </v-flex>
-              </v-layout>
-              <v-layout>
-                <v-flex class="tab text text-xs-center pt-0">
-                  <span>bergabung</span>
                 </v-flex>
               </v-layout>
             </v-flex>
           </v-layout>   
         </v-card>       
       </v-flex>        
+      <v-flex md3 class="white px-0"> 
+        <v-card flat tile hover class="px-0" :to="{name: 'productlist'}" replace>
+          <v-layout>          
+            <v-flex class="py-5">
+              <v-layout>
+                <v-flex class="text-xs-center pb-0">
+                  <v-icon color="primary" class="pb-0">collections</v-icon>
+                  <span class="tab">
+                    64 Produk
+                  </span>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>   
+        </v-card>       
+      </v-flex>
     </v-layout> 
     <v-layout>
       <v-flex>
@@ -197,26 +197,11 @@
       </v-flex>
     </v-layout>
     <v-layout>
-      <v-container class="white">
-       <v-layout>
-         <v-container>
-            <v-layout>
-              <v-flex>
-                <h2>Rincian Produk</h2>
-              </v-flex>
-            </v-layout>
-            <v-divider></v-divider>
-            <v-layout>
-              <v-flex>
-                <p>
-                 {{product.description}}
-                </p>
-              </v-flex>
-            </v-layout>  
-         </v-container>
-        </v-layout>      
-      </v-container>
-    </v-layout>  
+      <v-flex md3></v-flex>
+      <v-flex md9>
+        <router-view :product="product"></router-view>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
@@ -262,6 +247,9 @@ export default {
   },
   data () {
     return {
+      tabs: ['tab-1', 'tab-2', 'tab-3'],
+      active: null,
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       test: '',
       // base: 'http://localhost:8000/uploads/',
       image: '/static/v.png',
@@ -274,7 +262,7 @@ export default {
         {text: 'Kartu Nama 3 x 3', disabled: true}
       ],
       j1: null,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      // text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       form: {
         product_id: '',
         kuantitas: '',
@@ -346,8 +334,12 @@ export default {
   },
   created () {
     this.$store.dispatch('getProduct', this.$route.params.id)
+    this.$store.dispatch('getUlasan', this.$route.params.id)
   },
   methods: {
+    nav () {
+      console.log('dfdf')
+    },
     receive (item) {
       // console.log(item, 'parent')
       this.form.product_id = parseInt(this.$route.params.id)
@@ -404,7 +396,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="css" scoped>
   .count.headline {
    font-weight:bolder;
    color: rgb(212, 4, 4);
@@ -432,7 +424,7 @@ export default {
     background: #fff;
   }
   .vue-star-rating-rating-text{
-    margin-top: 2px;
+    margin-top: 1px;
   }
   .tab{
     font-weight: 600;
@@ -443,6 +435,20 @@ export default {
   .tab.text{
     color: #999
   }
+  .tabs--icons .tabs__bar{
+    height: 102px;
+  }
+  .tabs__wrapper {
+    position: relative;
+    overflow-x: hidden;
+    height: inherit;
+}
+
+.tabs__bar {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center; 
+}
 </style>
 
 

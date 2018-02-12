@@ -13,6 +13,9 @@ import Pesanan from '@/components/Pesanan'
 import RegFreelance from '@/components/RegFreelance'
 import Message from '@/components/Message'
 import Test from '@/components/test'
+import Description from '@/components/detail/Description'
+import FeedBack from '@/components/detail/FeedBack'
+import ProductList from '@/components/detail/ProductList'
 
 Vue.use(Router)
 
@@ -37,7 +40,24 @@ export default new Router({
     {
       path: '/product/:id',
       name: 'ProductDetail',
-      component: ProductDetail
+      component: ProductDetail,
+      children: [
+        {
+          path: '',
+          name: 'Default',
+          component: Description
+        },
+        {
+          path: '#feedback',
+          name: 'feedback',
+          component: FeedBack
+        },
+        {
+          path: '#productlist',
+          name: 'productlist',
+          component: ProductList
+        }
+      ]
     },
     {
       path: '/cart',

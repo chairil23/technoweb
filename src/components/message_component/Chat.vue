@@ -17,7 +17,7 @@
           </li> -->
           
           <li v-for="x in chat" :key="x.id" :class="{clearfix: x.fr_user_id === user.id}">
-            <div v-if="x.fr_user_id !== 6">
+            <div v-if="x.fr_user_id !== user.id">
               <div  class="message-data">
                 <span class="message-data-name">{{x.freelance}}</span>
                 <span class="message-data-time">{{x.created_at}}</span>

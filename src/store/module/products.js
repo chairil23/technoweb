@@ -5,7 +5,8 @@ const state = {
   all: [],
   product: {},
   subcategory: [],
-  value: {}
+  value: {},
+  pFreelancer: {}
 }
 
 const mutations = {
@@ -30,6 +31,9 @@ const mutations = {
   },
   getValue (state, payload) {
     state.value = payload
+  },
+  getProductFreelancer (state, payload) {
+    state.pFreelancer = payload
   }
 }
 
@@ -67,6 +71,17 @@ const actions = {
     }).catch(err => {
       console.log(err)
     })
+  },
+  getProductFreelancer ({commit}, id) {
+    get('/products-freelancer/' + id).then(res => {
+      if (res.status === 200) {
+        commit('getProductFreelancer', res.data)
+      }
+    }).catch(err => {
+      if (err) {
+        console.log(err)
+      }
+    })
   }
 }
 const getters = {
@@ -80,7 +95,8 @@ const getters = {
     let material = state.subcategory.filter(x => x.id === id)
     return material
   },
-  value: state => state.value
+  value: state => state.value,
+  pFreelancer: state => state.pFreelancer
 }
 
 export default {
