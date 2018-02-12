@@ -36,7 +36,7 @@
                   </v-layout>
                   <v-layout row>
                     <v-flex md12 xs12 class="text-xs-center">
-                      <span class="subheading harga">{{gi | currency}}</span>  
+                      <span class="subheading harga">{{50000 | currency}}</span>  
                     </v-flex>
                   </v-layout>     
                 <!-- </v-card-actions>    -->
