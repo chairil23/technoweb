@@ -21,7 +21,7 @@
           :key="product.jdl_Pdk"
           class="px-3">
           <v-container class="px-1 pt-0 mt-0">
-            <v-card flat fill-height class="cards grey lighten-4 mb-4" :to="{path: '/product/'+product.id}">
+            <v-card flat hover fill-height class="cards grey lighten-4 mb-4" :to="{path: '/product/'+product.id}">
               <v-card-media
                 :src="base+'/uploads/'+ product.images[0].images"
                 height="250px"
@@ -36,7 +36,7 @@
                   </v-layout>
                   <v-layout row>
                     <v-flex md12 xs12 class="text-xs-center">
-                      <span class="subheading harga">{{50000 | currency}}</span>  
+                      <span class="subheading harga">{{gi | currency}}</span>  
                     </v-flex>
                   </v-layout>     
                 <!-- </v-card-actions>    -->
