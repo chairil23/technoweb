@@ -8,7 +8,7 @@
               <v-btn flat class="primary white--text" :disabled="valid" @click="form()">Tulis Ulasan Anda</v-btn>
             </v-flex>
           </v-layout>
-          <v-layout v-if="!getUlasan">
+          <v-layout v-if="getUlasan.length === 0">
             <v-flex md12 class="text-xs-center">
               <span class="grey--text">Tidak ada Ulasan</span>
             </v-flex>
@@ -66,16 +66,16 @@
                 <v-card-text>
                   <div>
                     <v-label>Judul Ulasan (optional)</v-label>
-                    <v-text-field v-model="ulasan.judul" solo></v-text-field>
+                    <v-text-field :disabled="!validForm" v-model="ulasan.judul" solo></v-text-field>
                   </div>
                   <div class="pt-5">
-                    <v-label>Judul Ulasan (optional)</v-label>
-                    <v-text-field v-model="ulasan.komen" class="pt-1" box="true" multi-line textarea></v-text-field>
+                    <v-label>Deskripsi Ulasan</v-label>
+                    <v-text-field :disabled="!validForm" v-model="ulasan.komen" class="pt-1" box="true" multi-line textarea></v-text-field>
                     <span class="grey--text">Dengan mengirimkan ulasan ini, Saya setuju nama saya ditampilkan sebagai {{user}}</span>
                   </div>
                   <v-layout>
                     <v-flex md12 class="text-xs-right">
-                      <v-btn flat class="primary" @click="send()">Kirim ulasan</v-btn>
+                      <v-btn flat class="primary" @click="send()" :disabled="!validBtn">Kirim ulasan</v-btn>
                     </v-flex>
                   </v-layout>
                 </v-card-text>
@@ -114,12 +114,28 @@ export default {
       this.nav = 1
     },
     send () {
-      this.ulasan.product_id = this.product.id
-      this.$store.dispatch('setUlasan', this.ulasan)
-      this.nav = 0
+      if (this.ulasan.rate && this.ulasan.komen) {
+        this.ulasan.product_id = this.product.id
+        this.$store.dispatch('setUlasan', this.ulasan)
+        this.nav = 0
+      }
     }
   },
   computed: {
+    validForm () {
+      if (this.ulasan.rate) {
+        return true
+      } else {
+        return false
+      }
+    },
+    validBtn () {
+      if (this.ulasan.rate && this.ulasan.komen) {
+        return true
+      } else {
+        return false
+      }
+    },
     valid () {
       console.log(this.getUlasan)
       if (this.getUlasan) {

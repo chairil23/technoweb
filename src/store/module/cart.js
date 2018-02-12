@@ -22,7 +22,8 @@ export const state = {
     biaya_kurir: '',
     items: []
   },
-  transaction: {}
+  transaction: {},
+  item: {}
 }
 
 export const mutations = {
@@ -98,6 +99,9 @@ export const mutations = {
     }).catch((err) => {
       console.log(err)
     })
+  },
+  getItem (state, payload) {
+    state.item = payload
   }
 }
 
@@ -165,6 +169,17 @@ export const actions = {
     order.biaya_kurir = kurir.service.cost[0].value
     order.items = state.checkout
     commit(types.ORDER, order)
+  },
+  getItem ({commit}, id) {
+    get('/order' + id).then(res => {
+      if (res.status === 200) {
+        commit('getItem', res.data)
+      }
+    }).catch(err => {
+      if (err) {
+        console.log(err)
+      }
+    })
   }
 }
 
@@ -172,7 +187,8 @@ export const getters = {
   cart: state => state.cart,
   temp: state => state.temp,
   checkout: state => state.checkout,
-  transaction: state => state.transaction
+  transaction: state => state.transaction,
+  item: state => state.item
 }
 
 export default {

@@ -113,7 +113,7 @@ export default {
         kain: {text: ''},
         ukuran: {text: ''},
         warna: {text: ''},
-        jenis_cetak: {text: 'Laminating Glossy'},
+        jenis_cetak: {text: 'Laminating Doff'},
         bahan: {text: ''},
         sisi: {text: ''},
         jilid: {text: ''},

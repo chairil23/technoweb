@@ -36,7 +36,7 @@
                   </v-layout>
                   <v-layout row>
                     <v-flex md12 xs12 class="text-xs-center">
-                      <span class="subheading harga">{{50000 | currency}}</span>  
+                      <span class="subheading harga">{{total(product.harga_awal, product.materials) | currency}}</span>  
                     </v-flex>
                   </v-layout>     
                 <!-- </v-card-actions>    -->
@@ -114,6 +114,14 @@ export default {
   },
 
   methods: {
+    total (desain, material) {
+      if (material.length !== 0) {
+        console.log(material[0].harga, 'materials1', desain)
+        return material[0].harga + desain
+      } else {
+        return desain
+      }
+    },
     pages (n) {
       console.log(this.allProducts, 'test')
       this.page = n

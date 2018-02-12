@@ -28,8 +28,8 @@
                   </div>
               {{x.message}}
                 <div v-if="x.images">
-                  <v-btn class="red">Perubahan (3)</v-btn>
-                  <v-btn class="blue">Setuju</v-btn>
+                  <v-btn class="red" @click="perubahan(x)">Perubahan {{x.ket}}</v-btn>
+                  <v-btn class="blue" @click="setuju(x)" >Setuju</v-btn>
                 </div>
               </div>
             </div>
@@ -92,6 +92,28 @@ export default {
     }
   },
   methods: {
+    setuju (data) {
+      console.log(data)
+      let form = {
+        message_id: data.id,
+        order_id: this.list.id,
+        to_user_id: this.list.freelancer_id,
+        message: 'saya telah menyetujui desain ini',
+        image: data.images
+      }
+      this.$store.dispatch('setuju', form)
+    },
+    perubahan (data) {
+      console.log(data)
+      console.log(this.list.freelancer_id)
+      let message = {
+        order_id: this.list.id,
+        to_user_id: this.list.freelancer_id,
+        message: 'desain ini butuh perubahan',
+        image: data.images
+      }
+      this.$store.dispatch('perubahan', message)
+    },
     send () {
       console.log(this.chat.message)
       if (this.chat.message) {

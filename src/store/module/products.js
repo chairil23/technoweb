@@ -72,8 +72,8 @@ const actions = {
       console.log(err)
     })
   },
-  getProductFreelancer ({commit}, id) {
-    get('/products-freelancer/' + id).then(res => {
+  getProductFreelancer ({commit}, form) {
+    get('/products-freelancer/' + form.freelancer_id + '?page=' + form.page).then(res => {
       if (res.status === 200) {
         commit('getProductFreelancer', res.data)
       }

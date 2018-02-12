@@ -51,6 +51,29 @@ export const actions = {
     }).catch(err => {
       console.log(err)
     })
+  },
+  perubahan ({}, data) {
+    console.log(data)
+    post('/message/perubahan', data).then(res => {
+      if (res.status === 200) {
+        console.log(res.data)
+      }
+    }).catch(err => {
+      if (res.status === 200) {
+        console.log(err)
+      }
+    })
+  }, 
+  setuju ({}, data) {
+    post('/message/setuju', data).then(res => {
+      if (res.status === 200) {
+        console.log(res.data)
+      }
+    }).catch(err => {
+      if (err) {
+        console.log(err)
+      }
+    })
   }
 }
 

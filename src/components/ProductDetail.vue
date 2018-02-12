@@ -335,6 +335,11 @@ export default {
   created () {
     this.$store.dispatch('getProduct', this.$route.params.id)
     this.$store.dispatch('getUlasan', this.$route.params.id)
+    let form = {
+      page: 1,
+      freelancer_id: this.product.freelancer_id
+    }
+    this.$store.dispatch('getProductFreelancer', form)
   },
   methods: {
     nav () {
@@ -390,7 +395,7 @@ export default {
     this.form.kain = ''
     this.form.ukuran = ''
     this.form.warna = ''
-    this.form.jenis_cetak = 'Laminating Glossy'
+    this.form.jenis_cetak = 'Laminating Doff'
     this.form.subcategory_id = this.product.subcategory_id
     this.$store.dispatch('getValue', this.form)
   }
