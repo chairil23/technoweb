@@ -22,6 +22,17 @@ export const actions = {
         console.log(err)
       }
     })
+  },
+  setDiterima ({commit}, id) {
+    get('/order/diterima/' + id).then(res => {
+      if (res.status === 200) {
+        commit(types.GET_TRANSACTION, res.data)
+      }
+    }).catch(err => {
+      if (err) {
+        console.log(err)
+      }
+    })
   }
 }
 

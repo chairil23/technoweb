@@ -57,6 +57,7 @@ export default {
   methods: {
     getMessage (list) {
       this.$store.dispatch('getMessage', list.id)
+      this.$store.dispatch('getCetak', list.id)
       this.list = list
     }
   },

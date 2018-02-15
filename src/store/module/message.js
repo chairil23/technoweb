@@ -3,7 +3,8 @@ import {get, post} from '../../helper/api'
 
 export const state = {
   message: [],
-  chat: []
+  chat: [],
+  cetak: ''
 }
 
 export const mutations = {
@@ -20,6 +21,9 @@ export const mutations = {
   },
   pushMessage (state, payload) {
     state.chat.push(payload)
+  },
+  getCetak (state, payload) {
+    state.cetak = payload
   }
 }
 
@@ -52,20 +56,9 @@ export const actions = {
       console.log(err)
     })
   },
-  perubahan ({}, data) {
+  perubahan ({commit}, data) {
     console.log(data)
     post('/message/perubahan', data).then(res => {
-      if (res.status === 200) {
-        console.log(res.data)
-      }
-    }).catch(err => {
-      if (res.status === 200) {
-        console.log(err)
-      }
-    })
-  }, 
-  setuju ({}, data) {
-    post('/message/setuju', data).then(res => {
       if (res.status === 200) {
         console.log(res.data)
       }
@@ -74,12 +67,31 @@ export const actions = {
         console.log(err)
       }
     })
+  },
+  setuju ({commit}, data) {
+    post('/message/setuju', data).then(res => {
+      if (res.status === 200) {
+        commit('getCetak', res.data)
+      }
+    }).catch(err => {
+      if (err) {
+        console.log(err)
+      }
+    })
+  },
+  getCetak ({commit}, id) {
+    get('/message/cetak/' + id).then(res => {
+      if (res.status === 200) {
+        commit('getCetak', res.data)
+      }
+    })
   }
 }
 
 export const getters = {
   message: state => state.message,
-  chat: state => state.chat
+  chat: state => state.chat,
+  cetak: state => state.cetak
 }
 
 export default {

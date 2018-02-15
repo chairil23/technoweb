@@ -24,12 +24,14 @@
               </div>
               <div class="message my-message">
                   <div v-if="x.images">
-                    <img :src="base+'/messages/'+ x.images" :alt="base + x.images" width="300">
+                    <lightbox :src="base+'/messages/'+ x.images" :alt="base + x.images">
+                      <img :src="base+'/messages/'+ x.images" :alt="base + x.images" width="300">
+                    </lightbox>                    
                   </div>
               {{x.message}}
                 <div v-if="x.images">
-                  <v-btn class="red" @click="perubahan(x)">Perubahan {{x.ket}}</v-btn>
-                  <v-btn class="blue" @click="setuju(x)" >Setuju</v-btn>
+                  <v-btn class="red" :disabled="x.ket === 0 || cetak.id" @click="perubahan(x)">Perubahan {{x.ket}}</v-btn>
+                  <v-btn class="blue" :disabled="cetak.id" @click="setuju(x)" >Setuju</v-btn>
                 </div>
               </div>
             </div>
@@ -42,7 +44,9 @@
               </div>
               <div class="message other-message float-right">
                 <div v-if="x.images">
-                  <img :src="base+'/messages/'+ x.images" alt="" width="300">
+                  <lightbox :src="base+'/messages/'+ x.images" :alt="base + x.images">
+                    <img :src="base+'/messages/'+ x.images" :alt="base + x.images" width="300">
+                  </lightbox>  
                 </div>
                 {{ x.message }}        
               </div>
@@ -92,6 +96,14 @@ export default {
     }
   },
   methods: {
+    valid (ket) {
+      console.log(this.cetak, ket)
+      if (ket === 0 || this.cetak) {
+        return false
+      } else {
+        return true
+      }
+    },
     setuju (data) {
       console.log(data)
       let form = {
@@ -138,6 +150,10 @@ export default {
     }
   },
   computed: {
+    cetak () {
+      console.log(this.$store.getters.cetak, 'cetak')
+      return this.$store.getters.cetak
+    },
     base () {
       return this.$store.getters.url
     },

@@ -6,7 +6,8 @@ const state = {
   product: {},
   subcategory: [],
   value: {},
-  pFreelancer: {}
+  pFreelancer: {},
+  rate: ''
 }
 
 const mutations = {
@@ -17,6 +18,7 @@ const mutations = {
     }
   },
   [types.RECEIVE_PRODUCT] (state, payload) {
+    console.log(payload, 'payload')
     state.product = payload
     // console.log(payload, 'wew', state.product)
   },
@@ -34,6 +36,9 @@ const mutations = {
   },
   getProductFreelancer (state, payload) {
     state.pFreelancer = payload
+  },
+  getRating (state, payload) {
+    state.rate = payload
   }
 }
 
@@ -51,6 +56,16 @@ const actions = {
     get('/productlist/' + id).then((res) => {
       let payload = res.data
       commit(types.RECEIVE_PRODUCT, payload)
+      get('/rate/' + payload.freelancer_id).then(res => {
+        if (res.status === 200) {
+          console.log(res.data, 'rating')
+          commit('getRating', res.data.rate)
+        }
+      }).catch(err => {
+        if (err) {
+          console.log(err)
+        }
+      })
       get('/material/' + payload.subcategory_id).then(res => {
         if (res.status === 200) {
           commit(types.GET_MATERIAL, res.data)
@@ -82,6 +97,18 @@ const actions = {
         console.log(err)
       }
     })
+  },
+  getRating ({commit}, id) {
+    get('/rate/' + id).then(res => {
+      if (res.status === 200) {
+        console.log(res.data, 'rating')
+        commit('getRating', res.data.rate)
+      }
+    }).catch(err => {
+      if (err) {
+        console.log(err)
+      }
+    })
   }
 }
 const getters = {
@@ -96,7 +123,8 @@ const getters = {
     return material
   },
   value: state => state.value,
-  pFreelancer: state => state.pFreelancer
+  pFreelancer: state => state.pFreelancer,
+  rating: state => state.rate
 }
 
 export default {

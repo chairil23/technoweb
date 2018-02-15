@@ -19,13 +19,17 @@
         <td class="text-xs-left">{{ props.item.address }}</td>
         <td class="text-xs-left">{{ props.item.city_name }}</td>
         <td class="text-xs-left">{{ props.item.province }}</td>
-        <td class="text-xs-left">{{ total(props.item.orders) | currency }}</td>
+        <td class="text-xs-left">{{ total(props.item.orders, props.item.biaya_kurir) | currency }}</td>
         <td class="text-xs-left">{{ status(props.item.status_transaksi) }}</td>
       </tr>
     </template>
     <template slot="expand" slot-scope="props">
       <v-card flat>
         <v-container>
+          <span class="body-1">Kurir            &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; : {{props.item.kurir}} ({{props.item.service}})</span><br>
+          <span class="body-1">Alamat Pengiriman &emsp;: {{props.item.address}} {{props.item.city_name}} {{props.item.province}} Indonesia</span><br>
+          <span class="body-1">Biaya Kurir &emsp; &emsp; &emsp; &emsp;: {{props.item.biaya_kurir | currency}}</span>
+          <v-divider></v-divider>
           <pembayaran v-show="props.item.status_transaksi !== 1" :data="props.item"></pembayaran>
           <v-data-table
               v-bind:headers="headers2"
@@ -36,10 +40,10 @@
             <template slot="items" slot-scope="props">             
               <td>{{ props.item.product.jdl_Pdk }}</td>
               <td class="text-xs-left">{{ props.item.kuantitas}}</td>
-              <td class="text-xs-left">{{ props.item.product.harga_awal | currency}}</td>
+              <td class="text-xs-left">{{ harga(props.item.harga, props.item.product.harga_awal) | currency}}</td>
               <td class="text-xs-left">{{ status1(props.item.status)}}</td>
               <td class="text-xs-left" v-if="props.item.status === 2">
-                <span>Sudah diterima</span>
+                <v-btn small class="primary" @click="diterima(props.item.id)">Sudah diterima</v-btn>
               </td>
             </template>
             
@@ -94,6 +98,12 @@ export default {
     }
   },
   methods: {
+    harga (harga, desain) {
+      return harga + desain
+    },
+    diterima (id) {
+      this.$store.dispatch('setDiterima', id)
+    },
     status (_status) {
       if (_status === 0) {
         return 'Belum dibayar'
@@ -101,10 +111,10 @@ export default {
         return 'Sudah dibayar'
       }
     },
-    total (orders) {
+    total (orders, kurir) {
       let total = 0
       orders.forEach(element => {
-        total = total + (element.product.harga_awal * element.kuantitas)
+        total = total + ((element.product.harga_awal + element.harga) * element.kuantitas) + kurir
       })
       return total
     },

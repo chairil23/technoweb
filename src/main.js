@@ -7,6 +7,8 @@ import router from './router'
 import {store} from './store'
 import BootstrapVue from 'bootstrap-vue'
 import VueCookie from 'vue-cookie'
+import { TnSlider, TnItem } from 'thumbnail-slider/src/index.js'
+import VueLightbox from 'vue-lightbox'
 
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
@@ -115,6 +117,9 @@ Vue.component('icon', Icon)
 Vue.component('alert', Alert)
 Vue.component('loading', Loading)
 Vue.component('vue-paginate-al', VuePaginateAl)
+Vue.component('tn-slider', TnSlider)
+Vue.component('tn-item', TnItem)
+Vue.component('Lightbox', VueLightbox)
 
 Vue.config.productionTip = false
 

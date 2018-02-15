@@ -171,7 +171,7 @@ export const actions = {
     commit(types.ORDER, order)
   },
   getItem ({commit}, id) {
-    get('/order' + id).then(res => {
+    get('/order/' + id).then(res => {
       if (res.status === 200) {
         commit('getItem', res.data)
       }

@@ -1,8 +1,8 @@
 <template>
   <v-container app grid-list-md class="pa-5">
     <v-layout row>
-      <v-flex height="100px">
-        <v-breadcrumbs class="px-0">
+      <v-flex height="100px text-xs-left">
+        <!-- <v-breadcrumbs class="px-0">
           <v-icon class="balck" slot="divider">keyboard_arrow_right</v-icon>
           <v-breadcrumbs-item
           v-for= "item in items"
@@ -11,22 +11,34 @@
           >
           {{item.text}}
           </v-breadcrumbs-item>
-        </v-breadcrumbs>
+        </v-breadcrumbs> -->
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex md4 class="pt-0 mt-0">
         <v-card>
-          <v-card-media
-          flat
-          :src= "base+'/uploads/'+ product.images[0].images"
-          height= "300px"
+          <lightbox
+            album=""
+            :src="image? base + '/uploads/' + image : base + '/uploads/' + product.images[0].images"
           >
-            <v-card-action
-            >
-            </v-card-action>                      
-          </v-card-media>
+              <v-card-media
+                flat
+                :src="image? base + '/uploads/' + image : base + '/uploads/' + product.images[0].images"
+                height= "300px"
+              >
+              </v-card-media>
+          </lightbox>
+          
         </v-card>
+        <tn-slider class='wrapper' :index='index' :count="4">
+              <p slot='tn-prev' class='prev-icon pt-3'><v-icon >keyboard_arrow_left</v-icon></p>
+              <tn-item v-for='(slide,i) in product.images' :key="slide.id" @on-item-click='clickItem(i, slide)'>
+                  <div class='customed-item'>
+                    <img fluid :src="base + '/uploads/' + slide.images" style="width:80px" height="60px">
+                  </div>
+              </tn-item>
+              <p slot='tn-next' class='next-icon pt-3'><v-icon>keyboard_arrow_right</v-icon></p>
+        </tn-slider>
       </v-flex>        
       <v-flex>        
       </v-flex>
@@ -116,14 +128,14 @@
         <v-layout>
           <v-flex md4>
             <v-layout>  
-              <v-flex class="text-xs-center"> 
-                  <v-avatar size="80px" slot="activator">
-                    <img src="/static/v.png" alt="">
-                  </v-avatar>       
+              <v-flex class="text-xs-center ml-1"> 
+                  <!-- <v-avatar size="60px" slot="activator"> -->
+                    <img style="width:80px" height="70px" :src="base +'/member/' + product.photo" alt="">
+                  <!-- </v-avatar>        -->
               </v-flex>   
             </v-layout>                          
           </v-flex>
-          <v-flex md8> 
+          <v-flex md6> 
             <v-layout>
               <v-flex>
                 <span class="text title" >
@@ -139,6 +151,7 @@
               active-color="gold"
               v-bind:star-size="20"
               class="custom-text"
+              :rating="rating" :read-only="true"
             >
             </star-rating>
           </v-flex>
@@ -247,12 +260,13 @@ export default {
   },
   data () {
     return {
+      index: 0,
       tabs: ['tab-1', 'tab-2', 'tab-3'],
       active: null,
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       test: '',
       // base: 'http://localhost:8000/uploads/',
-      image: '/static/v.png',
+      image: '',
       e1: null,
       t: null,
       j: null,
@@ -330,6 +344,9 @@ export default {
     product () {
       console.log(this.form.cart_id, 'CARTID')
       return this.$store.getters.productDetail
+    },
+    rating () {
+      return this.$store.getters.rating
     }
   },
   created () {
@@ -342,6 +359,10 @@ export default {
     this.$store.dispatch('getProductFreelancer', form)
   },
   methods: {
+    clickItem (i, slide) {
+      this.index = i
+      this.image = slide.images
+    },
     nav () {
       console.log('dfdf')
     },
@@ -375,7 +396,6 @@ export default {
       this.form.berat = this.material.berat
       this.form.harga = this.material.harga
       this.form.subcategory_id = this.product.subcategory_id
-      this.$store.dispatch('getValue', this.form)
       console.log(this.form, 'form')
     },
     addItem () {
@@ -453,6 +473,27 @@ export default {
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center; 
+}
+
+img {
+    border: 1px solid #ddd; /* Gray border */
+    border-radius: 4px;  /* Rounded border */
+    padding: 5px; /* Some padding */
+    width: 150px; /* Set a small width */
+    float: left;
+}
+
+/* Add a hover effect (blue shadow) */
+img:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+.prev-icon{
+  float: left;
+}
+
+.next-icon{
+  float: left;
 }
 </style>
 
