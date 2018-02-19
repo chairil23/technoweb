@@ -299,10 +299,11 @@ export default {
     },
     totalHarga () {
       let selected = this.$store.getters.temp
-      console.log(selected)
+      console.log(selected, 'select')
       let total = 0
       selected.forEach(element => {
-        total = total + (element.kuantitas * (element.harga + element.harga_awal))
+        total = total + (element.kuantitas * (element.harga + element.product.harga_awal))
+        console.log(element.harga, element.product.harga_awal)
       })
       return total
     },

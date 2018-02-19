@@ -3,7 +3,7 @@
     <v-layout row wrap align-center justify-start>
       <v-flex
         md3 fill-height
-        v-for="product in allProducts.data"
+        v-for="product in subProducts.data"
         :key="product.jdl_Pdk"
         class="px-3">
         <v-container class="px-1 pt-0 mt-0">
@@ -31,7 +31,7 @@
       </v-flex>
     </v-layout>
     <div class="text-xs-center py-5">
-      <vue-paginate-al :totalPage="allProducts.last_page ? allProducts.last_page : 0" customActiveBGColor="success" @btnClick="pages"></vue-paginate-al>
+      <vue-paginate-al :totalPage="subProducts.last_page ? subProducts.last_page : 0" customActiveBGColor="success" @btnClick="pages"></vue-paginate-al>
     </div>
   </v-container>
 </template>
@@ -45,12 +45,8 @@ export default {
     }
   },
   computed: {
-    allProducts () {
-      if (this.$store.getters.allProducts(this.page)) {
-        return this.$store.getters.allProducts(this.page)
-      } else {
-        return {}
-      }
+    subProducts () {
+      return this.$store.getters.subProducts
     }
   },
   methods: {
@@ -63,11 +59,13 @@ export default {
       }
     },
     pages (n) {
-      console.log(this.allProducts, 'test')
       this.page = n
       console.log(this.page)
-      this.$store.dispatch('getAllProducts', n)
+      this.$store.dispatch('subProducts', n)
     }
+  },
+  created () {
+    this.$store.dispatch('getSubProducts', this.$route.params.id)
   }
 }
 </script>

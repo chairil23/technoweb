@@ -114,9 +114,9 @@ export default {
     total (orders, kurir) {
       let total = 0
       orders.forEach(element => {
-        total = total + ((element.product.harga_awal + element.harga) * element.kuantitas) + kurir
+        total = total + ((element.product.harga_awal + element.harga) * element.kuantitas)
       })
-      return total
+      return total + kurir
     },
     status1 (_status) {
       console.log(_status)

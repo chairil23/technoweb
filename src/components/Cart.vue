@@ -30,10 +30,10 @@
                   <v-container>
                     <v-layout>
                       <v-flex md4>
-                        <img class="image_produk" :src="base+'/uploads/' + props.item.images" alt="image">
+                        <img class="image_produk" :src="base+'/uploads/' + props.item.product.images[0].images" alt="image">
                       </v-flex>
                       <v-flex md8>
-                        <span class="body-2 title-produk pl-1">{{props.item.jdl_Pdk}}</span>
+                        <span class="body-2 title-produk pl-1">{{props.item.product.jdl_Pdk}}</span>
                         <br>
                         <br>
                         <span wrap clas="wrap">{{form(props.item.bahan, props.item.cetak_belakang, props.item.cetak_depan, 
@@ -44,9 +44,9 @@
                     </v-layout>
                   </v-container>
                 </td>         
-                <td class="text-xs-right body-1">{{ harga(props.item.harga_awal, props.item.harga) | currency}} </td>
+                <td class="text-xs-right body-1">{{ harga(props.item.product.harga_awal, props.item.harga) | currency}} </td>
                 <td class="text-xs-right body-1">{{ props.item.kuantitas }}</td>
-                <td class="text-xs-right body-1">{{ total(props.item.kuantitas, props.item.harga_awal, props.item.harga) | currency}}</td>
+                <td class="text-xs-right body-1">{{ total(props.item.kuantitas, props.item.product.harga_awal, props.item.harga) | currency}}</td>
                 <td>
                   <v-layout>
                     <v-flex class="text-xs-right">

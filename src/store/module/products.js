@@ -7,7 +7,8 @@ const state = {
   subcategory: [],
   value: {},
   pFreelancer: {},
-  rate: ''
+  rate: '',
+  subProducts: []
 }
 
 const mutations = {
@@ -39,6 +40,9 @@ const mutations = {
   },
   getRating (state, payload) {
     state.rate = payload
+  },
+  getSubProducts (state, payload) {
+    state.subProducts = payload
   }
 }
 
@@ -109,6 +113,17 @@ const actions = {
         console.log(err)
       }
     })
+  },
+  getSubProducts ({commit}, id) {
+    get('/sub/' + id).then(res => {
+      if (res.status === 200) {
+        commit('getSubProducts', res.data)
+      }
+    }).catch(err => {
+      if (err) {
+        console.log(err)
+      }
+    })
   }
 }
 const getters = {
@@ -124,7 +139,8 @@ const getters = {
   },
   value: state => state.value,
   pFreelancer: state => state.pFreelancer,
-  rating: state => state.rate
+  rating: state => state.rate,
+  subProducts: state => state.subProducts
 }
 
 export default {

@@ -20,7 +20,8 @@ export const store = new Vuex.Store({
     loading: false,
     err: {text: '', value: false},
     alamat: {},
-    basUrl: 'http://localhost:8000'
+    basUrl: 'http://localhost:8000',
+    categories: []
   },
   mutations: {
     setMsg (state, payload) {
@@ -57,6 +58,9 @@ export const store = new Vuex.Store({
     },
     kelamin (state, payload) {
       state.user.gender = payload
+    },
+    categories (state, payload) {
+      state.categories = payload
     }
 
   },
@@ -187,6 +191,17 @@ export const store = new Vuex.Store({
           console.log(err)
         }
       })
+    },
+    getCategories ({commit}) {
+      get('/categories/').then(res => {
+        if (res.status === 200) {
+          commit('categories', res.data)
+        }
+      }).catch(err => {
+        if (err) {
+          console.log(err)
+        }
+      })
     }
   },
   modules: {
@@ -211,6 +226,7 @@ export const store = new Vuex.Store({
       return state.loading
     },
     alamat: state => state.alamat,
-    url: state => state.basUrl
+    url: state => state.basUrl,
+    categories: state => state.categories
   }
 })

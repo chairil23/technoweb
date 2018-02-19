@@ -393,9 +393,10 @@ export default {
       this.form.jabatan = item.jabatan
       this.form.material = item.material
       this.form.logo = item.logo
-      this.form.berat = this.material.berat
+      this.form.berat = this.material.berat * item.kuantitas.text
       this.form.harga = this.material.harga
       this.form.subcategory_id = this.product.subcategory_id
+      this.$store.dispatch('getValue', this.form)
       console.log(this.form, 'form')
     },
     addItem () {

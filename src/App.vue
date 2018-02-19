@@ -9,7 +9,7 @@
         <router-link to="/" tag="span" style="cursor: pointer" class="pr-5">Technographic</router-link>
       </v-toolbar-title>
       <v-toolbar-items class="hidden-xs-only">
-        <v-menu open-on-hover offset-y>
+        <v-menu open-on-hover :close-delay="3000" offset-y :close-on-click="true">
           <v-btn
             flat       
             slot="activator"  
@@ -18,13 +18,22 @@
             <v-icon left dark>keyboard_arrow_down</v-icon>
           </v-btn>
           <v-list dark class="primary">
-              <v-list-tile v-for="item in categories" :key="item.title" @click="">
-                <v-list-tile-title>
-                  {{item.title}}
-                </v-list-tile-title>
-                <v-icon right small>keyboard_arrow_right</v-icon>
+              <v-list-tile wrap v-for="item in categories" :key="item.cat_name" @click="">
+               
+                <v-menu offset-x open-on-hover>
+                  <span slot="activator" class="white--text" >{{item.cat_name}}</span>
+                  <v-list dark class="primary">
+                    <v-list-tile v-for="subcategory in item.subcategories" :key="subcategory.name" @click="sub(subcategory.id)">
+                      <v-list-tile-title>
+                        {{subcategory.name}}
+                      </v-list-tile-title>
+                    </v-list-tile>
+                  </v-list>
+                </v-menu>
+                <v-icon right small>keyboard_arrow_right</v-icon>  
               </v-list-tile>
           </v-list>
+          
         </v-menu>
       </v-toolbar-items>
       <v-spacer></v-spacer>
@@ -177,22 +186,21 @@
 </template>
 
 <script>
+import dropdown from 'vue-my-dropdown'
+
 // import session from './helper/session'Z
 export default {
+  components: {
+    dropdown
+  },
   // props: ['snackbar', 'text', 'color'],
   data () {
     return {
+      visible: false,
+      visibleNested: false,
       wew: 'wew1',
       snackbar: false,
       e1: true,
-      categories: [
-        {title: 'Kartu Nama'},
-        {title: 'Office Stationer'},
-        {title: 'Marketing Material'},
-        {title: 'Promotional Gift'},
-        {title: 'Banner'},
-        {title: 'Clothings'}
-      ],
       menu: false,
       valid: true,
       rules: {
@@ -213,6 +221,9 @@ export default {
     }
   },
   computed: {
+    categories () {
+      return this.$store.getters.categories
+    },
     menus () {
       let menuItems = [
         {icon: 'shopping_cart', title: 'Cart', link: '/cart', action: '', show: this.show},
@@ -291,12 +302,18 @@ export default {
       console.log('false')
       this.$store.dispatch('delCart')
     }
+    this.$store.dispatch('getCategories')
   },
   beforeCreate () {
     // this.$session.start()
     // console.log('wew')
   },
   methods: {
+    sub (id) {
+      console.log('wew')
+      this.$router.push({name: 'subcategory', params: {id: id}})
+      this.$store.dispatch('getSubProducts', id)
+    },
     signIn () {
       if(this.$refs.form.validate()){
         this.$store.dispatch('signIn', this.login)  

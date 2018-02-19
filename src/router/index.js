@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Signup from '@/components/Signup'
-import Products from '@/components/Products'
 import ProductDetail from '@/components/ProductDetail'
 // import Cart from '@/components/Cart'
 import Transaction from '@/components/Transaction'
@@ -16,6 +15,8 @@ import Test from '@/components/test'
 import Description from '@/components/detail/Description'
 import FeedBack from '@/components/detail/FeedBack'
 import ProductList from '@/components/detail/ProductList'
+import Products from '@/components/Products'
+import Subcategory from '@/components/ProductsSub'
 
 Vue.use(Router)
 
@@ -24,7 +25,19 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: '',
+          name: 'Default',
+          component: Products
+        },
+        {
+          path: 'subcategory/:id',
+          name: 'subcategory',
+          component: Subcategory
+        }
+      ]
     },
     {
       path: '/signup',
