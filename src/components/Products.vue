@@ -5,11 +5,17 @@
         md3 fill-height
         v-for="product in allProducts.data"
         :key="product.jdl_Pdk"
-        class="px-3">
+        class="px-3" v-if="product">
         <v-container class="px-1 pt-0 mt-0">
           <v-card flat hover fill-height class="cards grey lighten-4 mb-4" :to="{path: '/product/'+product.id}">
-            <v-card-media
+            <v-card-media v-if="product.images.length"
               :src="base+'/uploads/'+ product.images[0].images"
+              height="250px"
+              class="white"
+            >                
+            </v-card-media>   
+            <v-card-media v-else
+              src="/static/images.png"
               height="250px"
               class="white"
             >                

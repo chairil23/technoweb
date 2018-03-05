@@ -22,7 +22,7 @@
            <input type="file" @change="inputChanged" class="pl-3">
            <v-btn small @click="upload">Upload</v-btn>
           <li>Pesanan akan diproses setelah melakukan pembayaran dan menunjukkan bukti pembayaran sesuai llangkah no 2</li>
-          <li>Pesanan akan hilang jika tidak melakukan pembayaran dalam kurun waktu 24 jam dimulai dari pembuatan pesanan</li>
+          <!-- <li>Pesanan akan hilang jika tidak melakukan pembayaran dalam kurun waktu 24 jam dimulai dari pembuatan pesanan</li> -->
         </ol>
       </v-flex>
     </v-layout>

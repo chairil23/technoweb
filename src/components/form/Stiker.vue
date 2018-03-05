@@ -14,7 +14,7 @@
         <v-subheader>Ukuran: </v-subheader>
       </v-flex>
       <v-flex md4>
-        <v-select class="pt-1 pl-4" v-model="item.ukuran.text" :items="jenis[0].materials" item-text="ukuran" item-value="ukuran" single-line bottom></v-select>
+        <v-select class="pt-1 pl-4" v-model="item.ukuran.text" :items="jenis[0].ukuran" item-text="ukuran" item-value="ukuran" single-line bottom></v-select>
       </v-flex>
     </v-layout>
 

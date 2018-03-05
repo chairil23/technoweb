@@ -15,8 +15,39 @@
       </v-flex>
     </v-layout>
     <v-layout row>
-      <v-flex md4 class="pt-0 mt-0">
-        <v-card>
+      <v-flex md4>
+        <v-layout class="white">
+          <v-flex md4 class="">
+            <v-layout>  
+              <v-flex class="text-xs-center ml-1"> 
+                  <!-- <v-avatar size="60px" slot="activator"> -->
+                    <img style="width:80px" height="70px" :src="base +'/member/' + product.photo" alt="">
+                  <!-- </v-avatar>        -->
+              </v-flex>   
+            </v-layout>                          
+          </v-flex>
+          <v-flex md6> 
+            <v-layout>
+              <v-flex>
+                <span class="text title" >
+                  {{product.username}}
+                </span>
+              </v-flex>                    
+            </v-layout>
+            <span class="text body-1">Penilaian:</span>   
+            <star-rating              
+              v-bind:increment="0.5"
+              v-bind:max-rating="5"
+              inactive-color="#000"
+              active-color="gold"
+              v-bind:star-size="20"
+              class="custom-text"
+              :rating="rating" :read-only="true"
+            >
+            </star-rating>
+          </v-flex>
+        </v-layout>
+        <v-card class="white" v-if="product.images.length">
           <lightbox
             album=""
             :src="image? base + '/uploads/' + image : base + '/uploads/' + product.images[0].images"
@@ -30,11 +61,26 @@
           </lightbox>
           
         </v-card>
+         <v-card class="white" v-else>
+          <lightbox
+            album=""
+            src="/static/images.png"
+          >
+              <v-card-media
+                flat
+                src="/static/images.png"
+                height= "300px"
+              >
+              </v-card-media>
+          </lightbox>
+          
+        </v-card>
         <tn-slider class='wrapper' :index='index' :count="4">
               <p slot='tn-prev' class='prev-icon pt-3'><v-icon >keyboard_arrow_left</v-icon></p>
               <tn-item v-for='(slide,i) in product.images' :key="slide.id" @on-item-click='clickItem(i, slide)'>
                   <div class='customed-item'>
-                    <img fluid :src="base + '/uploads/' + slide.images" style="width:80px" height="60px">
+                    <img v-if="slide.images" fluid :src="base + '/uploads/' + slide.images" style="width:80px" height="60px">
+                     <img v-else fluid src="/static/images.png" style="width:80px" height="60px">
                   </div>
               </tn-item>
               <p slot='tn-next' class='next-icon pt-3'><v-icon>keyboard_arrow_right</v-icon></p>
@@ -124,38 +170,8 @@
       </v-flex>
     </v-layout>   
     <v-layout row class="pt-3">       
-      <v-flex md3 class="white pb-0 pt-2 px-0">
-        <v-layout>
-          <v-flex md4>
-            <v-layout>  
-              <v-flex class="text-xs-center ml-1"> 
-                  <!-- <v-avatar size="60px" slot="activator"> -->
-                    <img style="width:80px" height="70px" :src="base +'/member/' + product.photo" alt="">
-                  <!-- </v-avatar>        -->
-              </v-flex>   
-            </v-layout>                          
-          </v-flex>
-          <v-flex md6> 
-            <v-layout>
-              <v-flex>
-                <span class="text title" >
-                  {{product.username}}
-                </span>
-              </v-flex>                    
-            </v-layout>
-            <span class="text body-1">Penilaian:</span>   
-            <star-rating              
-              v-bind:increment="0.5"
-              v-bind:max-rating="5"
-              inactive-color="#000"
-              active-color="gold"
-              v-bind:star-size="20"
-              class="custom-text"
-              :rating="rating" :read-only="true"
-            >
-            </star-rating>
-          </v-flex>
-        </v-layout>
+      <v-flex md3 class="grey lighten-4 pb-0 pt-2 px-0">
+        
       </v-flex>
       <v-flex md3 class="white px-0"> 
         <v-card flat tile hover class="px-0" :to="{name: 'Default'}" exact replace>
@@ -195,7 +211,7 @@
                 <v-flex class="text-xs-center pb-0">
                   <v-icon color="primary" class="pb-0">collections</v-icon>
                   <span class="tab">
-                    64 Produk
+                    Produk
                   </span>
                 </v-flex>
               </v-layout>

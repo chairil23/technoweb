@@ -13,6 +13,11 @@
               <router-link :to="{name: m.link }">{{m.text}}</router-link>
             </v-layout>
           </li>
+          <li v-if="user.role === 2">
+            <v-layout>
+              <a href="http://127.0.0.1:8000/freelance">Freelance</a>
+            </v-layout>
+          </li>
         </ul>
       </v-flex>
       <v-flex md9 class="pt-0">
@@ -26,18 +31,34 @@
 export default {
   data () {
     return {
-      menu: [
-        {text: 'Informasi Pribadi', link: 'Informasi', value: false},
-        {text: 'Pesanan', link: 'Pesanan'},
-        // {text: 'Whishlist', link: 'Wishlist'},
-        {text: 'Alamat', link: 'Alamat'},
-        {text: 'Menjadi Freelance Designer', link: 'Freelance'}
-      ]
+      // menu: [
+      //   {text: 'Informasi Pribadi', link: 'Informasi', value: false},
+      //   {text: 'Pesanan', link: 'Pesanan'},
+      //   // {text: 'Whishlist', link: 'Wishlist'},
+      //   {text: 'Alamat', link: 'Alamat'},
+      //   {text: 'Menjadi Freelance Designer', link: 'Freelance'}
+      // ]
     }
   },
   computed: {
     user () {
       return this.$store.getters.getUser
+    },
+    menu () {
+      let menuItems = [
+        {text: 'Informasi Pribadi', link: 'Informasi', value: false},
+        {text: 'Pesanan', link: 'Pesanan'},
+        {text: 'Alamat', link: 'Alamat'},
+        {text: 'Menjadi Freelance Designer', link: 'Freelance'}
+      ]
+      if (this.user.role === 2) {
+        menuItems = [
+          {text: 'Informasi Pribadi', link: 'Informasi', value: false},
+          {text: 'Pesanan', link: 'Pesanan'},
+          {text: 'Alamat', link: 'Alamat'}
+        ]
+      }
+      return menuItems
     }
   },
   created () {

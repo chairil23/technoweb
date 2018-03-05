@@ -42,7 +42,7 @@
               <td class="text-xs-left">{{ props.item.kuantitas}}</td>
               <td class="text-xs-left">{{ harga(props.item.harga, props.item.product.harga_awal) | currency}}</td>
               <td class="text-xs-left">{{ status1(props.item.status)}}</td>
-              <td class="text-xs-left" v-if="props.item.status === 2">
+              <td class="text-xs-left" v-if="props.item.status === 3">
                 <v-btn small class="primary" @click="diterima(props.item.id)">Sudah diterima</v-btn>
               </td>
             </template>
@@ -125,6 +125,8 @@ export default {
       } else if (_status === 1) {
         return 'sedang dalam pengerjaan'
       } else if (_status === 2) {
+        return 'dalam proses Pencetakan'
+      } else if (_status === 3) {
         return 'dalam proses pengiriman'
       } else {
         return 'Sudah diterima'
